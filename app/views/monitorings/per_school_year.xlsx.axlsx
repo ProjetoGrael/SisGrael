@@ -1,0 +1,100 @@
+def date_compile(array, inscriptions)
+  array.push(inscriptions.where('subjects.id =  (?)',"4").select(:student_id).count)
+  array.push(inscriptions.where("subjects.name  ILIKE (?)", "Vela%").select(:student_id).count)
+  array.push(inscriptions.where("subjects.name ILIKE (?)", "Canoa%").select(:student_id).count)
+  array.push(inscriptions.where('subjects.professionalized = true').select(:student_id).count)
+  array.push(inscriptions.select(:student_id).count)
+end
+
+line_zero = ["Período Letivo","ALUNOS MATRICULADOS",'','','','', "ALUNOS REMATRICULADOS", '','','','',"ALUNOS ATIVOS",'','','','',"DISTRIBUIÇÃO ETÁRIA\n(Alunos Ativos)","","","DISTRIBUIÇÃO POR GÊNERO\n(Alunos Ativos)","","","ALUNOS APROVADOS",'','','','']
+line_one = ['']
+
+3.times do 
+  line_one.push("Natação")
+  line_one.push("Vela")
+  line_one.push("Canoa")
+  line_one.push("Profissionalizante")
+  line_one.push( 'Total') 
+end
+
+line_one.push("Crianças\n(até 12)")
+line_one.push("Adolescentes\n(13 à 17)")
+line_one.push("Jovens\n(18+)")
+
+line_one.push("Feminino")
+line_one.push("Masculino")
+line_one.push("Outros")
+
+line_one.push("Natação")
+line_one.push("Vela")
+line_one.push("Canoa")
+line_one.push("Profissionalizante")
+line_one.push( 'Total')
+
+@inscriptions = Academic::Inscription.all.joins(classroom: [classroom_subjects: [:subject]])
+workbook = xlsx_package.workbook
+workbook.styles do |style|
+  workbook.add_worksheet(name: "school_year_info") do |sheet|
+
+    title = style.add_style fg_color: "3333ee" , b: true, sz: 15 , :alignment => {:horizontal => :center, :vertical => :center, :wrap_text => true}
+    sub_title = style.add_style fg_color: "3333ee" ,  sz: 15 , :alignment => {:horizontal => :center, :vertical => :center, :wrap_text => true}
+    yellow_line = style.add_style bg_color: "ffff00" ,:alignment => {:horizontal => :center, :vertical => :center, :wrap_text => true}
+    table_head = style.add_style bg_color: "2972a4", fg_color: "fafafa" , :alignment => {:horizontal => :center, :vertical => :center, :wrap_text => true}, b: true, sz: 12
+  
+    sheet.add_row ["","RELATÓRIO DE MONITORAMENTO",'','','','','',''], style: title
+    sheet.add_row ["", "Quantitativo de Alunos Atendidos",'','','','','',''], style: sub_title
+    sheet.add_row [''],  height: 5
+    sheet.add_row line_zero, style: table_head
+    sheet.add_row line_one, style: table_head
+    
+    Academic::SchoolYear.all.each do |school_year|
+      inscriptions = @inscriptions.where("school_year_id = #{school_year.id}")
+      current_line = []
+      current_line.push(school_year.name)
+      date_compile(current_line, inscriptions)
+      date_compile(current_line, inscriptions.where(student_status: 'renewed'))
+      date_compile(current_line, inscriptions.where("student_status != 'desisted' and student_status != 'evaded' "))
+      active_inscriptions = inscriptions.where("student_status != 'desisted' and student_status != 'evaded' ")
+      current_line.push(active_inscriptions.joins(:student).where('birthdate > (?)', Date.today - 12.year).select(:student_id).count)
+      current_line.push(active_inscriptions.joins(:student).where('birthdate <= (?) and birthdate > (?)', Date.today - 12.year, Date.today - 18.year).select(:student_id).count)
+      current_line.push(active_inscriptions.joins(:student).where('birthdate < (?)', Date.today - 18.year).select(:student_id).count)
+      current_line.push(active_inscriptions.joins(:student).where('sex = 1').select(:student_id).count)
+      current_line.push(active_inscriptions.joins(:student).where('sex = 0').select(:student_id).count)
+      current_line.push(active_inscriptions.joins(:student).where('sex = 2').select(:student_id).count)
+      date_compile(current_line, inscriptions.where(situation: :approved))
+      sheet.add_row current_line
+    end 
+
+    center = style.add_style(alignment: {horizontal: :center}, fg_color: "0000FF")
+    center_total = style.add_style(alignment: {horizontal: :center}, fg_color: "000000")
+    sheet.row_style(0, center, col_offset: 1)
+    sheet.row_style(3, center_total, col_offset: 1)
+
+    image_path = File.expand_path(Rails.root+'app/assets/images/logo_planilha.png' )
+    sheet.add_image(image_src: image_path, noMove: true) do |image|
+      image.width = 190
+      image.height = 120
+      image.start_at 0, 0
+    end
+
+    sheet.merge_cells sheet.rows.fourth.cells[(1..5)]
+    sheet.merge_cells sheet.rows.fourth.cells[(6..10)]
+    sheet.merge_cells sheet.rows.fourth.cells[(11..15)]
+    sheet.merge_cells sheet.rows.fourth.cells[16..18]
+    sheet.merge_cells sheet.rows.fourth.cells[19..21]
+    sheet.merge_cells sheet.rows.fourth.cells[22..26]
+    
+    sheet.merge_cells sheet.rows.first.cells[(1..6)]
+    sheet.merge_cells sheet.rows.second.cells[(1..6)]
+    
+    sheet.rows.first.height =  60
+    sheet.rows.second.height =  60
+    sheet.rows[2].height =  5
+    sheet.rows[3].height = 30
+    sheet.row_style 3, th
+    sheet.rows[4].height = 30
+     
+    sheet.column_widths 20, 20, 20, 20, 20, 20,20, 20, 20, 20, 20, 20,20, 20, 20, 20, 20, 20,20, 20, 20, 20, 20, 20,20, 20, 20, 20, 20, 20
+  end
+end
+    

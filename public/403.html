@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Acesso negado - 403</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="assets/stylesheets/stylesheets-403.css"
+    />
+    <script>
+      function goBack() {
+        window.history.back();
+      }
+    </script>
+  </head>
+
+  <style>
+    .body-403 {
+      background-color: rgb(253, 229, 229);
+      margin: 0;
+      font-size: 1em;
+      font-family: Nunito;
+      color: rgb(109, 60, 60);
+      display: table;
+      height: 100vh;
+      width: 100vw;
+      text-align: center;
+    }
+
+    .title-403 {
+      font-size: 3em;
+      line-height: 1em;
+      font-weight: bold;
+    }
+
+    .cancel {
+      max-width: 30vw;
+      max-height: 30vh;
+    }
+
+    .message-403 {
+      font-size: 1.5em;
+      line-height: 1em;
+    }
+
+    .container-403 {
+      display: table-cell;
+      vertical-align: middle;
+    }
+
+    .button-back-403 a {
+      text-decoration: none;
+      text-transform: uppercase;
+      font-weight: bold;
+      background-color: rgb(109, 60, 60);
+      color: rgb(253, 229, 229);
+      padding: 0.5em 1em;
+      border-radius: 5px;
+    }
+  </style>
+
+  <body class="body-403">
+    <div class="container-403">
+      <img src="assets/images/cancel.svg" class="cancel" />
+      <h1 class="title-403">Acesso Negado</h1>
+
+      <p class="message-403">
+        Você não possui as permissões necessárias para acessar essa página.
+      </p>
+      <div class="button-back-403"><a href="/">Voltar</a></div>
+    </div>
+  </body>
+</html>

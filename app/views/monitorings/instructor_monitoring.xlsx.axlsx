@@ -1,0 +1,100 @@
+
+wb = xlsx_package.workbook
+def per_cent_diary_concept concept
+  presences_valide = @presences.where.not(participation: 0)
+  presences_valide.where('participation = ?', concept).length.to_f*100/presences_valide.length
+end
+
+def absent_up_to_25
+  sum = 0
+  presence_valid = @presences.where.not(situation: "not_launched")
+  @inscriptions.each do |i|
+    all_presence = presence_valid.where(student: i.student)
+    if (all_presence.length * 0.75) < all_presence.where(situation: "present").or(all_presence.where(situation: "later")).length
+      sum +=1
+    end
+def presence_up_to_75
+  sum = 0
+  presence_valid = @presences.where.not(situation: "not_launched")
+  @inscriptions.each do |i|
+    all_presence = presence_valid.where(student: i.student)
+    if (all_presence.length * 0.25) < all_presence.where(situation: "absent").length
+      sum +=1
+    end
+  end
+  sum.to_f*100/ @inscriptions.length
+end
+
+  end
+  sum.to_f*100/ @inscriptions.length
+end
+
+ 
+
+def per_cent_diary_situation concept
+  presences_valide = @presences
+  
+  presences_valide.where(situation: concept).length.to_f*100/presences_valide.length
+end
+
+
+wb.styles do |s|
+  wb.add_worksheet(name: "instruction monitoring") do |sheet|
+    sheet.column_widths 55
+    ################################
+    title = s.add_style fg_color: "3333ee" , b: true, sz: 15 , :alignment => {:horizontal => :center, :vertical => :center, :wrap_text => true}
+    sub_title = s.add_style fg_color: "3333ee" ,  sz: 15 , :alignment => {:horizontal => :center, :vertical => :center, :wrap_text => true}
+    th = s.add_style bg_color: "2972a4", fg_color: "fafafa" , :alignment => {:horizontal => :center, :vertical => :center, :wrap_text => true}, b: true, sz: 12
+    
+    sheet.add_row ["","RELATÓRIO DE MONITORAMENTO",'','','','','',''], style: title
+    sheet.add_row ["", "Avaliação e Desempenho",'','','','','',''], style: sub_title
+    sheet.add_row []
+  
+    ################################
+    sheet.add_row ["","Conceito Diário(%)","","","","Presenças(%)","","","","","",""], style: th
+    sheet.add_row ["Período Letivo","A","B","C","D","Presente", "Atrasado", "Falta","Falta Justificada","Não Justificado","Falta acima de 25%", "Presença acima de 75%"], style: th
+    Academic::SchoolYear.all.each do |school_year|
+
+      @presences = Academic::Presence.joins(lesson: [classroom_subject: :classroom]).where('school_year_id = ?', school_year.id)
+      #sheet.add_row ["% Conceito Diário nota A", per_cent_diary_concept('1')]
+      #sheet.add_row ["% Conceito Diário nota B", per_cent_diary_concept('2')]
+      #sheet.add_row ["% Conceito Diário nota C", per_cent_diary_concept('3')]
+      #sheet.add_row ["% Conceito Diário nota D", per_cent_diary_concept('4')]
+      #sheet.add_row []
+      
+      #sheet.add_row ['% Presentes', per_cent_diary_situation('present')]
+      #sheet.add_row ['% Atrasado', per_cent_diary_situation('later')]
+      #sheet.add_row ['% Falta', per_cent_diary_situation('absent')]
+      #sheet.add_row ['% Falta Justificada', per_cent_diary_situation('justified_absence')]
+      #sheet.add_row ['% Não Justificada', per_cent_diary_situation('not_launched')]
+      #sheet.add_row []
+
+      #sheet.add_row ['% Alunos com mais de 25% de faltas', absent_up_to_25]
+      #sheet.add_row ['% Alunos com mais de 75% de presença', presence_up_to_75]
+      sheet.add_row [school_year.name,per_cent_diary_concept('1'),per_cent_diary_concept('2'), per_cent_diary_concept('3'), per_cent_diary_concept('4'), per_cent_diary_situation('present'),per_cent_diary_situation('later'), per_cent_diary_situation('absent'),per_cent_diary_situation('not_launched'), per_cent_diary_situation('justified_absence'),absent_up_to_25,presence_up_to_75]
+      #######
+      img = File.expand_path(Rails.root+'app/assets/images/logo_planilha.png' )
+      sheet.add_image(:image_src => img, noMove: true) do |image|
+        image.width = 190
+        image.height = 120
+        image.start_at 0, 0
+      end
+      sheet.merge_cells sheet.rows.first.cells[(1..6)]
+      sheet.merge_cells sheet.rows.second.cells[(1..6)]
+      center = s.add_style alignment: {horizontal: :center}, fg_color: "0000FF"
+      center_total = s.add_style alignment: {horizontal: :center}, fg_color: "000000"
+      sheet.row_style 0, center, col_offset: 1
+      sheet.row_style 3, th
+    
+
+      sheet.rows.first.height =  60
+      sheet.rows.second.height =  60
+      sheet.rows[2].height =  5
+      sheet.merge_cells sheet.rows[3].cells[1..5]
+      sheet.merge_cells sheet.rows[3].cells[6..12]      
+      sheet.column_widths 20, 20, 20, 20, 20, 20,20, 20, 20, 20, 20, 20,20, 20, 20, 20, 20, 20,20, 20, 20, 20, 20, 20,20, 20, 20, 20, 20, 20
+      ######
+    end
+  end
+end
+    

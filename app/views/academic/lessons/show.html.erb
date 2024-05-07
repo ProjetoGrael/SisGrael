@@ -1,0 +1,136 @@
+<p id="notice"><%= notice if notice != "You are not authorized to access this page"%></p>
+
+<h1><%= l @lesson.day %></h1>
+
+<div class="card-show">
+  <% if @lesson.holiday %>
+    <div class="alert evaded">Feriado</div>
+  <% end %>
+  <% if can? :update, @lesson and !@lesson.holiday %>
+    <div class="button-students">
+      <%= link_to 'Observações da aula', edit_lesson_path(@lesson), class: 'edit-button' %>
+    </div>
+  <% end %>
+  
+  <div class="photo-profile action-photo">
+    <p class="name-student"><%= @lesson.classroom_subject.subject.name %></p>
+  </div>
+
+  <div class="card-show-container">
+    <p class="title-card-show-container"><span>1</span>Notas de Aula:</p>
+    <p><%= @lesson.notes %><p>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="card-show-container">
+    <p class="title-card-show-container"><span>2</span>Observações de Aula:</p>
+    <p><%= @lesson.observations %></p>
+  </div>
+
+  <div class="divider"></div>
+  
+  <div class="card-show-container">
+    <p class="title-card-show-container"><span>3</span>Presenças:</p>
+    <% unless @lesson.holiday %>
+      <% @presences.each do |presence| %>
+        <% next if presence.inscription.nil? || !presence.inscription.active%>
+        <% next unless can_show?(presence) %>
+        <% if can? :update, @lesson %>
+          <div class="grid info_presence">
+            <input type="hidden" value="<%= presence.id %>" class='presence_id'>
+            <div class="field-info">
+              <p>Nome</p>
+              <%= presence.student.name %>
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="field-info">
+              <% unless evaded_or_desisted?(presence) %>
+                <p>Presença</p>
+                <%= select_tag :situation, options_for_select(presence_options, presence.situation), presence_id: presence.id, :class => 'situation'%>
+              <% else %>
+                <p>Presença</p>
+                <p class="status-alert">Aluno Evadido ou Desistente</p>
+                <div class="select-status">Campo não pode ser alterado</div>
+                <%= select_tag :situation, options_for_select(presence_options, presence.situation), disabled: true, presence_id: presence.id, :class => 'situation select-evaded'%>
+              <% end %>
+            </div>
+
+            <div class="field-info select-hidden" id="participation-select">
+              <% unless evaded_or_desisted?(presence) %>
+                <p>Participição</p>
+                <%= select_tag :participation, options_for_select(presence_evaluation, presence.participation), presence_id: presence.id, :class => 'participation' %>
+              <% else %>
+                <p>Participição</p>
+                <p class="status-alert">Aluno Evadido ou Desistente</p>
+                <%= select_tag :participation, options_for_select(presence_evaluation, presence.participation), disabled: true, presence_id: presence.id, :class => 'participation select-evaded' %>
+              <% end %>
+            </div> 
+          </div>
+
+        <% else %>
+          <div class="grid info_presence">
+            <input type="hidden" value="<%= presence.id %>" class='presence_id'>
+            <div class="field-info">
+              <p>Nome</p>
+              <%= presence.student.name %>
+            </div>
+          </div>
+          <div class="grid">
+            <div class="field-info">
+              <% unless evaded_or_desisted?(presence) %>
+                <p>Presença</p>
+                <%= translate_presence_options presence.situation %>
+              <% else %>
+                <p>Presença</p>
+                <p class="status-alert">Aluno Evadido ou Desistente</p>
+                <div class="select-status">Campo não pode ser alterado</div>
+                <%= select_tag :situation, options_for_select(presence_options, presence.situation), disabled: true, presence_id: presence.id, class: 'situation select-evaded'%>
+              <% end %>
+            </div>
+            <% if presence.situation == "later" or presence.situation == "present"%>  
+              <div class="field-info" id="participation-select">
+                <% unless evaded_or_desisted?(presence) %>
+                  <p>Participição</p>
+                  <%= presence_evaluation[presence.participation][0] %>
+                <% else %>
+                  <p>Participição</p>
+                  <p class="status-alert">Aluno Evadido ou Desistente</p>
+                  <%= presence_evaluation[presence.participation][0] %>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+<% if can? :update, @lesson %>
+  <button class= 'edit-button' id="save_all_presence"> Salvar </button>
+<% end %>
+
+<%= link_to 'Voltar', classroom_subject_lessons_path(lesson_classroom_subject_value(@lesson), Date.current.year, Date.current.month), class: 'edit-button' %>
+
+<script>
+$(document).ready(function() {
+  function eventSelect() {
+    let situation = $(this).val();
+    let participation = $(this).parent().parent().find('#participation-select');
+
+    if (situation === 'later' || situation === 'present') {
+      $(participation).removeClass('select-hidden');
+      $(participation).addClass('select-visible');
+    } 
+    else {
+      $(participation).removeClass('select-visible');
+      $(participation).addClass('select-hidden');
+    }
+  }
+  $('.situation').on('change', eventSelect);
+  $('.situation').each(eventSelect);
+});
+</script>

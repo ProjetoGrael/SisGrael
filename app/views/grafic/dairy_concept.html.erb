@@ -1,0 +1,19 @@
+
+<div class="flex-conteiner-monitoring">
+    <div class="title-monitoring">
+    <h1>Conceito Diario por Materia</h1>  
+      <%= link_to 'EXPORTAR PARA EXCEL', monitoring_per_school_year_path({}, format: :xlsx), class: "generate-button school-year-monitoring-link"%>
+    </div>
+    <div class="backButtonMonitoring">
+      <a id="back-page" class="edit-button ">Voltar</a>    
+    </div>
+    <div class="card-graphic">
+        <%= form_tag(:dairy_concept, method: :get, id: 'form_of_school_year') do  %>
+            <%= select_tag(:school_year_id,options_from_collection_for_select(Academic::SchoolYear.all, "id", "name", @school_year_id),onChange: 'this.form.submit();')%> 
+            <%= select_tag(:subject_id,options_from_collection_for_select(Academic::Subject.all, "id", "name", @subject_id),prompt: "Escolha uma materia",onChange: 'this.form.submit();')%> 
+        <% end %>
+        <% if @subject.present?%>
+            <%= pie_chart @date_second %>
+        <% end %>
+    </div>
+</div>

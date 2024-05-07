@@ -1,0 +1,174 @@
+<p id="notice"><%= notice if notice != "You are not authorized to access this page"%></p>
+
+<h1>Alunos</h1>
+
+<div class="container-85">
+    <div class="flex-end">
+        <!-- Esse primeiro link, redireciona o usuario para o historico de alunos renovados do Ano Letivo vigente, podendo ele trocar de periodo letivo, dentro dessa página -->
+        <% if @inscriptions.present?%>
+        <%= link_to 'Histórico de Alunos Renovados', alunos_renovados_path(Academic::SchoolYear.current), class: "generate-button" %>
+        <% end %>
+        <%= link_to 'Alerta de Faltas', absence_reports_path, class:"generate-button", style: "margin-left: 5px" %>
+        <% if can? :manage, Student %>
+            <%= link_to 'Lista de alunos ativos', generate_cpf_csv_path({},format: :xlsx), class:"generate-button", style: "margin-left: 5px" %>
+        <% end %>
+        <% if can? :read, Occurrence %>
+            <%= link_to 'Ocorrências', occurrences_path, class: "generate-button", style: "margin-left: 5px" %>
+        <% end %>
+        <a id="back-page" class="generate-button" style="margin-left: 5px">Voltar</a>
+    </div>
+</div>
+<div class="search-box">
+    <p>Existem <%= Student.all.length%> alunos no projeto Sisgrael</p>
+    <%if @inscription.present?%>
+    <p>O periodo atual possui <%= remove_repeat_student(@inscriptions).length %> alunos </p>
+    <%end%>
+</div>
+
+<div class="search-box">
+    <%= form_tag(students_path, method: :get, class: "search-form-student") do %>
+        <%= text_field_tag :term, params[:term], :placeholder => "Digite o nome:", class: "search-input grid-column-2" %>
+        <% if can? :create, Student %>
+            <%= link_to 'Novo', new_student_path, class:'button-new grid-column-3' %>
+        <% end %>
+        <%= text_field_tag :last_name, params[:last_name], :placeholder => "Digite o sobrenome:", class: "search-input grid-column-2" %>
+        <%= submit_tag 'Pesquisar', name: nil, class: 'button-new grid-column-2' %>
+    <% end %>
+</div>
+
+<% if (@students.any?) %>
+
+<% @students.each do |student| %>
+<div class="card">
+
+    <div class="card-action">
+        <div class="action-photo">
+            <% if student.photo.present? %>
+            <%= image_tag student.photo.small.url, :class => 'student-photo' %>
+            <% else %>
+            <div class="student-photo students-icone-panel icon"></div>
+            <% end %>
+        </div>
+    </div>
+
+    <div class="card-content">
+        <div class="titles">
+            <%= student.name %>
+            <% if !student.pedant? then %>
+                <div class="alert pedant">
+                    Pendente
+                </div>
+            <%end%>
+            <div class="button-students">
+
+                <% if can? :show, student%>
+                <%= link_to 'Exibir Aluno', student, :class => 'generate-button' %>
+                <% end %>
+                <% if can? :manage, student %>
+                <%= link_to 'Editar', edit_student_path(student), class:"edit-button" %>
+                <%= link_to 'Excluir', student, method: :delete, class:"delete-button" %>
+                <% end %>
+            </div>
+        </div>
+
+        <div class="grid grid-3-columns registration">
+            <div class="field-info">
+                <p>Matrícula:</p>
+                <%= student.registration_number %>
+            </div>
+
+            <div class="field-info">
+                <p>Sexo:</p>
+                <%= pretty_sex(student.sex) %>
+            </div>
+
+
+            <div class="field-info">
+                <p>Idade:</p>
+                <%= age(student.birthdate) %> ano(s) e <%= months_of_age(student.birthdate)%> mes(es)
+            </div>
+            <% if current_user.secretary? or current_user.admin? or  current_user.social_service?%>
+            <div class="field-info">
+                <p>Telefone do Responsável:</p>
+                <%= student.responsible_phone %>
+
+            </div>
+            <div class="field-info">
+                <p>Responsável:</p>
+                <%= student.responsible_name %>
+            </div>
+            <div class="field-info">
+                <p>Permissão para fotos e Videos</p>
+                <% if student.photo_and_video_permited == true%>
+                Sim
+                <% elsif student.photo_and_video_permited == false %>
+                Não
+                <% else %>
+                N/A
+                <% end %>
+
+            </div>
+            <% end %>
+        </div>
+        <% if Academic::SchoolYear.current.present?%>
+        <%student.inscriptions.active.joins(:classroom).where('school_year_id = ?', Academic::SchoolYear.current.id).each do |inscription| %>
+        <div class="discipline">
+            <%i=0%>
+
+            <p class="class">Turma: <%= inscription.classroom.fantasy_name%></p>
+            <% inscription.subject_histories.each do |sh|%>
+            <%if i>0%>
+            <div class="divider"></div>
+            <%end%>
+
+            <% next unless sh.is_valid?%>
+            <div class="grid grid-2-columns">
+                <div class="field-info">
+                    <p>Curso:</p>
+                    <%= sh.full_name%>
+                    <p>Professor Responsável:</p>
+                    <%=sh.classroom_subject.teacher.present? ? sh.classroom_subject.teacher.user.name : "N/A"%>
+                </div>
+                <div class="field-info">
+                    <p>Aulas:</p>
+                    <% if sh.classroom_subject.lesson_on_monday%>
+                    <p class="time">Segunda Feira: <%=sh.classroom_subject.start_time.to_s(:time)%> - <%=sh.classroom_subject.finish_time.to_s(:time)%></p>
+                    <% end %>
+                    <% if sh.classroom_subject.lesson_on_tuesday%>
+                    <p class="time">Terça Feira: <%=sh.classroom_subject.start_time.to_s(:time)%> - <%=sh.classroom_subject.finish_time.to_s(:time)%></p>
+                    <% end %>
+                    <% if sh.classroom_subject.lesson_on_wednesday%>
+                    <p class="time">Quarta Feira: <%=sh.classroom_subject.start_time.to_s(:time)%> - <%=sh.classroom_subject.finish_time.to_s(:time)%></p>
+                    <% end %>
+                    <% if sh.classroom_subject.lesson_on_thursday%>
+                    <p class="time">Quinta Feira: <%=sh.classroom_subject.start_time.to_s(:time)%> - <%=sh.classroom_subject.finish_time.to_s(:time)%></p>
+                    <% end %>
+                    <% if sh.classroom_subject.lesson_on_friday%>
+                    <p class="time">Sexta Feira: <%=sh.classroom_subject.start_time.to_s(:time)%> - <%=sh.classroom_subject.finish_time.to_s(:time)%></p>
+                    <% end %>
+                </div>
+            </div>
+            <%i += 1%>
+            <% end %>
+        </div>
+        <% end %>
+
+        <%end%>
+    </div>
+</div>
+<% if !student.pedant? then %>
+<script>
+    $(document).ready(() => {
+        let card = $('.pedant').parent().parent().parent()
+        card.css("background-color", "#f7ecec")
+    });
+</script>
+<% end %>
+<% end %>
+
+<%= paginacao(@students) %>
+
+<% else %>
+<p>Não há alunos a serem exibidos.</p>
+<%= link_to 'Novo', new_student_path, class:'button-new' %>
+<% end %>

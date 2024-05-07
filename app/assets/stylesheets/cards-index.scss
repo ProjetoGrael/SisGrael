@@ -1,0 +1,826 @@
+@import "utilities/variables";
+@import "utilities/fonts";
+
+.card,
+.card-show,
+.card-view,
+.card-aulas {
+  margin: 20px auto;
+  max-width: 65%;
+  display: flex;
+  flex-direction: row;
+  box-shadow: 1px 3px 10px #bbbbbb;
+  border-radius: 5px;
+  background-color: $white-second;
+}
+
+.show-container>.collapse {
+  padding: 0 20px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 1s ease-out;
+  .card-content{
+    margin-top: 10px;
+  }
+}
+.card-interview {
+  margin: 20px auto;
+  width: 896px;
+  display: flex;
+  flex-direction: row;
+  box-shadow: 1px 3px 10px #bbbbbb;
+  border-radius: 5px;
+  background-color: $white-second;
+}
+
+.card-interview-align {
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (max-width: 700px){
+  .card-interview-align{
+    flex-direction: column;
+  }
+
+}
+
+.size {
+  width: 528px;
+  height: 75%;
+}
+
+.size2 {
+  width: 629px;
+}
+
+.card-interview p {
+  font-family: Nunito;
+  font-size: 1em;
+  font-weight: bold;
+  line-height: 33px;
+  color: #252733;
+}
+
+.card-delimitate {
+  width: 50%;
+  align-items: center;
+}
+
+.card-aulas {
+  max-width: 50%;
+}
+
+.card-view {
+  box-shadow: none;
+}
+
+.card:hover,
+.card-painel:hover,
+.card-aulas:hover,
+.card-absence:hover {
+  box-shadow: none;
+  transition: 0.3s;
+}
+
+.card-show {
+  display: block;
+  padding: 10px 20px;
+}
+
+.card-painel {
+  margin: 15px;
+  padding: 10px;
+  width: 200px;
+  height: 200px;
+  box-shadow: 1px 3px 10px #bbbbbb;
+  border-radius: 5px;
+  background-color: $white-second;
+}
+
+.card-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-link {
+  width: 100%;
+  color: $black;
+}
+
+.card-content {
+  text-align: left;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-content-size {
+  max-width: 72%;
+}
+
+.card-action {
+  border: 1px solid #e0e0e0;
+  border-right: none;
+  border-radius: 5px 0 0 5px;
+}
+
+.action-buttons,
+.action-photo {
+  width: 100px;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto 20px;
+  height: 100%;
+}
+
+.action-photo {
+  width: 100%;
+  margin: 0;
+}
+
+.photo-profile {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  align-items: center;
+}
+
+.photo-profile .registration-number p,
+.card-content .registration-number p {
+  text-align: center !important;
+  font-size: 0.75em !important;
+}
+
+.card-content .registration-number p {
+  text-align: left !important;
+  font-weight: normal;
+}
+
+.card-show .photo-profile .name-student {
+  font-weight: bold;
+}
+.card .sheet-type{
+  font-size: 1.2rem;
+  color: #777;
+}
+
+.action-photo .student-photo,
+.action-photo .user-photo {
+  height: 130px;
+  width: 130px;
+  border-radius: 50%;
+  margin: 10px 20px;
+  object-fit: cover;
+}
+
+.titles {
+  font-weight: bold;
+  padding: 10px 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 0 5px 0 0;
+  height: 100%;
+  font-size: 1.5em;
+}
+
+.long-buttons {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  padding: 5px 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 0 5px 0 0;
+  & .generate-button {
+    flex: 0 0 auto;
+    margin: 5px;
+  }
+}
+
+.additional-infos,
+.student-infos {
+  font-size: 0.75em;
+  padding: 10px 20px;
+  border-left: 1px solid #e0e0e0;
+  border-right: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.student-infos {
+  display: block;
+}
+
+.descriptions-financial,
+.registration,
+.discipline {
+  padding: 10px 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 0 0 5px 0;
+}
+
+.card-content .registration p,
+.card-content .discipline p,
+.card-content .social-service-action {
+  font-size: 1em;
+}
+
+.registration {
+  border-top: none;
+  text-align: center;
+}
+
+.centered {
+  border-bottom: none;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-students,
+.button-programs {
+  float: right;
+  font-size: 0.875em;
+}
+
+.buttons-vocational-interview {
+  display: flex;
+  align-content: rigth;
+  width: 65%;
+  margin: 0 auto;
+}
+
+.field-student {
+  display: inline-block;
+  margin-right: 40px;
+}
+
+.program:not(:first-of-type)::before,
+.member:not(:first-of-type)::before,
+.expense:not(:first-of-type)::before {
+  content: "";
+  display: block;
+  width: 100%;
+  border-top: 1px solid #e0e0e0;
+  margin: 15px 0;
+}
+
+@media (min-width: 950px) {
+  .card-show-container {
+    margin: 30px 20px;
+    width: 100%;
+  }
+}
+
+.card-show-container {
+  margin: 30px 20px;
+}
+
+.card-show-container p {
+  font-size: 1em !important;
+  text-align: left !important;
+}
+
+.card-show-container .title-card-show-container {
+  padding-bottom: 10px;
+}
+
+.certificate-card-line:nth-last-child(1) {
+  border-radius: 0 0 5px 5px;
+}
+
+.title-card-show-container span {
+  border-radius: 100px;
+  border: 1px solid $black;
+  padding: 4px 10px;
+  margin-right: 5px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-row-gap: 5px;
+  grid-column-gap: 10px;
+  font-size: 1em;
+}
+
+.card-content>.grid{
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.grid-6-columns {
+  grid-template-columns: 1fr 0.8fr 0.6fr 1fr 1fr 1fr;
+}
+
+.grid-3-columns {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.grid-2-columns {
+  grid-template-columns: 1fr 1fr;
+}
+
+.grid-1-column {
+  grid-template-columns: 1fr;
+}
+
+.grid .field-info {
+  text-align: left;
+  color: #989898;
+}
+
+.field-with-add {
+  display: inline;
+
+}
+.width-80{
+  width: 60%;
+}
+
+.field-info input,
+.field-info select,
+.field-info textarea {
+  width: 100% !important;
+  font-size: 1em !important;
+  font-family: Nunito;
+}
+
+.grid p {
+  font-family: Nunito;
+  font-weight: bold;
+  text-align: left !important;
+  font-size: 1em !important;
+}
+
+.grid-check {
+  display: grid;
+  grid-row-gap: 5px;
+  grid-column-gap: 10px;
+  font-size: 1em;
+}
+
+.grid-checkbox {
+  grid-template-columns: 20px 1fr 20px 1fr;
+}
+
+.grid-checkbox-2-columns {
+  grid-template-columns: 20px 1fr;
+}
+
+@media (max-width: 1000px) {
+  .card,
+  .card-view {
+    flex-direction: column;
+  }
+
+  .card .action-photo {
+    flex-direction: row;
+  }
+
+  .card-show .photo-profile {
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .card .card-show-container .field-info {
+    width: 100%;
+  }
+
+  .action-buttons {
+    padding: 10px 0;
+  }
+
+  .titles {
+    display: flex;
+    flex-direction: column-reverse;
+    text-align: center;
+  }
+
+  .button-students,
+  .button-programs {
+    margin-bottom: 10px;
+  }
+
+  .registration,
+  .discipline,
+  .grid {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+  }
+
+  .container-modal .card-show-container .grid {
+    display: grid;
+  }
+
+  .grid .field-info {
+    margin: 0 10px 20px 0;
+  }
+
+  .grid-checkbox {
+    grid-template-columns: 20px 1fr;
+  }
+
+  #button-responsible-form-students button {
+    width: 100%;
+  }
+
+  #grid-responsible-form-students {
+    display: block;
+  }
+
+  #action-buttons-rubrics a {
+    text-align: center;
+    margin-bottom: 5px;
+  }
+
+  @media (max-width: 760px) {
+    .card,
+    .card-show {
+      max-width: 90%;
+    }
+
+    .card .titles {
+      text-align: center;
+    }
+
+    .button-students,
+    .button-programs {
+      float: none;
+    }
+
+    .card-show .button-students .edit-button,
+    .card .button-students .edit-button,
+    .card .button-students .delete-button,
+    .button-programs {
+      display: block;
+      margin-bottom: 10px;
+    }
+  }
+}
+
+/* Cards de Alunos Faltantes */
+
+.absences-content {
+  width: 80%;
+  display: flex;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.card-absence {
+  margin: 20px;
+  min-width: calc((100% / 3) - 40px);
+  box-shadow: 1px 3px 10px #bbbbbb;
+  border-radius: 5px;
+  background-color: #fefefe;
+}
+
+.absence-content {
+  padding: 10px 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 0 0 5px 0;
+}
+
+.card-absence .absence-content p {
+  font-size: 1em;
+}
+
+.absence-info {
+  color: #989898;
+  display: flex;
+  padding: 5px 0;
+  justify-content: space-between;
+}
+
+.classroom-p {
+  color: #333333;
+  display: inline;
+  font-weight: normal !important;
+}
+
+@media (max-width: 1000px) {
+  .card-absence {
+    min-width: calc((100% / 2) - 40px);
+  }
+}
+
+@media (max-width: 760px) {
+  .card-absence {
+    min-width: calc((100%) - 40px);
+  }
+}
+
+/* Card PDF */
+
+.card-pdf {
+  margin: 20px 0;
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: $white-second;
+}
+
+.grid .field-info-pdf {
+  margin-bottom: 10px;
+}
+
+.field-info-pdf {
+  text-align: left;
+  display: inline-block;
+  margin: 0 20px;
+  min-width: 150px;
+}
+
+.field-info-pdf p {
+  text-align: left;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.field-info-duo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.field-info-duo > :is(select, input[type="time"]){
+  margin: 0;
+  height: auto;
+}
+
+.field-info-duo select {
+  width: auto;
+  padding-right: 3.2em;
+  font-size: 1.125em;
+}
+
+.field-info-duo input {
+  width: 40%;
+  height: 48px;
+}
+
+.field-info-duo:last-child {
+  margin-bottom: 0;
+}
+
+.registration-pdf {
+  padding: 0 20px 20px 0;
+  border: 1px solid #e0e0e0;
+  border-radius: 0;
+}
+
+.discipline-pdf {
+  border: 1px solid #e0e0e0;
+  border-radius: 0 0 5px 0;
+}
+
+.alwaysbreak {
+  page-break-after: always;
+}
+
+.time {
+  display: block;
+  color: #989898 !important;
+  font-weight: normal !important;
+}
+
+.class {
+  font-size: 1.25em !important;
+  font-weight: bold !important;
+  text-align: left !important;
+  margin-bottom: 5px !important;
+}
+
+.line-interview {
+  width: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0px 50px;
+}
+
+.text-line-interview {
+  color: #989898;
+}
+
+/* Tela Monitoramento */
+
+.flex-monitoring-horizontal {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.flex-monitoring-vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.inside-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.inside-card h4 {
+  width: 100%;
+  text-align: start;
+  font-size: 0.7em;
+}
+
+.card-monitoring .inside-card .generate-button {
+  width: 45%;
+  font-size: 0.7em;
+}
+
+.card-monitoring {
+  background-color: #dbdbdb;
+  border: 1px #bebebe solid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 350px;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+}
+
+.card-monitoring form {
+  width: 100%;
+  height: 100%;
+}
+
+.card-monitoring * {
+  margin: 5px 0;
+}
+
+.card-monitoring .generate-button {
+  width: 100%;
+  color: #333333;
+  border: 1px solid #009688;
+  padding: 10px 0;
+  margin: 10px 0;
+}
+
+.calendar {
+  max-width: 500px;
+}
+.calendar_weekdays {
+  max-width: 300px;
+}
+
+.calendar_content {
+  max-width: 300px;
+}
+
+.calendar {
+  margin: auto;
+  font-family: "Muli", sans-serif;
+  font-weight: 400;
+}
+.calendar_content,
+.calendar_weekdays,
+.calendar_header {
+  position: relative;
+  overflow: hidden;
+}
+.calendar_weekdays div {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0;
+}
+.calendar_weekdays div,
+.calendar_content div {
+  width: 14.28571%;
+  overflow: hidden;
+  text-align: center;
+  background-color: transparent;
+  color: #6f6f6f;
+  font-size: 1em;
+}
+.calendar_content div {
+  border: 1px solid transparent;
+  float: left;
+}
+.calendar_content div:hover {
+  border: 1px solid #dcdcdc;
+  cursor: default;
+}
+.calendar_content div.blank:hover {
+  cursor: default;
+  border: 1px solid transparent;
+}
+.calendar_content div.past-date {
+  color: #d5d5d5;
+}
+.calendar_content div.today {
+  font-weight: bold;
+  font-size: 14px;
+  color: #87b633;
+  border: 1px solid #dcdcdc;
+}
+.calendar_content div.selected {
+  background-color: #f0f0f0;
+}
+.calendar_header {
+  width: 100%;
+  text-align: center;
+}
+.calendar_header h2 {
+  padding: 0 10px;
+  font-family: "Muli", sans-serif;
+  font-weight: 300;
+  font-size: 18px;
+  color: #87b633;
+  float: left;
+  width: 70%;
+  margin: 0 0 10px;
+}
+.button-switch-month {
+  background-color: transparent;
+  padding: 0;
+  outline: none;
+  border: none;
+  color: #dcdcdc;
+  float: left;
+  width: 15%;
+  transition: color 0.2s;
+}
+.button-switch-month:hover {
+  color: #87b633;
+}
+
+.card-report-secretary-container {
+  margin: 30px 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.card-report-secretary {
+  background-color: #dbdbdb;
+  border: 1px #bebebe solid;
+  display: inline-block;
+  width: 80%;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  height: 270px;
+}
+
+.card-report-secretary .generate-button {
+  width: 35%;
+  flex-wrap: wrap;
+  color: #333333;
+  border: 1px solid #009688;
+  padding: 10px 0;
+  margin: 10px;
+}
+
+.card-report-secretary .card-delimitate {
+  width: 80%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  flex-wrap: wrap;
+  height: 80%;
+}
+
+.checkboxArea {
+  display: flex;
+  flex-direction: column;
+  margin: 25px 0;
+  padding: 0 20%;
+}
+
+.side-sideGeneralReport {
+  display: flex;
+  align-items: center;
+}
+
+.side-sideGeneralReportP {
+  margin-right: 50px;
+}
+
+.selectGeneralReport {
+  margin: 10px 50px;
+}
+
+.three-button {
+  border: solid 0.5px black;
+  border-radius: 5px;
+  padding: 5px;
+}

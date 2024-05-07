@@ -1,0 +1,41 @@
+<% if (notice) %>
+  <script>
+      $(document).ready(function(){
+        swal("<%= notice if notice != "You are not authorized to access this page"%>","","");
+      });
+  </script>
+<% end %>
+
+<div class="card-view">
+  <div class="card-action">
+    <div class="action-buttons">
+      <%= @rubric_item.numeration %>
+    </div>
+  </div>
+
+  <div class="card-content">
+    <div class="titles">
+      <%= @rubric_item.description %>
+    </div>
+
+    <div class="grid-1-column grid additional-infos">
+      <div>
+        <p>Rubrica:</p>
+        <%= @rubric_item.rubric.description %>
+      </div>
+    </div>
+
+    <div class="grid-1-columns grid descriptions-financial">
+      <div>
+        <p>Saldo:</p>
+        <%= number_to_currency @rubric_item.value, unit: "R$", separator: ",", delimiter: "." %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <%= link_to 'Voltar', rubric_path(@rubric_item.rubric), class:'generate-button' %>
+</div>
+
+

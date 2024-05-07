@@ -1,0 +1,34 @@
+<div class="card">
+
+    <div class="card-action">
+        <div class="action-photo">
+            <% if @student.photo.present? %>
+                <%= image_tag @student.photo.small.url, :class => 'student-photo' %>
+            <% else %>
+                <div class="student-photo students-icone-panel icon"></div>
+            <% end %>
+        </div>
+    </div>
+
+    <div class="card-content">
+        <div class="titles">
+            <%= age(@student.birthdate) if !@student.birthdate.nil?%>
+        <%= @student.name %> <% if !@student.annotations.nil? then %> <span class="alert pedant">Pedente</span> <%end%>
+            <div class="button-students">
+                <% if can? :manage, @student %>
+                    <%= link_to 'Perfil Completo', student_path(@student), class: 'edit-button' %>
+                <% end %>
+            </div>
+            <div class="registration-number">
+                <p><%= @student.registration_number %></p>
+            </div>
+        </div>
+
+        <div class="social-service-action registration">
+            <%= link_to t('activerecord.models.vocational_interview'), vocational_interview_destiny(@student), class: 'generate-button', style: 'margin-bottom: 10px;' %>
+            <%= link_to 'Ficha de Atendimento', service_sheet_destiny(@student), class: 'generate-button', style: 'margin-bottom: 10px;' %>
+            
+        </div>
+    </div>
+
+</div>

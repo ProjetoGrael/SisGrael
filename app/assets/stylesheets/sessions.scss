@@ -1,0 +1,146 @@
+manter-conectado// Place all the styles related to the Sessions controller here.
+//They will automatically be included in application.css.
+//You can use Sass (SCSS) here: http://sass-lang.com/
+
+.login {
+    display: block;
+    margin-top: 0;
+    z-index: 1;
+}
+
+.login a{
+    text-decoration: underline;
+}
+
+.logo {
+    display: block;
+    width: 100px;
+    margin: 40px auto 0px auto;
+}
+
+.titulo {
+    margin: 10px auto 40px auto;
+    font-family: Typo-Hoop;
+    font-style: normal;
+    font-weight: normal;
+    line-height: normal;
+    font-size: 4em;
+    text-align: center;
+    color: #333333;
+}
+
+#login-senha {
+    top: 0;
+    border-radius: 0 0 5px 5px;
+    padding-left: .5em;
+}
+
+#login-email {
+    border-radius: 5px 5px 0 0;
+    bottom: 0;
+    padding-left: .5em;
+    margin-bottom: 0;
+}
+
+#login-email:focus, #login-senha:focus {
+    outline: none;
+    border: 1px solid #77B9F9;
+    background-color: #EEE;
+}
+
+#login-email:focus {
+    border-radius: 5px 5px 0 0;
+}
+
+#login-senha:focus {
+    border-radius: 0 0 5px 5px;
+}
+
+.botao-login {
+    display: block;
+    width: 8ch;
+    height: 1.75em;
+    margin: 40px auto 0px auto;
+    background: #F8C915;
+    border-radius: 5px;
+    font-family: Nunito;
+    font-style: normal;
+    font-weight: bold;
+    line-height: normal;
+    font-size: 1.75em;
+    text-align: center;
+    text-transform: uppercase;
+    color: #FAFAFA;
+    box-shadow: 0px 6px #AE8A00;
+    transition-duration: .3s;
+    -webkit-transition-duration: .3s;
+    border-width: 0;
+    cursor: pointer;
+}
+
+.botao-login:hover {
+    background: #FCD84F;
+    box-shadow: 0px 6px #D7B536;
+    color: #fff;
+}
+
+#checkbox {
+    position: relative;
+    display: block;
+    margin: 1em auto 0 auto;  
+    font-family: Nunito;  
+    text-align: center;
+}
+
+#checbox input {
+    position: relative;
+    display: block;
+    float:left;
+    text-align: center;
+}
+
+#checbox p {
+    position: relative;
+    display: block;
+    float: left;
+    text-align: center;
+    font-family: Nunito;
+}
+
+canvas {
+    position: fixed;
+    display: block;	
+    bottom: 0;
+    z-index:-1;
+}
+
+.sticky {
+    position: relative;
+    top: 0;
+}
+
+.esqueci-senha {
+    display: inline-block;
+    margin-top: 1em;
+    transition: .2s;
+    padding-top: 5px;
+    color: #333;
+}
+
+.esqueci-senha:hover, .manter-conectado p:hover {
+    transition: .2s;
+    color: #77B9F9;
+}
+
+
+.manter-conectado p, .manter-conectado input {
+    display: inline;
+    color: #333;
+}
+
+.manter-conectado {
+    font-size: 1em;
+    display: inline-block;
+    max-width: 350px;
+    cursor: pointer;
+}

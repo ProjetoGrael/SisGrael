@@ -1,0 +1,506 @@
+<p id="notice"><%= notice if notice != "You are not authorized to access this page"%></p>
+<span id="show-page-flag"></span>
+<input id="service_sheet_student_id" type="hidden" value=<%= @service_sheet.student_id %> name="service_sheet[student_id]">
+<%service_sheet = @service_sheet%>
+<strong> Ficha de atendimento número: </strong> <%= get_position(service_sheet) %>
+<h1>Identificação</h1>
+<%if @service_sheet.student.present? %>
+<div class="container-85">
+  <a id="back-page" class="generate-button">Voltar</a>
+  <%= link_to 'Gerar PDF', pdf_show_service_sheet_path(@service_sheet.id, {}, format: :pdf), target: '_blank', :class => 'edit-button' %>
+  <%= link_to 'Editar', edit_student_service_sheet_path(:id => @service_sheet, :student_id => @service_sheet.student_id), class: 'edit-button' %>
+  </div>
+  <div class="card">
+    <div class="card-action">
+      <div class="action-photo">
+        <% if @service_sheet.student.photo.present? %>
+          <%= image_tag @service_sheet.student.photo.small.url, :class => 'student-photo' %>
+        <% else %>
+          <div class="student-photo students-icone-panel icon"></div>
+        <% end %>
+      </div>
+    </div>
+    <div class="card-content">
+      <div class="titles">
+        <%= @service_sheet.student.name %>
+        <span class="alert pedant">(<%= age(@student.birthdate) %> anos)</span>
+      </div>
+      <div class="grid-3-columns grid registration">
+        <div class="field-info">
+          <p>Data de Nascimento:</p>
+          <%= @student.birthdate ? @student.birthdate.strftime("%d/%m/%Y") : "-" %>
+        </div>
+        <div class="field-info">
+          <p>Sexo:</p>
+          <%= pretty_sex(@service_sheet.student.sex) if @service_sheet.student.sex.present? %>
+        </div>
+        <div class="field-info">
+          <p>Etnia:</p>
+          <%if @student.ethnicity.present? %>
+            <%= @student.ethnicity %>
+          <%else%>-
+          <%end%>
+        </div>
+        <div class="field-info">
+          <p>Nacionalidade:</p>
+          <%if @student.nationality.present? %>
+            <%= @student.nationality %>
+          <%else%>-
+          <%end%>
+        </div>
+        <div class="field-info">
+          <p>RG:</p>
+          <%if @student.rg.present? %>
+            <%= @student.rg %>
+          <%else%>-
+          <%end%>
+        </div>
+        <div class="field-info">
+          <p>Órgão Expedidor:</p>
+          <%if @student.issuing_agency.present? %>
+            <%= @student.issuing_agency %>
+          <%else%>-
+          <%end%>
+        </div>
+        <div class="field-info">
+          <p>Data de Emissão:</p>
+          <%if @student.issuing_date.present? %>
+            <%= pretty_date(@student.issuing_date) %>
+          <%else%>-
+          <%end%>
+        </div>
+        <div class="field-info">
+          <p>CPF:</p>
+          <%if @student.cpf.present? %>
+            <%= @student.cpf %>
+          <%else%>-
+          <%end%>
+        </div>
+      </div>
+    </div>
+  </div>
+<%end%>
+<div class="card">
+  <div class="card-show-container">
+    <p class="title-card-show-container"><span>1</span> Identificação</p>
+    <div class="grid-3-columns grid">
+      <div class="field-info">
+        <p>Escola que frequenta:</p>
+        <%if @student.school.present? %>
+          <%= @student.school.name %>
+        <%else%>-
+        <%end%>
+      </div>
+      <div class="field-info">
+        <p><%= t('activerecord.attributes.service_sheet.marital_status') %>:</p>
+        <%if @service_sheet.marital_status.present?%>
+          <%= @service_sheet.marital_status %>
+        <%else%>-
+        <%end%>
+      </div>
+      <div class="field-info">
+        <p><%= t('activerecord.attributes.service_sheet.disabled_person') %></p>
+        <%= pretty_bool_service_sheet(@service_sheet.disabled_person) %>
+      </div>
+      <div class="field-info">
+        <p><%= t('activerecord.attributes.service_sheet.has_documentation') %></p>
+        <%if @service_sheet.has_documentation%>
+          <%= pretty_bool(@service_sheet.has_documentation) %>
+        <%else%>-
+        <%end%>
+      </div>
+      <div class="field-info">
+        <p>Telefone:</p>
+        <%if @student.phone.present? %>
+          <%= @student.phone %>
+        <%else%>-
+        <%end%>
+      </div>
+      <div class="field-info">
+        <p>Celular:</p>
+        <%if @student.mobile_phone.present? %>
+          <%= @student.mobile_phone %>
+        <%else%>-
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-show-container">
+    <p class="title-card-show-container"><span>2</span> Filiação</p>
+    <div class="grid-2-columns grid">
+      <div class="field-info">
+        <p><%= t('activerecord.attributes.service_sheet.father') %>:</p>
+        <%if @service_sheet.father.present?%>
+          <%= @service_sheet.father %>
+        <%else%>-
+        <%end%>
+      </div>
+      <div class="field-info">
+        <p><%= t('activerecord.attributes.service_sheet.mother') %>:</p>
+        <%if @service_sheet.mother.present?%>
+          <%= @service_sheet.mother %>
+        <%else%>-
+        <%end%>
+      </div>
+      <div class="field-info">
+        <p>Nome do responsável:</p>
+        <%if @student.responsible_name.present? %>
+          <%= @student.responsible_name %>
+        <%else%>-
+        <%end%>
+      </div>
+      <div class="field-info">
+        <p>Telefone do responsável:</p>
+        <%if @student.responsible_phone.present? %>
+          <%= @student.responsible_phone %>
+        <%else%>-
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-show-container">
+    <p class="title-card-show-container"><span>3</span> Composição Familiar</p>
+    <div class="grid-3-columns grid">
+      <div class="field-info">
+        <p>Quantidade de familiares:</p>
+        <%= @service_sheet.student.family_members.length %>
+      </div>
+      <div class="field-info">
+        <p>Renda familiar total:</p>
+        <% t_income = 0.0 %>
+        <% @service_sheet.student.family_members.each do |fm| %>
+          <% t_income += fm.income %>
+        <% end %>
+        R$ <%= number_with_precision(t_income, precision: 2) %>
+      </div>
+      <div class="field-info">
+        <p>Renda familiar média:</p>
+        R$ <%= @service_sheet.student.family_members.length > 0 ? number_with_precision(t_income / @service_sheet.student.family_members.length, precision: 2) : "0.00" %>
+      </div>
+    </div>
+    <% @service_sheet.student.family_members.each do |fm| %>
+      <div class="divider"></div>
+      <div class="grid-3-columns grid">
+        <div class="field-info">
+          <p>Nome:</p>
+          <%= fm.name %>
+        </div>
+        <div class="field-info">
+          <p>Escolaridade:</p>
+          <%= fm.scholarity %>
+        </div>
+        <div class="field-info">
+          <p>Idade:</p>
+          <%= fm.age %>
+        </div>
+        <div class="field-info">
+          <p>Ocupação:</p>
+          <%= fm.occupation %>
+        </div>
+        <div class="field-info">
+          <p>Renda:</p>
+          R$ <%= number_with_precision(fm.income, precision: 2) %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+<div class="card">
+  <div class="card-show-container">
+    <p class="title-card-show-container"><span>4</span> Programas Assistenciais</p>
+    <div class="grid-2-columns grid">
+      <div class="field-info">
+        <p>Quantidade de programas:</p>
+        <%= @service_sheet.student.program_aids.length %>
+      </div>
+      <div class="field-info">
+        <p>Valor total:</p>
+        <% total_value_program_aids = 0.0 %>
+        <% @service_sheet.student.program_aids.each do |pa| %>
+          <% total_value_program_aids += pa.value %>
+        <% end %>
+        R$ <%= number_with_precision(total_value_program_aids, precision: 2) %>
+      </div>
+    </div>
+    <%if @service_sheet.student.program_aids.length > 0%>
+      <div class="divider"></div>
+      <div class="grid-2-columns grid">
+        <% @service_sheet.student.program_aids.each do |pa| %>
+          <div class="field-info">
+            <p>Nome:</p>
+            <%= pa.assistance_program.name %>
+          </div>
+          <div class="field-info">
+            <p>Valor:</p>
+            R$ <%= number_with_precision(pa.value, precision: 2) %>
+          </div>
+        <% end %>
+      </div>
+    <%end%>
+    <div class="divider"></div>
+    <p class="title-card-show-container"><span><b>+</b></span> Situação de Trabalho</p>
+    <%if @service_sheet.current_working%>
+      <div class="grid-2-columns grid">
+        <div class="field-info">
+          <p><%= t('activerecord.attributes.service_sheet.current_working') %></p>
+          <%= pretty_bool_service_sheet(@service_sheet.current_working) %>
+        </div>
+        <div class="field-info">
+          <p><%= t('activerecord.attributes.service_sheet.salary') %></p>
+          R$ <%= @service_sheet.salary ? number_with_precision(@service_sheet.salary, precision:2) : "0.00"%>
+        </div>
+        <div class="field-info">
+          <p><%= t('activerecord.attributes.service_sheet.working_situation') %></p>
+          <%if @service_sheet.working_situation.present?%>
+            <%= @service_sheet.working_situation %>
+          <%else%>-
+          <%end%>
+        </div>
+        <div class="field-info">
+          <p><%= t('activerecord.attributes.service_sheet.working_situation_other') %></p>
+          <%if @service_sheet.working_situation_other.present?%>
+            <%= @service_sheet.working_situation_other %>
+          <%else%>-
+          <%end%>
+        </div>
+        <div class="field-info">
+          <p><%= t('activerecord.attributes.service_sheet.receives_benefit') %></p>
+          <%= pretty_bool(@service_sheet.receives_benefit) %>
+        </div>
+        <div class="field-info">
+          <p><%= t('activerecord.attributes.service_sheet.receives_benefit_wich') %></p>
+          <%if @service_sheet.receives_benefit_wich.present?%>
+            <%= @service_sheet.receives_benefit_wich %>
+          <%else%>-
+          <%end%>
+        </div>
+      </div>
+    <%else%>
+      <div class="blank">O aluno não trabalha atualmente.</div>
+    <%end%>
+  </div>
+</div>
+<div class="card">
+  <div class="card-show-container">
+    <p class="title-card-show-container"><span>5</span> Despesas</p>
+    <% i = @service_sheet.student.expenses.length%>
+    <%if i == 0%>
+      <div class="blank">O aluno não possui despesas cadastradas.</div>
+    <%end%>
+    <% @service_sheet.student.expenses.each do |expense| %>
+      <%i = i-1%>
+      <div class="grid-2-columns grid">
+        <div class="field-info">
+          <p>Nome:</p>
+          <%= expense.name %>
+        </div>
+        <div class="field-info">
+          <p>Valor:</p>
+          R$ <%= number_with_precision(expense.value, precision: 2) %>
+        </div>
+      </div>
+      <%if i != 0 && @service_sheet.student.expenses.length > 1%>
+        <div class="divider"></div>
+      <%end%>
+    <% end %>
+  </div>
+</div>
+<div class="card">
+  <div class="card-show-container">
+    <p class="title-card-show-container"><span>6</span> Situação Habitacional</p>
+    <div class="grid-3-columns grid">
+      <div class="field-info">
+        <p>Cidade da residência:</p>
+        <%if @student.city.present?%>
+          <%= @student.city.name %>
+        <%else%>-
+        <%end%>
+      </div>
+      <div class="field-info">
+        <p>Bairro:</p>
+        <%if @student.neighborhood.present?%>
+          <%= @student.neighborhood.name %>
+        <%else%>-
+        <%end%>
+      </div>
+      <div class="field-info">
+        <p><%= t('activerecord.attributes.service_sheet.residence_status') %>:</p>
+        <%if @student.state.present?%>
+          <%= @student.state.name %>
+        <%else%>-
+        <%end%>
+      </div>
+      <div class="field-info">
+        <p><%= t('activerecord.attributes.service_sheet.dwell_time_address') %>:</p>
+        <%if @service_sheet.dwell_time_address.present?%>
+          <%= @service_sheet.dwell_time_address %>
+        <%else%>-
+        <%end%>
+      </div>
+      <div class="field-info">
+        <p><%= t('activerecord.attributes.service_sheet.dwell_time_city') %></p>
+        <%if @service_sheet.dwell_time_city.present?%>
+          <%= @service_sheet.dwell_time_city %>
+        <%else%>-
+        <%end%>
+      </div>
+      <div class="field-info">
+        <p><%= t('activerecord.attributes.service_sheet.previously_resided_city') %>:</p>
+        <%if @service_sheet.previously_resided_city.present?%>
+          <%= @service_sheet.previously_resided_city %>
+        <%else%>-
+        <%end%>
+      </div>
+      <div class="field-info">
+        <p><%= t('activerecord.attributes.service_sheet.residence_status_text') %>:</p>
+        <%if @service_sheet.residence_status_text.present?%>
+          <%= @service_sheet.residence_status_text %>
+        <%else%>-
+        <%end%>
+      </div>
+      <div class="field-info">
+        <p><%= t('activerecord.attributes.service_sheet.kind_of_residence') %>:</p>
+        <%if @service_sheet.kind_of_residence.present?%>
+          <%= @service_sheet.kind_of_residence %>
+        <%else%>-
+        <%end%>
+      </div>
+      <div class="field-info">
+        <p><%= t('activerecord.attributes.service_sheet.kind_of_residence_text') %>:</p>
+        <%if @service_sheet.kind_of_residence_text.present?%>
+          <%= @service_sheet.kind_of_residence_text %>
+        <%else%>-
+        <%end%>
+      </div>
+      <div class="field-info">
+        <p><%= t('activerecord.attributes.service_sheet.room_number') %>:</p>
+        <%if @service_sheet.room_number.present?%>
+          <%= @service_sheet.room_number %>
+        <%else%>-
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-show-container">
+    <p class="title-card-show-container"><span>7</span> Saúde</p>
+    <div class="grid-3-columns grid">
+      <div class="field-info">
+        <p><%= t('activerecord.attributes.service_sheet.medication') %>:</p>
+        <%= pretty_bool_service_sheet(@service_sheet.medication) %>
+      </div>
+      <div class="field-info">
+        <p><%= t('activerecord.attributes.service_sheet.medication_text')%>:</p>
+        <%if @service_sheet.medication_text.present?%>
+          <%= @service_sheet.medication_text %>
+        <%else%>-
+        <%end%>
+      </div>
+      <div class="field-info">
+        <p><%= t('activerecord.attributes.service_sheet.psychiatric_treatment')%>:</p>
+        <%= pretty_bool_service_sheet(@service_sheet.psychiatric_treatment) %>
+      </div>
+      <div class="field-info">
+        <p><%= t('activerecord.attributes.service_sheet.psychiatric_treatment_where')%></p>
+        <%if @service_sheet.psychiatric_treatment_where.present?%>
+          <%= @service_sheet.psychiatric_treatment_where %>
+        <%else%>-
+        <%end%>
+      </div>
+      <div class="field-info">
+        <p><%= t('activerecord.attributes.service_sheet.deficiency_in_family')%>:</p>
+        <%= pretty_bool_service_sheet(@service_sheet.deficiency_in_family) %>
+      </div>
+      <div class="field-info">
+        <p><%= t('activerecord.attributes.service_sheet.deficiency_in_family_text')%>:</p>
+        <%if @service_sheet.deficiency_in_family_text.present?%>
+          <%= @service_sheet.deficiency_in_family_text %>
+        <%else%>-
+        <%end%>
+      </div>
+      <div class="field-info">
+        <p><%= t('activerecord.attributes.service_sheet.health_more_info')%></p>
+        <%if @service_sheet.health_more_info.present?%>
+          <%= @service_sheet.health_more_info %>
+        <%else%>-
+        <%end%>
+      </div>
+      <div class="field-info">
+        <p>Faz uso de algum medicamento?</p>
+        <%if @student.medication.present? %>
+          <%= @student.medication %>
+        <%else%>-
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-show-container">
+    <p class="title-card-show-container"><span>8</span> Medidas Protetivas</p>
+    <div class="grid-3-columns grid">
+      <div class="field-info">
+        <p><%= t('activerecord.attributes.service_sheet.protective_measures')%></p>
+        <%= pretty_bool_service_sheet(@service_sheet.protective_measures) %>
+      </div>
+      <div class="field-info">
+        <p><%= t('activerecord.attributes.service_sheet.protective_measures_text')%>:</p>
+        <%if @service_sheet.protective_measures_text.present?%>
+          <%= @service_sheet.protective_measures_text %>
+        <%else%>-
+        <%end%>
+      </div>
+      <div class="field-info">
+        <p><%= t('activerecord.attributes.service_sheet.socio_educational_measure')%></p>
+        <%= pretty_bool_service_sheet(@service_sheet.socio_educational_measure) %>
+      </div>
+      <div class="field-info">
+        <p><%= t('activerecord.attributes.service_sheet.socio_educational_measure_text')%>:</p>
+        <%if @service_sheet.socio_educational_measure_text.present?%>
+          <%= @service_sheet.socio_educational_measure_text %>
+        <%else%>-
+        <%end%>
+      </div>
+      <div class="field-info">
+        <p><%= t('activerecord.attributes.service_sheet.socio_educational_measure_when')%></p>
+        <%if @service_sheet.socio_educational_measure_when.present?%>
+          <%= @service_sheet.socio_educational_measure_when %>
+        <%else%>-
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-show-container">
+    <p class="title-card-show-container"><span>9</span> Observações</p>
+    <div class="grid-3-columns grid">
+      <div class="field-info">
+        <p><%= t('activerecord.attributes.service_sheet.notes')%>:</p>
+        <%if @service_sheet.notes.present?%>
+          <%= @service_sheet.notes %>
+        <%else%>-
+        <%end%>
+      </div>
+      <div class="field-info">
+        <p><%= t('activerecord.attributes.service_sheet.referrals')%>:</p>
+        <%if @service_sheet.referrals.present?%>
+          <%= @service_sheet.referrals %>
+        <%else%>-
+        <%end%>
+      </div>
+      <div class="field-info">
+        <p><%= t('activerecord.attributes.service_sheet.responsible_technician')%>:</p>
+        <%if @service_sheet.responsible_technician.present?%>
+          <%= @service_sheet.responsible_technician %>
+        <%else%>-
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>

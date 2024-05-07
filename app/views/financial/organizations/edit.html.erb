@@ -1,0 +1,31 @@
+<h1>Editar Classe</h1>
+
+<%= form_with(url: organization_path(@institution.id), scope: :institution, method: :patch, local: true) do |form| %>
+  <% if @institution.errors.any? %>
+    <script>
+        $(document).ready(function(){
+          swal("<h2>"+"<%= pluralize(institution.errors.count, "erro") %> proibiu de salvar esta instituição:"
+          +"</h2><ul>"+"<% institution.errors.full_messages.each do |message| %>"
+          +"<li>"+"<%= message %>"+"</li>"+"<% end %>"+"</ul>","","");
+        });
+    </script>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name, 'Nome' %>
+    <%= form.text_field :name, id: :institution_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :status, 'Status' %>
+    <%= form.select :status, status_options %>
+  </div>
+
+  <div class="actions">
+    <%= link_to organizations_path, class:'button-back' do %>
+      <div class='icon-back'></div>
+    <% end %>
+    
+    <%= form.submit 'Salvar Classe', class: "button-edit" %>
+  </div>
+<% end %>

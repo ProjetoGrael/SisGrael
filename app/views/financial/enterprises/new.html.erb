@@ -1,0 +1,30 @@
+<h1>Nova Empresa</h1>
+
+<%= form_with(url: enterprises_path, scope: :enterprise, local: true) do |form| %>
+  <% if @enterprise.errors.any? %>
+    <script>
+        $(document).ready(function(){
+          swal("<h2>"+"<%= pluralize(enterprise.errors.count, "erro") %> proibiu de salvar esta empresa:"
+          +"</h2><ul>"+"<% enterprise.errors.full_messages.each do |message| %>"
+          +"<li>"+"<%= message %>"+"</li>"+"<% end %>"+"</ul>","","");
+        });
+    </script>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name, 'Nome' %>
+    <%= form.text_field :name, id: :enterprise_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :status, 'Status' %>
+    <%= form.select :status, status_options %>
+  </div>
+
+  <div class="actions">
+    <%= link_to enterprises_path, class:'button-back' do %>
+      <div class='icon-back'></div>
+    <% end %>
+    <%= form.submit 'Salvar Empresa', class:'button-edit' %>
+  </div>
+<% end %>

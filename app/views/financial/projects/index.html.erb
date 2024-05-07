@@ -1,0 +1,73 @@
+<% if (notice) %>
+  <script>
+      $(document).ready(function(){
+        swal("<%= notice if notice != "You are not authorized to access this page"%>","","");
+      });
+  </script>
+<% end %>
+
+<h1>Projetos</h1>
+
+<div class="search-box">
+  <%= form_tag(projects_path, method: :get, class: "search-form") do %>
+    <%= text_field_tag :term, params[:term], :placeholder => "Pesquisar por um projeto:", class: "search-input" %>
+    <%= submit_tag '', title: nil, class: 'search-button' %>
+  <% if(@projects.any?) %>
+    <%= link_to 'Novo', new_project_path, class:'button-new' %>
+  <% end %>
+  <% end %>
+
+</div>
+
+<% if(@projects.any?) %>
+
+        <% @projects.each do |project| %>
+            <div class="card">
+
+              <div class="card-action">
+                <div class="action-buttons"> 
+                  <%= link_to 'Editar', edit_project_path(project), class: "edit-button" %>
+                  <%= link_to 'Excluir', project, method: :delete, class: "delete-button" %>
+                </div>
+              </div>
+
+              <%= link_to project, :class => 'card-link' do %>
+                <div class="card-content">
+                  <div class="titles">
+                    <%= project.title %>
+                  </div>
+
+                  <div class="grid-3-columns grid additional-infos">
+
+                    <div>
+                      <p><%= project.created_at.strftime("%d/%m/%Y") %> -
+                      <%= project.updated_at.strftime("%d/%m/%Y") %></p>
+                    </div>
+
+                    <div>
+                      <p>Valor:</p>
+                      <%= number_to_currency project.total_value, unit: "R$", separator: ",", delimiter: "." %>
+                    </div>
+
+                    <div>
+                      <p>Saldo:</p>
+                      <%= number_to_currency project.current_value, unit: "R$", separator: ",", delimiter: "." %>
+                    </div>
+
+                  </div>
+
+                  <div class="descriptions-financial">
+                    <%= project.description %>
+                  </div>
+                </div>
+              <% end %>
+
+            </div>
+        <% end %>
+
+
+  <%= paginacao(@projects) %>
+<% else %>
+  <p>Não há projetos a serem exibidos.</p>
+  <%= link_to 'Novo', new_project_path, class:'button-new' %>
+<% end %>

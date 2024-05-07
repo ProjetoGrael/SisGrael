@@ -1,0 +1,57 @@
+
+<div class="container-85">
+
+  <p><%= notice if notice != "You are not authorized to access this page"%></p>
+
+</div>
+
+<div class="container-65">
+  <% if @user.instructor? && @user.teacher.blank? %>
+    <div class="flex-end">
+      <%= link_to 'Realizar registro de Educador', new_user_teacher_path(@user), class: 'edit-button' %>
+    </div>
+  <% end %>
+</div>
+
+<div class="card">
+  <div class="card-action">
+    <div class="action-photo">
+      <% if @user.picture.present? %>
+        <%= image_tag( @user.picture, class: "user-photo") %>
+      <% else %>
+        <%= image_tag("user.png", class: "user-photo") %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="card-content">
+    <div class="titles">
+      <%= @user.name %>
+    </div>
+
+    <div class="grid grid-1-column registration">
+      <div class="field-info">
+        <p>Tipo:</p>
+        <%= pretty_user_kinds(@user.kind) %>
+      </div>
+    </div>
+
+    <div class="grid grid-1-column descriptions-financial">
+      <div class="field-info">
+        <p>Email:</p>
+        <%= @user.email %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+  <div class="line-buttons" style="display: block;">
+    <% if (!(@user == current_user) or current_user.admin?)  %>
+      <%= link_to 'Voltar', users_path, class: 'generate-button', style: 'display: inline;' %>
+    <% end %>
+    <% if ((@user == current_user) or current_user.admin?) %>
+      <%= link_to 'Editar', edit_user_path(@user.id), class: 'generate-button', style: 'display: inline;' %>
+    <% end %>
+  </div>

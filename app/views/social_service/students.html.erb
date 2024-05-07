@@ -1,0 +1,105 @@
+<p id="notice"><%= notice if notice != "You are not authorized to access this page"%></p>
+<h1 style="margin-bottom: 0;">Alunos</h1>
+<div class="container-85">
+  <div class="flex-end">
+    <%= link_to 'Voltar', social_service_index_path, class: 'generate-button' %>
+  </div>
+</div>
+<div class="search-box">
+  <p>Existem <%= Student.all.length%> alunos no projeto Sisgrael</p>
+  <p>O periodo atual possui <%= remove_repeat_student(@inscriptions).length %> alunos </p>
+</div>
+<div class="search-box">
+  <%= form_tag(social_service_students_path, method: :get, class: "search-form") do %>
+    <%= text_field_tag :term, params[:term], :placeholder => "Digite o nome:", class: "search-input" %>
+    <%= submit_tag '', name: nil, class: 'search-button' %>
+    <% if(@students.any?) %>
+      <%= link_to 'Novo', new_student_path, class:'button-new' %>
+    <% end %>
+  <% end %>
+</div>
+<div>
+  <%= form_tag(social_service_students_path, method: :get, class: "age-search") do %>
+    <%= text_field_tag :idade_min, params[:idade_min], :placeholder => "mín"%>
+    <%= text_field_tag :idade_max, params[:idade_max], :placeholder => "máx"%>
+    <%= submit_tag 'Filtrar por idade', name: nil, class: "generate-button" %>
+  <% end %>
+</div>
+<% if (@students.any?) %>
+  <% @students.each do |student| %>
+    <div class="card">
+      <div class="card-action">
+        <%= link_to student, :class => 'card-link' do %>
+          <div class="action-photo">
+            <% if student.photo.present? %>
+              <%= image_tag student.photo.small.url, :class => 'student-photo' %>
+            <% else %>
+              <div class="student-photo students-icone-panel icon"></div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+      <div class="card-content">
+        <div class="titles">
+          <%= link_to student, :class => 'card-link' do %>
+            <%= student.name %> <% if !student.pedant? then %> <span class="alert pedant">Pendente</span> <%end%>
+          <% end %>
+        </div>
+        <div class="long-buttons">
+          <% if student.age >= 18 %>
+            <!-- Validação para renderizar o botao de nova entrevista profissionalizante ou para mostrar a que já existe do aluno -->
+            <% if student.vocational_interview != nil %>
+              <%= link_to 'Entrevista Profissionalizante', student_vocational_interview_path(student.id, student.vocational_interview.id), class: "generate-button" %>
+            <% else %>
+              <%= link_to 'Entrevista Profissionalizante', new_student_vocational_interview_path(student.id), class: "generate-button" %>
+            <% end %>
+          <% end %>
+          <!-- Validação para renderizar o botao de nova ficha de atendimento ou para mostrar a que já existe do aluno -->
+          <% if student.service_sheet != nil %>
+            <%= link_to 'Ficha de Atendimento', student_service_sheet_path(student_id: student.id, id: student.service_sheet.id), class: "generate-button" %>
+          <% else %>
+            <%= link_to 'Ficha de Atendimento', new_student_service_sheet_path(student.id), class: "generate-button" %>
+          <% end %>
+        </div>
+        <%= link_to student, :class => 'card-link' do %>
+          <div class="grid grid-3-columns registration">
+            <div class="field-info">
+              <p>Matrícula:</p>
+              <%= student.registration_number %>
+            </div>
+            <div class="field-info">
+              <p>Sexo:</p>
+              <%= pretty_sex(student.sex) %>
+            </div>
+            <div class="field-info">
+              <p>Responsável:</p>
+              <%= student.responsible_name %>
+            </div>
+            <div class="field-info">
+              <p>Telefone do Responsável:</p>
+              <%= student.responsible_phone %>
+            </div>
+            <div class="field-info">
+              <p>Idade:</p>
+              <%= age(student.birthdate) %> ano(s) e <%= months_of_age(student.birthdate)%> mes(es)
+            </div>
+          </div>
+        <%end%>
+        <div class="grid grid-2-columns discipline">
+          <% if student.classrooms.any? %>
+            <% student.classrooms.first.classroom_subjects.each do |classroom_subject| %>
+              <div classs="field-info">
+                <p> Curso: <%= link_to  classroom_subject.subject.name, classroom_subject %></p>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <%= paginacao(@students) %>
+
+<% else %>
+  <p>Não há alunos a serem exibidos.</p>
+  <%= link_to 'Novo', new_student_path, class:'button-new' %>
+<% end %>

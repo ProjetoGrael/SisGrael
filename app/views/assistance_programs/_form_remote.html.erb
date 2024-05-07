@@ -1,0 +1,91 @@
+<div id="add-to-student-form-div">
+
+  <%= form_with(model: @program, remote: true, :id => 'add-assistance-program-form', :class => "container-modal") do |f| %>
+
+    <h1>Adicionar Programa ao Estudante</h1>
+
+    <ul id="program2student-errors-ul"></ul>
+
+
+    <div class="card-show-container">
+      <div class="grid grid-1-column">
+        <div class="field-info">
+          <p>Nome:</p>
+          <%= collection_select(:name, :assistance_program_id, get_all_programs, :id, :name, options ={}, html_options = {id: "add-assistance-program-select", class: "program-select"}) %>
+        </div>
+        <%# collection_select(object, method, collection, value_method, text_method, options = {}, html_options = {}) %>
+
+        <div class="field-info">
+          <p>Valor:</p>
+          <%= f.number_field :value, id: "add-program-value", :step => :any %>
+        </div>
+
+        
+        <%= link_to 'Novo Programa', '#', :id => "call-add-new-program-screen", class: "edit-button" %>
+        <%= link_to 'Excluir Programa', '#', :id => "call-delete-program-screen", class: "delete-button", style: "margin-bottom: 5px" %>
+        <%= link_to 'Salvar Programa', '#', :id => "add-program-button", class: "generate-button" %>
+      </div>
+      
+      
+    </div>
+
+    
+
+  <% end %>
+
+</div>
+
+<%# Form para criar novo programa no BD %>
+
+<div id="add-new-form-div">
+
+  <%= form_with( remote: true, :id => 'add-new-assistance-program-form', :class => "container-modal") do |f| %>
+
+    <h1>Adicione novo programa</h1>
+
+      <ul id="program-errors-ul"></ul>
+
+      <div class="card-show-container">
+        <div class="grid grid-1-column">
+          <div class="field-info">
+            <p>Nome:</p>
+            <%= f.text_field :name, id: "add-new-program-name" %>
+          </div>
+        </div>
+
+        <div class="grid grid-2-columns">
+          <%= link_to 'Cancelar', '#', :class => "cancel-program-button delete-button", style: "margin-bottom: 5px" %>
+          <%= link_to 'Salvar Programa', '#', :id => "add-new-program-button", class: "generate-button" %>
+        </div>
+      </div>
+
+
+  <% end %>
+
+</div>
+
+<div id="delete-form-div">
+
+  <%= form_with(model: @program, remote: true, :id => 'delete-form-form', :class => "container-modal") do |f| %>
+
+    <h1>Delete um programa Social</h1>
+
+    <div class="card-show-container">
+      <div class="grid-1-column grid">
+        <div class="field-info">
+          <p>Nome:</p>
+          <%= collection_select(:name, :assistance_program_id, get_all_programs, :id, :name, options ={}, html_options = {id: "delete-form-select", class: "program-select"}) %>
+        </div>
+      </div>
+
+      <div class="grid grid-2-columns">
+        <%= link_to 'Cancelar', '#', :class => "cancel-program-button delete-button", style: "margin-bottom: 5px" %>
+
+        <%= hidden_field_tag(:student_id, @student.id) %>
+
+        <%= link_to 'Deletar programa', '#', class: "generate-button", id: "delete-program-button", data: { confirm: 'Você tem certeza?'} %>
+      </div>
+    </div>
+  <% end %>
+
+</div>

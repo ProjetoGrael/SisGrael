@@ -1,0 +1,50 @@
+<h1>Relatório Genérico Geral</h1>
+    <div class="backGeneralReport" style="width=80%">
+        <a id="back-page" class="edit-button">Voltar</a>
+    </div>
+<div class= "card-show">
+    <h2>Selecione de 1 a 4 períodos letivos: </h2>
+    <label for="select_school_year">1º Periodo Letivo</label>
+    <%= select_tag :select_school_year, options_from_collection_for_select(@school_years,'id', 'name', params[:school_year_id]), id: "select_school_year_one_general_report", :include_blank => true, class: "selectGeneralReport" %>
+    <label for="select_school_year">2º Periodo Letivo</label>
+    <%= select_tag :select_school_year, options_from_collection_for_select(@school_years,'id', 'name', params[:school_year_id]), id: "select_school_year_two_general_report", :include_blank => true, class: "selectGeneralReport" %>
+    <label for="select_school_year">3º Periodo Letivo</label>
+    <%= select_tag :select_school_year, options_from_collection_for_select(@school_years,'id', 'name', params[:school_year_id]), id: "select_school_year_three_general_report", :include_blank => true, class: "selectGeneralReport" %>
+    <label for="select_school_year">4º Periodo Letivo</label>
+    <%= select_tag :select_school_year, options_from_collection_for_select(@school_years,'id', 'name', params[:school_year_id]), id: "select_school_year_four_general_report", :include_blank => true , class: "selectGeneralReport"%>
+    
+    <h2>Selecione as Informações que devem estar no Relatório: </h2>
+    <div class="checkboxArea">
+        <div class="side-sideGeneralReport">
+            <div class="side-sideGeneralReportP">
+                <%= check_box(:type, "general_data", {}, "checked", "no_checked") %>
+            </div>
+            <p>Dados Gerais</p>
+        </div>
+        <div class="side-sideGeneralReport">
+            <div class="side-sideGeneralReportP">
+                <%= check_box(:type, "student_profile", {}, "checked", "no_checked") %>
+            </div>
+            <p>Perfil de Alunos</p>
+        </div>
+        <div class="side-sideGeneralReport">
+            <div class="side-sideGeneralReportP">
+                <%= check_box(:type, "instructor_monitoring", {}, "checked", "no_checked") %>
+            </div>
+            <p>Monitoramento por Instrutor</p>
+        </div>
+        <div class="side-sideGeneralReport">
+            <div class="side-sideGeneralReportP">
+                <%= check_box(:type, "council_monitoring", {}, "checked", "no_checked") %>
+            </div>
+            <p>Monitoramento por Conselho de Classe</p>
+        </div>
+        <div class="side-sideGeneralReport">
+            <div class="side-sideGeneralReportP">
+                <%= check_box(:type, "social_service_monitoring", {}, "checked", "no_checked") %>
+            </div>
+            <p>Monitoramento por Serviço Social</p>
+        </div>
+    </div>
+    <%= link_to 'Gerar Relatório Geral', general_monitoring_path(:school_year_id_one => 0, :school_year_id_two => 0, :school_year_id_three => 0, :school_year_id_four => 0,:general_data => 0, :council_monitoring => 0, :instructor_monitoring => 0, :social_service_monitoring => 0, :student_profile => 0, format: :xlsx), class:"generate-button", id: "general-monitoring-link" %>
+</div>

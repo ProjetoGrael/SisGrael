@@ -1,0 +1,42 @@
+<h1>Disciplinas de <%= @teacher.name %></h1>
+
+<div class="container-85">
+  <% if can? :manage, Academic::TeacherSkill %>
+    <%= link_to 'Adicionar Disciplina ao Educador', new_teacher_teacher_skill_path(@teacher.id), class: 'edit-button', style: 'margin-right: 5px' %>
+  <% end %>
+  <%= link_to 'Voltar', teacher_panel_path(@teacher), class: 'edit-button' %>
+  <% if Academic::SchoolYear.current.present?%>
+    <h2>Materias do periodo: <%=Academic::SchoolYear.current.name%></h2>
+    <% @teacher.classroom_subjects.order(:subject_id).each do |class_sub| %>
+      <% next if class_sub.subject_id == @current_subject%>
+      <% @current_subject = class_sub.subject_id%>
+      <div class="card" style="max-width: 50%;">
+        <div class="card-content">
+            <div class="titles" style="padding: 30px 20px;">
+              <%= class_sub.subject.name %>
+            </div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+  
+  <h2><%= @teacher.name %> pode ensinar essas disciplinas</h2>
+  <% @teacher.teacher_skills.each do |teacher_skill| %>   
+    <div class="card" style="max-width: 50%;">
+      <div class="card-action">
+        <div class="action-buttons">
+          <%= link_to 'Exibir', teacher_skill.subject, :class => 'generate-button' %>
+          <% if can? :manage, Academic::TeacherSkill %>
+            <%= link_to 'Excluir', teacher_skill, method: :delete, class:"delete-button" %>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="card-content">
+        <div class="titles" style="padding: 30px 20px;">
+          <%= teacher_skill.subject.name %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,40 @@
+<%= form_with(model: occurrence, local: true) do |form| %>
+  <% if occurrence.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(occurrence.errors.count, "error") %> prohibited this occurrence from being saved:</h2>
+
+      <ul>
+      <% occurrence.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field-form-ocorrence">
+    <p>Aluno</p>
+    <%= form.select :student_id, occurrence_student_options, { selected: params[:student_id] }, id: :occurrence_student_id %>
+  </div>
+
+  <div class="field-form-ocorrence">
+    <p>Descrição</p>
+    <%= form.text_area :description, id: :occurrence_description %>
+  </div>
+
+  <div class="field-form-ocorrence">
+    <p>Período Letivo</p>
+    <%= form.select :school_year_id, occurrence_school_year_options, { selected: occurrence_school_year_actual }, id: :occurrence_school_year_id %>
+  </div>
+
+    <div class="field-form-ocorrence">
+      <%= form.hidden_field :user_id, value: current_user.id%>
+    </div>
+
+  <div class="side-side-form">
+    <%= link_to 'Voltar', occurrences_path, class: 'generate-button'  %>
+    <div class="actions">
+      <%= form.submit "Salvar Ocorrência" , class: 'generate-button'%>
+    </div>
+  </div>
+  
+<% end %>

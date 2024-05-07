@@ -1,0 +1,31 @@
+
+
+.calendary .header-calendary{
+    // width: 100%;
+    background-color: #333333;
+    color: #fefefe;
+}
+.calendary{
+    width: 50%;
+}
+.width-restrit{
+    width: 14.28%;
+}
+.calendary tr:hover{
+    background-color: transparent;
+    
+}
+.calendary td.normal-day:hover{
+    background-color: #dddddd;
+    cursor: pointer;
+}
+
+.month-change {
+    font-size: 1.4em;
+    color: #fefefe
+}
+
+.calendary td.unnormal-day{
+    background-color: #ee3333;
+    cursor: pointer;
+}

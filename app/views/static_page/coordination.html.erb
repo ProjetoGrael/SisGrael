@@ -1,0 +1,147 @@
+<div class="academic_panel">
+    <table class="academic_table">
+        <thead>
+            <tr class="academic_table_row">
+                <th colspan="2" class="academic_table_head">Datas Importantes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="academic_table_row">
+                <td class="academic_table_cell">Conselho de Classe</td>
+                <td class="academic_table_cell">xx/xx/xx</td>
+            </tr>
+            <tr class="academic_table_row">
+                <td class="academic_table_cell">Matrículas</td>
+                <td class="academic_table_cell">xx/xx/xx</td>
+            </tr>
+            <tr class="academic_table_row">
+                <td class="academic_table_cell">Próx. Feriado</td>
+                <td class="academic_table_cell">xx/xx/xx</td>
+            </tr>
+            <tr class="academic_table_row">
+                <td class="academic_table_cell">Atividade</td>
+                <td class="academic_table_cell">xx/xx/xx</td>
+            </tr>
+            <tr class="academic_table_row">
+                <td class="academic_table_cell">Informações</td>
+                <td class="academic_table_cell">xx/xx/xx</td>
+            </tr>
+            <tr class="academic_table_row">
+                <td class="academic_table_cell">Informações</td>
+                <td class="academic_table_cell">xx/xx/xx</td>
+            </tr>
+            <tr class="academic_table_row">
+                <td class="academic_table_cell">Informações</td>
+                <td class="academic_table_cell">xx/xx/xx</td>
+            </tr>
+            <tr class="academic_table_row">
+                <td class="academic_table_cell">Informações</td>
+                <td class="academic_table_cell">xx/xx/xx</td>
+            </tr>
+            <tr class="academic_table_row">
+                <td class="academic_table_cell">Informações</td>
+                <td class="academic_table_cell">xx/xx/xx</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="academic_table">
+        <thead>
+            <tr class="academic_table_row">
+                <th colspan="2" class="academic_table_head">Resultados do Conselho</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="academic_table_row">
+                <td class="academic_table_cell">Conselhos Fechados</td>
+                <td class="academic_table_cell"><%= percentage_finished_councils %></td>
+            </tr>
+            <tr class="academic_table_row">
+                <td colspan="2">
+                    <table class="nested_academic_table">
+                        <thead>
+                            <tr class="academic_table_row">
+                                <th colspan="2" class="academic_table_head">Conceitos</th>
+                            </tr>
+                        <thead>
+                        <tbody>
+                            <tr class="academic_table_row">
+                                <td class="academic_table_cell">A</td>
+                                <td class="academic_table_cell"><%= percentage_grades_council("A") %></td>
+                            </tr>
+                            <tr class="academic_table_row">
+                                <td class="academic_table_cell">B</td>
+                                <td class="academic_table_cell"><%= percentage_grades_council("B") %></td>
+                            </tr>
+                            <tr class="academic_table_row">
+                                <td class="academic_table_cell">C</td>
+                                <td class="academic_table_cell"><%= percentage_grades_council("C") %></td>
+                            </tr>
+                            <tr class="academic_table_row">
+                                <td class="academic_table_cell">D</td>
+                                <td class="academic_table_cell"><%= percentage_grades_council("D") %></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr class="academic_table_row">
+                <td colspan="2">
+                    <table class="nested_academic_table">
+                        <thead>
+                            <tr class="academic_table_row">
+                                <th colspan="2" class="academic_table_head">Alunos Aprovados</th>
+                            </tr>
+                        <thead>
+                        <tbody>
+                            <tr class="academic_table_row">
+                                <td class="academic_table_cell">Estudando</td>
+                                <td class="academic_table_cell"><%= percentage_situation_council(0) %></td>
+                            </tr>
+                            <tr class="academic_table_row">
+                                <td class="academic_table_cell">Aprovado</td>
+                                <td class="academic_table_cell"><%= percentage_situation_council(1) %></td>
+                            </tr>
+                            <tr class="academic_table_row">
+                                <td class="academic_table_cell">Participou</td>
+                                <td class="academic_table_cell"><%= percentage_situation_council(2) %></td>
+                            </tr>
+                            <tr class="academic_table_row">
+                                <td class="academic_table_cell">Reprovado por Falta</td>
+                                <td class="academic_table_cell"><%= percentage_situation_council(5) %></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+        </tr>
+    </table>
+
+    <table class="academic_table coordenador">
+        <thead>
+            <tr class="academic_table_row">
+                <th colspan="2" class="academic_table_head">Pautas Pendentes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if @teachers != [] %>
+                <% @teachers.each do |teacher| %>
+                    <tr class="academic_table_row">
+                        <td class="academic_table_cell"><%= teacher[:name] %></td>
+                        <% if teacher[:number_of_frequency_list_pendant] >= 10 %>
+                            <td class="academic_table_cell"><%= teacher[:number_of_frequency_list_pendant].to_s + "+ pautas" %></td>
+                        <% else %>
+                            <td class="academic_table_cell"><%= teacher[:number_of_frequency_list_pendant].to_s + " pautas" %></td>
+                        <% end %>
+                    </tr>
+                <% end %>
+            <% else %>
+                <tr class="academic_table_row">
+                    <td>Não há professores com pautas não preenchidas nesse período letivo.</td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+
+</div>

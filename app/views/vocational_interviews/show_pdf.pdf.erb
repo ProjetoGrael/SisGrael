@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <%= wicked_pdf_stylesheet_link_tag "cards-index" %>        
+        <title>Document</title>
+    </head>
+    <body>
+        <h1 style="text-align: center;"><%= @title %></h1>
+
+        <div>
+            <h2>Informações Básicas</h2>
+            <div class="card-pdf">
+                <div class="titles">
+                    <%= dont_print_nil(@vocational_interview.student.name) %>,
+                    <% if @vocational_interview.student.birthdate %>
+                            <%= age(@vocational_interview.student.birthdate) %> anos
+                    <% else %>
+                        <p>-</p>
+                    <% end %>
+                </div>
+                <div class="registration-pdf">
+                    <div class="field-info-pdf">
+                        <p>Data de Nascimento: </p>
+                        <%= @vocational_interview.student.birthdate.strftime("%d/%m/%Y") if @vocational_interview.student.birthdate.present?%>
+                    </div>
+                    <%= "-" if !@vocational_interview.student.birthdate.present? %>
+                    <div class="field-info-pdf">
+                    <p >Sexo:</p>
+                        <%= pretty_sex(@vocational_interview.student.sex) if @vocational_interview.student.sex.present? %>
+                        <%= "-" if !@vocational_interview.student.sex.present? %>
+                    </div>
+                    <div class="field-info-pdf">
+                        <p>Etnia:</p>
+                        <%= dont_print_nil(@vocational_interview.student.ethnicity) %>
+                    </div>
+                    <div class="field-info-pdf">
+                        <p >Nacionalidade:</p>
+                        <%= dont_print_nil(@vocational_interview.student.nationality) %>
+                    </div>
+                </div>
+                <div class="discipline-pdf" style="padding: 0 0 20px 0">
+                    <div class="field-info-pdf">
+                        <p>RG:</p>
+                        <%= dont_print_nil(@vocational_interview.student.rg) %>
+                    </div>
+                    <div class="field-info-pdf">
+                        <p>Órgão Expedidor:</p>
+                        <%= dont_print_nil(@vocational_interview.student.issuing_agency) %>
+                    </div>
+                    <div class="field-info-pdf">
+                        <p>Data de Emissão:</p>
+                        <%= dont_print_nil(pretty_date(@vocational_interview.student.issuing_date)) %>
+                    </div>
+                    <div class="field-info-pdf">
+                        <p>CPF:</p>
+                        <%= dont_print_nil(@vocational_interview.student.cpf) %>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <div class="card-pdf">
+                <p class="title-card-show-container" style="margin: 10px 10px; font-weight: bold"><span>1</span>Informações Escolares</p>
+                <div class="grid">
+                    <div class="field-info-pdf">
+                        <p>Escola:</p>
+                        <%= dont_print_nil(@vocational_interview.student.school.name) %>
+                    </div>
+                    <div class="field-info-pdf">
+                        <p>Última Instituição:</p>
+                        <%= dont_print_nil(@vocational_interview.last_attended_educational_institution) %>
+                    </div>
+                    <div class="field-info-pdf">
+                        <p>Turno:</p>
+                        <%= pretty_school_shift(@vocational_interview.student.school_shift) if @vocational_interview.student.school_shift.present? %>
+                        <%= "-" if @vocational_interview.student.school_shift %>
+                    </div>
+                    <div class="field-info-pdf">
+                        <p>Matrículado no curso:</p>
+                        <%= dont_print_nil(@vocational_interview.enrolled_in_the_course) %>
+                    </div>
+                    <div class="field-info-pdf">
+                        <p>Repetência:</p>
+                        <%= dont_print_nil(pretty_bool(@vocational_interview.repetition) + ", " + @vocational_interview.amount_repetitions.to_s + " repetências") %>
+                    </div>
+                    <div class="field-info-pdf">
+                        <p>Necessidades especiais:</p>
+                        <%= dont_print_nil(@vocational_interview.special_needs) %>
+                    </div>
+                </div>
+            </div>
+
+        <div class="card-pdf">
+            <p class="title-card-show-container" style="margin: 10px 10px; font-weight: bold"><span>2</span>Moradia</p>
+            <div class="grid">
+                <div class="field-info-pdf">
+                    <p>Com quem reside:</p>
+                    <%= dont_print_nil(@vocational_interview.live_with) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p>Condição da moradia:</p>
+                    <%= dont_print_nil(@vocational_interview.housing_condition) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p style="width: 350px">Moradia conta com infraestrutura urbana:</p>
+                    <%= dont_print_nil(@vocational_interview.urban_infrastructure) %>
+                </div>
+            </div>
+        </div>  
+
+        <div class="card-pdf">
+            <p class="title-card-show-container" style="margin: 10px 10px; font-weight: bold"><span>3</span>Sobre o Projeto Grael</p>
+            <div class="grid">
+                <div class="field-info-pdf">
+                    <p>Acesso ao Projeto:</p>
+                    <%= dont_print_nil(@vocational_interview.project_access) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p>Como se desloca até o projeto:</p>
+                    <%= dont_print_nil(@vocational_interview.project_access_text) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p style="width: 350px">Quantos transportes utiliza por dia para chegar até o Projeto Grael:</p>
+                    <%= dont_print_nil(@vocational_interview.number_transport) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p style="width: 300px">Frequentou o projeto Grael anteriormente:</p>
+                    <%= dont_print_nil(pretty_bool(@vocational_interview.already_attended)) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p>Possui experiência náutica:</p>
+                    <%= dont_print_nil(pretty_bool(@vocational_interview.nautical_experience)) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p style="width: 300px">Já participou de cursos ou projetos sociais?</p>
+                    <%= dont_print_nil(pretty_bool(@vocational_interview.already_attended_to_other)) %>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-pdf alwaysbreak">
+            <p class="title-card-show-container" style="margin: 10px 10px; font-weight: bold"><span>4</span>Acesso ao Projeto</p>
+            <div class="grid">
+                <div class="field-info-pdf">
+                    <p style="width: 350px">Qual foi a motivação ao escolher as atividades do projeto Grael:</p>
+                    <%= dont_print_nil(@vocational_interview.motivation) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p style="width: 350px">Quantos transportes utiliza por dia para chegar até o Projeto Grael:</p>
+                    <%= dont_print_nil(@vocational_interview.number_transport) %>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-pdf">
+            <p class="title-card-show-container" style="margin: 10px 10px; font-weight: bold"><span>5</span>Acesso à renda</p>
+            <div class="grid">
+                <div class="field-info-pdf">
+                    <p style="width: 350px">Possui alguma atividade remunerada ou renda:</p>
+                    <%= dont_print_nil(pretty_bool(@vocational_interview.have_income)) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p style="width: 350px">Já trabalhou ou trabalha:</p>
+                    <%= dont_print_nil(pretty_bool(@vocational_interview.work)) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p>Quem trabalha na família:</p>
+                    <p>Pai</p>
+                    <%= dont_print_nil(pretty_bool(@vocational_interview.father_works)) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p>Mãe</p>
+                    <%= dont_print_nil(pretty_bool(@vocational_interview.mother_works)) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p>Padastro</p>
+                    <%= dont_print_nil(pretty_bool(@vocational_interview.step_father_works)) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p>Madrasta</p>
+                    <%= dont_print_nil(pretty_bool(@vocational_interview.step_mother_works)) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p>Irmãos</p>
+                    <%= dont_print_nil(pretty_bool(@vocational_interview.brothers_works)) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p>Avós</p>
+                    <%= dont_print_nil(pretty_bool(@vocational_interview.grandparents_works)) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p>Outros</p>
+                    <%= dont_print_nil(pretty_bool(@vocational_interview.other_works)) %>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-pdf">
+            <p class="title-card-show-container" style="margin: 10px 10px; font-weight: bold"><span>6</span>Conhecimentos de informática</p>
+            <div class="grid">
+            <div class="field-info-pdf">
+            <p style="width: 350px">Conhece e utiliza o pacote office (word, excel, powerpoint):</p>
+            <%= dont_print_nil(pretty_bool(@vocational_interview.microsoft_office_knowledge)) %>
+            </div>
+            <div class="field-info-pdf">
+            <p>Acessa a internet:</p>
+            <%= dont_print_nil(pretty_bool(@vocational_interview.internet_surfer)) %>
+            </div>
+            <div class="field-info-pdf">
+            <p>Utiliza redes sociais:</p>
+            <%= dont_print_nil(pretty_bool(@vocational_interview.social_networks)) %>
+            </div>
+            </div>
+        </div>
+
+        <div class="card-pdf">
+            <p class="title-card-show-container" style="margin: 10px 10px; font-weight: bold"><span>7</span>Convívio familiar</p>
+            <div class="grid">
+            <div class="field-info-pdf">
+                <p>Como é o convívio familiar:</p>
+                <%= dont_print_nil(@vocational_interview.family_life) %>
+                </div>
+                <div class="field-info-pdf">
+                <p>Quais as pricipais atividades de lazer:</p>
+                <%= dont_print_nil(@vocational_interview.recreation_doing) %>
+                </div>
+                <div class="field-info-pdf">
+                <p>O que gosta de fazer com a família:</p>
+                <%= dont_print_nil(@vocational_interview.reveal_about_family_text) %>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-pdf">
+            <p class="title-card-show-container" style="margin: 10px 10px; font-weight: bold"><span>8</span>Observações finais</p>
+            <div class="grid">
+            <div class="field-info-pdf">
+                <p style="width: 350px">Observações finais:</p>
+                <%= dont_print_nil(@vocational_interview.concluding_remarks) %>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

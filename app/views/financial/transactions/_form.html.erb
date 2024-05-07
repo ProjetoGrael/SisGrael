@@ -1,0 +1,74 @@
+<%= form_with(model: transaction, local: true) do |form| %>
+  <script>
+    $(document).ready(function(){
+      $('#transaction_value').inputmask("numeric", {
+          radixPoint: ",",
+          groupSeparator: ".",
+          digits: 2,
+          autoGroup: true,
+          prefix: 'R$ ', //Space after $, this will not truncate the first character.
+          rightAlign: false,
+          oncleared: function () { self.Value(''); }
+      });
+    });
+      
+    
+  </script>
+  <% if transaction.errors.any? %>
+    <script>
+        $(document).ready(function(){
+          swal("<h2>"+"<%= pluralize(transaction.errors.count, "erro") %> proibiu de salvar esta transação:"
+          +"</h2><ul>"+"<% transaction.errors.full_messages.each do |message| %>"
+          +"<li>"+"<%= message %>"+"</li>"+"<% end %>"+"</ul>","","");
+        });
+    </script>
+  <% end %>
+
+  <% if flash[:notice] %>
+    <div class="notice"><%= flash[:notice] %></div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :value, "Valor" %>
+    <%= form.text_field :value, value: '', id: :transaction_value, autofocus: false %>
+  </div>
+
+  <div class="field">
+    <%= form.label :transaction_date, "Data da Transação" %>
+    <%= form.date_field :transaction_date, id: :transaction_transaction_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :payer_id, "Pagador" %>
+    <%= form.select :payer_id, payer_options %>
+  </div>
+
+  <div class="field">
+    <%= form.label :receiver_id, "Recebedor" %>
+    <%= form.select :receiver_id, receiver_options %>
+  </div>
+
+  <div class="field">
+    <%= form.label :transaction_category_id, "Natureza da Transação" %>
+    <%= form.select :transaction_category_id, transaction_category_options %>
+  </div>
+
+  <div class="field">
+    <%= form.label :account_id, "Conta" %>
+    <%= form.select :account_id, account_options %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description, "Observação" %>
+    <%= form.text_area :description, id: "transaction-form-description" %>
+  </div>
+
+  <div class="actions">
+    <%= link_to @transaction, class:'button-back' do %>
+          <div class='icon-back'></div>
+    <% end %>
+
+    <%= form.submit 'Salvar Transação', class: "button-edit" %>
+  </div>
+
+<% end %>

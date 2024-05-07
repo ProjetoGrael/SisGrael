@@ -1,0 +1,21 @@
+<h1>Adicionar Escola</h1>
+
+<%= form_with(:id => 'add-school-form', class: 'container-85') do |form| %>
+
+  <div class="card">
+    <div class="card-show-container">
+      <div class="grid-1-column grid">
+        <div class="field-info">
+          <p>Nome:</p>
+          <%= form.text_field :name, id: "add-school-name" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="line-buttons" style="display: block;">
+    <%= link_to 'Voltar', schools_path, class: 'generate-button', style: 'display: inline;' %>
+    <%= form.submit 'Salvar Escola', id: 'add-school-button', class: 'generate-button', style: 'display: inline;' %>
+  </div>
+
+<% end %>

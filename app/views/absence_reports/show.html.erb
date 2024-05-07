@@ -1,0 +1,38 @@
+
+<% if @absences.present? %>
+    <h1> Relatório de faltas de <%= @absences.first.student.name %> </h1>
+    <% if (@student.email.present? || @student.phone.present? ||  @student.mobile_phone.present?) %>
+        <ul>
+            <li><%= @student.email.present? ? "email: #{@student.email}" : "" %> </li>
+            <li><%= @student.phone.present? ? "telefone: #{@student.phone}" : "" %> </li>
+            <li><%= @student.mobile_phone.present? ? "celular: #{@student.mobile_phone}" : "" %> </li>
+        </ul>
+    <%end%>
+    <table>
+        <tr>
+            <th>Turma</th>
+            <th>Discpilina</th>
+            <th>Educador</th> 
+            <th>Dia da falta</th>
+        </tr>
+        <% @absences_subjects.each do |abs_subj| %>
+            <% abs_subj[:absences].each do |misses| %>
+                <tr>
+                    <td><%= misses.lesson.classroom_subject.classroom.fantasy_name %></td>
+                    <td><%= misses.lesson.classroom_subject.subject.name %></td>
+                    <td><%= misses.lesson.classroom_subject.teacher.name %></td>
+                    <td><%= misses.lesson.day %></td>
+                </tr>
+            <% end %>
+        <% end %>
+    </table>
+    <% if !current_user.social_service? %>
+        <% @absences_subjects.each do |abs_subj| %>
+            <div class="button-students">
+                <%= link_to "Resolver " + abs_subj[:classroom_subject].subject.name, update_date_resolved_absence_path(student_id: abs_subj[:student].id, classroom_subject_id: abs_subj[:classroom_subject].id), id: "remove_card_absence_reports_#{abs_subj[:student].id}", class: "edit-button" %>
+            </div>
+        <% end %>
+    <% end %>
+<% else %>
+    Este estudante não possui relatório de faltas.
+<%end%>

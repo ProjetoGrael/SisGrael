@@ -1,0 +1,26 @@
+<%= form_with(model: teacher_skill, local: true) do |form| %>
+  <% if teacher_skill.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(teacher_skill.errors.count, "error") %> impediu esta Habilidade de Educador de ser salva:</h2>
+
+      <ul>
+      <% teacher_skill.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.hidden_field :teacher_id, value: teacher_value(teacher_skill), id: :teacher_skill_teacher_id %>
+  </div>
+
+  <div class="field">
+    <p>Disciplina</p>
+    <%= form.select :subject_id, options_for_select(teacher_skill_subject_options), id: :teacher_skill_subject_id %>
+  </div>
+
+  <div class="line-buttons" style="display: block;">
+    <%= form.submit 'Salvar Habilidade', class: 'generate-button', style: 'display: inline;' %>
+  </div>
+<% end %>

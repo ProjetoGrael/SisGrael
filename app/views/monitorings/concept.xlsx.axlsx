@@ -1,0 +1,77 @@
+wb = xlsx_package.workbook
+wb.styles do |s|
+
+  wb.add_worksheet(name: "council_info") do |sheet|
+        ##################################################
+        title = s.add_style fg_color: "3333ee" , b: true, sz: 15 , :alignment => {:horizontal => :center, :vertical => :center, :wrap_text => true}
+        sub_title = s.add_style fg_color: "3333ee" ,  sz: 15 , :alignment => {:horizontal => :center, :vertical => :center, :wrap_text => true}
+        yellow_line = s.add_style bg_color: "ffff00" ,:alignment => {:horizontal => :center, :vertical => :center, :wrap_text => true}
+        th = s.add_style bg_color: "2972a4", fg_color: "fafafa" , :alignment => {:horizontal => :center, :vertical => :center, :wrap_text => true}, b: true, sz: 12
+        
+        sheet.add_row ["","RELATÓRIO DE MONITORAMENTO",'','','','','',''], style: title
+        sheet.add_row ["", "Relatório de Conceito e Avaliação - #{@school_year.name}",'','','','','',''], style: sub_title
+        sheet.add_row [''],  height: 5
+        ###################################  
+        
+    sheet.add_row ['','','','','Presença','','','','','','', "Conceito Diário",'','','', 'Conceito do Conselho','','',''], style: th
+    sheet.add_row ["Nome","Cursos","Situação","Instrutores","Número Total de Aulas","Quantidade de Atrasos","Porcentagem de Atrasos(%)","Quantidade de Faltas","Porcentagem de Faltas(%)", "Quantidade de Faltas Justificadas","Porcentagem de Faltas Justificadas(%)", 'A - Vento Forte', 'B - Vento Moderado', 'C - Brisa','D - Aragem',  'A','B','C','D'], style: th
+    student_current = nil
+    @inscriptions.each do |inscription|
+      if student_current.nil? or student_current.id != inscription.student.id
+        student_current = inscription.student
+      else
+        next
+      end
+      cursos = ""
+      inscription.subject_histories.each do |cs|
+        if cs == inscription.subject_histories.first
+        cursos += " #{cs.full_name}"
+        else
+          cursos += ", #{cs.full_name}"
+        end
+      end
+
+      professores_nomes = []
+      professores = ""
+      
+      inscription.subject_histories.each do |cs|
+        if   professores_nomes.include? cs.classroom_subject.teacher 
+          next
+        else
+          professores_nomes.append(cs.classroom_subject.teacher)
+        end
+        next if cs.classroom_subject.teacher.nil?
+        if cs == inscription.subject_histories.first
+          professores += " #{cs.classroom_subject.teacher.user.name}"
+        else
+          professores += ", #{cs.classroom_subject.teacher.user.name}"
+        end
+      end
+      lessons = @lessons.where(student_id: inscription.student_id)
+      sheet.add_row [inscription.student.name, cursos, translate_situation(inscription.situation), professores, lessons.length, lessons.where(situation: "later").length, lessons.where(situation: "later").length.to_f * 100 / lessons.length, lessons.where('situation = 3 or situation = 2').length, lessons.where('situation = 3 or situation = 2').length.to_f * 100 / lessons.length, lessons.where('situation = 3 ').length, lessons.where('situation = 3 or situation = 2').length.to_f * 100 / lessons.length,
+       lessons.where(participation: 1).length, lessons.where(participation: 2).length, lessons.where(participation: 3).length, lessons.where(participation: 4).length,
+        inscription.subject_histories.where(final_counsel: 1).length, inscription.subject_histories.where(final_counsel: 2).length, inscription.subject_histories.where(final_counsel: 3).length, inscription.subject_histories.where(final_counsel: 4).length]
+    end
+      ##################################################################
+        img = File.expand_path(Rails.root+'app/assets/images/logo_planilha.png' )
+        sheet.add_image(:image_src => img, noMove: true) do |image|
+            image.width = 190
+            image.height = 120
+            image.start_at 0, 0
+        end
+        sheet.merge_cells sheet.rows.first.cells[(1..6)]
+        sheet.merge_cells sheet.rows.second.cells[(1..6)]
+        sheet.rows.first.height =  60
+        sheet.rows.second.height =  60
+        sheet.rows[2].height =  5
+        sheet.row_style 3, th
+        sheet.row_style 4, th
+        sheet.rows[4].height = 40
+        sheet.column_widths 35, 35, 20, 70, 20, 20,20, 20, 20, 20, 20, 20,20, 20, 20, 20, 20, 20,20, 20, 20, 20, 20, 20,20, 20, 20, 20, 20, 20
+        ######################
+        sheet.merge_cells sheet.rows[3].cells[4..10]
+        sheet.merge_cells sheet.rows[3].cells[11..14]
+        sheet.merge_cells sheet.rows[3].cells[15..18]
+  
+  end
+end

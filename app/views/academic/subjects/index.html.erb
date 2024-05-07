@@ -1,0 +1,51 @@
+<p id="notice"><%= notice if notice != "You are not authorized to access this page"%></p>
+
+<h1>Disciplinas</h1>
+
+<%= link_to 'Nova Disciplina', new_subject_path, class: 'edit-button' %>
+<a id="back-page" class="edit-button" style="margin-left: 5px">Voltar</a>
+
+    <% @subjects.each do |subject| %>
+
+          <div class="card">
+            <div class="card-action">
+              <div class="action-buttons">
+                <% if subject.syllabus.present?%>
+                  <div class="pdf-icone" ></div> 
+                <% end %>
+                <%= link_to 'Exibir', subject_path(subject), :class => 'generate-button' %>
+                <%= link_to 'Editar', edit_subject_path(subject), class:"edit-button" %>
+                <%= link_to 'Excluir', subject, method: :delete, class:"delete-button" %>
+              </div>
+            </div>
+
+            <div class="card-content">
+              <div class="titles">                
+                  <%= subject.name %>
+              </div>
+              <div class="grid-1-column grid registration">
+                <div class="field-info">
+                  <p>Tipo:</p>
+                  <%= pretty_subject_leveled(subject) %>
+                </div>
+              </div>
+
+              <div class="grid-1-column grid registration">
+                <div class="field-info">
+                  <p>Carga horária:</p>
+                  <%= subject.workload %>
+                </div>
+              </div>
+
+              <div class="grid-1-column grid discipline">
+                <div class="field-info">
+                  <p>Ementa:</p>
+                  <%= subject.planning %>
+                </div>
+              </div>
+            </div>
+          </div>
+
+    <% end %>
+
+

@@ -1,0 +1,71 @@
+@import "utilities/variables";
+@import "utilities/fonts";
+
+/*##########################################################
+
+ ######     #     #####  ### #     #    #     #####     #    ####### 
+ #     #   # #   #     #  #  ##    #   # #   #     #   # #   #     # 
+ #     #  #   #  #        #  # #   #  #   #  #        #   #  #     # 
+ ######  #     # #  ####  #  #  #  # #     # #       #     # #     # 
+ #       ####### #     #  #  #   # # ####### #       ####### #     # 
+ #       #     # #     #  #  #    ## #     # #     # #     # #     # 
+ #       #     #  #####  ### #     # #     #  #####  #     # ####### 
+                                                                     
+*/
+
+.pagination {
+    margin-top: 2em;
+    font-style: normal;
+    font-weight: bold;
+    color: #828282;
+}
+
+.pagination a {
+    color: #828282;
+    padding: .125em .250em;
+}
+
+.pagination .translation_missing {
+    font-style: normal;
+    color: $black;
+}
+
+.pagination .current{
+    font-style: normal;
+    color: $white;
+    padding: .125em .250em;
+    border-radius: 3px;
+    background: $black;
+}
+
+.pagination .previous_page span, .pagination .next_page span, .pagination .gap span {
+    display: none;
+}
+
+.pagination .gap::after {
+    content: "...";
+}
+
+
+.pagination .previous_page, .pagination .next_page {
+    font-style: normal;
+    font-weight: bold;
+    color: $black;
+    font-size: 1.250em;
+}
+
+
+.pagination a:hover {
+    transition: .2s;
+    border-radius: 3px;
+    background: $blue;
+    color: $white;
+}
+
+.pagination disabled {
+    color: #828282;
+}
+
+.pagination .disabled {
+    color: #828282;
+}

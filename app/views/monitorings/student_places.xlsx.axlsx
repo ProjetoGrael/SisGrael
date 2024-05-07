@@ -1,0 +1,11 @@
+
+wb = xlsx_package.workbook
+wb.styles do |s|
+    
+    wb.add_worksheet(name: "school_plance_info") do |sheet|
+        sheet.add_row ["Nome","Cidade","Bairro"]
+        @students.each do |student|
+            sheet.add_row [student.name, student.city.name, student.neighborhood.name]
+        end
+    end
+end

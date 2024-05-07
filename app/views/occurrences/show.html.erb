@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<% if can? :update, Occurrence %>
+  <%= link_to 'Editar', edit_occurrence_path(@occurrence) %>
+<% end %>
+
+<%= link_to 'Voltar', occurrences_path %>
+
+<p>
+  <strong>Aluno:</strong>
+  <%= @occurrence.student.name %>
+</p>
+
+<p>
+  <strong>Descrição:</strong>
+  <%= @occurrence.description %>
+</p>
+
+<p>
+  <strong>Autor:</strong>
+  <%= @occurrence.user.name %>
+</p>
+
+<p>
+  <strong>Período Letivo:</strong>
+  <%= @occurrence.school_year.name %>
+</p>

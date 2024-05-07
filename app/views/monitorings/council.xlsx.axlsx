@@ -1,0 +1,30 @@
+def get_percent(sub_his, len)
+  100 * sub_his.length.to_f / len
+end
+
+wb = xlsx_package.workbook
+wb.styles do |s|
+  wb.add_worksheet(name: "council_info") do |sheet|
+    
+    sheet.column_widths 55
+    if @sub_his_len == 0
+      sheet.add_row ["Não há aluno com nota do concelho nesse periodo"]
+      break
+    end
+    sheet.add_row ["Alunos com concelho nota A", get_percent(@subject_histories.where(final_counsel: 1), @sub_his_len)]
+    sheet.add_row ["Alunos com concelho nota B", get_percent(@subject_histories.where(final_counsel: 2), @sub_his_len)]
+    sheet.add_row ["Alunos com concelho nota C", get_percent(@subject_histories.where(final_counsel: 3), @sub_his_len)]    
+    sheet.add_row ["Alunos com concelho nota D", get_percent(@subject_histories.where(final_counsel: 4), @sub_his_len)]
+    sheet.add_row []
+    sheet.add_row ["Alunos aprovados", get_percent(@inscriptions.where(situation: "approved"), @ins_len)]
+    sheet.add_row ["Alunos participantes", get_percent(@inscriptions.where(situation: "participant"), @ins_len)]
+    sheet.add_row ["Alunos reprovado por falta", get_percent(@inscriptions.where(situation: "lack_of_lesson"), @ins_len)]
+    sheet.add_row ["Alunos com Indicação do próximo curso", get_percent(@inscriptions.where.not(subject_level_id: nil), @ins_len)]
+    sheet.add_row []
+    sheet.add_row ["Alunos que melhoram",get_percent(@subject_histories.where('final_counsel < partial_counsel'), @sub_his_len)]
+    sheet.add_row ["Alunos que pioraram",get_percent(@subject_histories.where('final_counsel > partial_counsel'), @sub_his_len)]
+    sheet.add_row ["Alunos que ficaram estáveis",get_percent(@subject_histories.where('final_counsel = partial_counsel'), @sub_his_len)]
+
+    sheet.add_row []
+  end
+end

@@ -1,0 +1,13 @@
+// Place all the styles related to the Teachers controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.women-teacher-icone-panel {
+    -webkit-mask-image: image-url("women-teacher.svg");
+    mask-image: image-url("women-teacher.svg");
+}
+
+.men-teacher-icone-panel {
+    -webkit-mask-image: image-url("men-teacher.svg");
+    mask-image: image-url("men-teacher.svg");
+}

@@ -1,0 +1,12 @@
+<div class="flex-conteiner-monitoring">
+    <div class="title-monitoring">
+        <h2>Gráfico do Relatório de Tempo de Permanência</h2>
+        <%= link_to 'EXPORTAR PARA EXCEL', student_individual_monitoring_path({}, format: :xlsx), class: "generate-button school-year-monitoring-link"%>
+    </div>
+    <div class="backButtonMonitoring">
+        <a id="back-page" class="edit-button ">Voltar</a>    
+    </div>
+    <div class="card-graphic">
+        <%= bar_chart @date,height: "300px",width: "100%",xtitle: "Quantidade de Alunos", library: { scales: { xAxes: [{ ticks: { stepSize: 20, beginAtZero: true}}]}} %>
+    </div>
+</div>

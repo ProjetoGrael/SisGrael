@@ -1,0 +1,79 @@
+<div class="labor_markets">
+  <p id="notice"><%= notice if notice != "You are not authorized to access this page"%></p>
+
+  <h1 style="margin: 0;">Mercado de Trabalho</h1>
+
+  <%= link_to 'Nova Inserção', new_labor_market_path, class:"button-new" %>
+
+  <% @labor_markets.each do |labor_market| %>
+
+    <div class="card">
+        <div class="card-action">
+          <div class="action-buttons">
+            <%= link_to 'Editar', edit_labor_market_path(labor_market.id), class:"edit-button" %>
+            <%= link_to "Excluir", labor_market, method: :delete, data: { confirm: 'Tem certeza?' }, class: 'delete-button' %>
+          </div>
+        </div>
+
+      <div class="card-content">
+        <div class="titles">
+          <%= labor_market.student.name %>
+        </div>
+
+        <div class="grid session-a">
+          <div class="field-info">
+            <p>Ano:</p>
+            <p><%= labor_market.year %></p>
+          </div>
+          <div class="field-info">
+            <p>Data de Fechamento:</p>
+            <p><%= labor_market.date_closure %></p>
+          </div>
+          <div class="field-info">
+            <p>Data de Início:</p>
+            <p><%= labor_market.date_start %></p>
+          </div>
+          <div class="field-info">
+            <p>Data de Fim:</p>
+            <p><%= labor_market.date_exit %></p>
+          </div>
+        </div>
+
+        <div class="grid session-b">
+          <div class="field-info">
+            <p>Cargo do Aluno:</p>
+            <div><%= labor_market.student_office %></div>
+          </div>
+          <div class="field-info">
+            <p>Área de Atuação do Aluno:</p>
+            <div><%= labor_market.student_occupation_area %></div>
+          </div>
+          <div class="field-info">
+            <p>Nome da Empresa:</p>
+            <div><%= labor_market.company %></div>
+          </div>
+          <div class="field-info">
+            <p>Endereço de Exemplo:</p>
+            <div><%= labor_market.company_address %></div>
+          </div>
+          <div class="field-info">
+            <p>Telefone da Empresa:</p>
+            <div><%= labor_market.company_phone_number %></div>
+          </div>
+          <div class="field-info">
+            <p>Nome do Contato:</p>
+            <div><%= labor_market.contact_name %></div>
+          </div>
+          <div class="field-info">
+            <p>Cargo do Contato:</p>
+            <div><%= labor_market.contact_office %></div>
+          </div>
+          <div class="field-info">
+            <p>Email do Contato:</p>
+            <div><%= labor_market.contact_email %></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

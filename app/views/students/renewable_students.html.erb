@@ -1,0 +1,70 @@
+<h1 style="margin-bottom: 0">Alunos Renovados no Ano Letivo</h1>
+<h1 id="h1-renewed-students"><%= @academic.name %></h1>
+
+<div class="container-65">
+<!-- Select para modificar sobre qual ano letivo será visto os alunos renovados -->
+    <%= select("school_year", "school_year_id", Academic::SchoolYear.all.collect{|p| [p.name, p.id]}, { include_blank: true }, id: "renewed_students_school_year_select") %>
+    <div class="flex-end">
+        <%= link_to "Gerar Planilha", alunos_renovados_path(school_year_id: @academic.id, format: :xlsx), class: 'generate-button', id: "generate_xlsx_renewed_students" %>
+        <%= link_to 'Voltar', students_path, class: 'generate-button' %>
+    </div>
+</div>
+
+
+<!-- Link para as páginas do estudante que foram Renovados no ano letivo de pesquisa -->
+<div id="div-link-renewed-students">
+    <p id="p-renewed-students">Há <%= @renewed_students.length %> aluno(s) renovado(s) no período letivo <%= @academic.name %>.</p>
+    <% @renewed_students.each do |student| %>
+        <!-- <%= link_to student.name, student %> -->
+        <div class="card">
+
+          <div class="card-action">
+            <%= link_to student, :class => 'card-link' do %>
+                <div class="action-photo">
+                  <% if student.photo.present? %>
+                    <%= image_tag student.photo.small.url, :class => 'student-photo' %>
+                  <% else %>
+                    <div class="student-photo students-icone-panel icon"></div>
+                  <% end %>
+                </div>
+            <% end %>
+          </div>
+
+          <div class="card-content">
+              <%= link_to student, :class => 'card-link' do %>
+            <div class="titles">
+                <%= student.name %> 
+            </div>
+              <div class="grid discipline">
+                  <div class="field-info">
+                    <p>Matrícula:</p>
+                    <%= student.registration_number %>
+                  </div>
+
+                  <div class="field-info">
+                    <p>Sexo:</p>
+                    <%= pretty_sex(student.sex) %>
+                  </div>
+
+                  <div class="field-info">
+                    <p>Responsável:</p>
+                    <%= student.responsible_name %>
+                  </div>
+
+                  <div class="field-info">
+                    <p>Telefone Responsável:</p>
+                    <%= student.responsible_phone %>
+                    
+                  </div>
+
+                  <div class="field-info">
+                    <p>Idade:</p>
+                    <%= age(student.birthdate) %> ano(s) e <%= months_of_age(student.birthdate)%> mes(es)
+                  </div>
+
+              </div>
+            <%end%>
+          </div>
+        </div>
+    <% end %>
+</div>

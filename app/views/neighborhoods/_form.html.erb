@@ -1,0 +1,38 @@
+<%= form_with(model: @neighborhood, local: true, class: 'container-85') do |f| %>
+    <% if @neighborhood.errors.any? %>
+    <script>
+        $(document).ready(function(){
+          swal("<h2>"+"<%= pluralize(@neighborhood.errors.count, "erro") %> proibiu de salvar esta instituição:"
+          +"</h2><ul>"+"<% @neighborhood.errors.full_messages.each do |message| %>"
+          +"<li>"+"<%= message %>"+"</li>"+"<% end %>"+"</ul>","","");
+        });
+    </script>
+  <% end %>
+
+  <div class="card">
+    <div class="card-show-container">
+      <div class="grid-2-columns grid">
+        <div class="field-info">
+          <p>Estado:</p>
+          <%= f.select :state_id, state_options, { include_blank: true }, id: :neighborhood_state_id %>
+        </div>
+
+        <div class="field-info">
+          <p>Cidade:</p>
+          <%= f.select :city_id, ["Escolha uma Cidade"], {}, id: :neighborhood_city_id %>
+        </div>
+
+        <div class="field-info">
+          <p>Nome:</p>
+          <%= f.text_field :name %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="line-buttons" style="display: block;">
+    <%= link_to 'Voltar', neighborhoods_path, class: 'generate-button', style: 'display: inline;' %>
+    <%= f.submit 'Salvar Bairro', class: 'generate-button', style: 'display: inline;' %>
+  </div>
+
+<% end %>

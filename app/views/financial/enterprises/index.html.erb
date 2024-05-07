@@ -1,0 +1,47 @@
+<% if (notice) %>
+  <script>
+      $(document).ready(function(){
+        swal("<%= notice if notice != "You are not authorized to access this page"%>","","");
+      });
+  </script>
+<% end %>
+
+<h1>Empresas</h1>
+<% if (@enterprises.any?) %>
+  <div class="table">
+    <%= link_to 'Nova empresa', new_enterprise_path, class:'button-new' %>
+    
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @enterprises.each do |enterprise| %>
+          <tr>
+            <td><div class="linkable"><%= enterprise.name %></div></td>
+            <td><div class="linkable"><%= translate_status(enterprise.status) %></div></td>
+            <td><div class="linkable">
+              <%= link_to 'Editar', edit_enterprise_path(enterprise), class:"green-action-button action-button" %>
+              <%= link_to 'Excluir', enterprise_path(enterprise), method: :delete, data: { confirm: 'Excluir empresa?' }, class:"red-action-button action-button" %>
+            </div></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= link_to cash_book_path, class:'button-back' do %>
+    <div class='icon-back'></div>
+    <% end %>
+  </div>
+  <%= paginacao(@enterprises) %>
+<% else %>
+  <p>Não há empresas a serem exibidas.</p>
+  <%= link_to 'Nova empresa', new_enterprise_path, class:'button-new' %>
+  <%= link_to cash_book_path, class:'button-back' do %>
+    <div class='icon-back'></div>
+    <% end %>
+<% end %>

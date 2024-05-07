@@ -1,0 +1,61 @@
+def remove_repeat_student inscriptions
+    id = 0
+    array =[]
+        inscriptions.each do |inscription|
+        if inscription.student_id != id
+            array.push(inscription)
+            id = inscription.student_id
+        end
+        end
+    array
+end
+
+wb = xlsx_package.workbook
+wb.styles do |s|
+    global = s.add_style(border: {style: :thin, color: "000000"},:alignment => {:horizontal => :center, :vertical => :center})
+    h1 = s.add_style({b: true, border: {style: :medium, color: "000000"},:alignment => {:horizontal => :center, :vertical => :center} } )
+    h2 = s.add_style({b: true, border: {style: :thin, color: "000000"}} )
+    title = s.add_style fg_color: "3333ee" , b: true, sz: 15 , :alignment => {:horizontal => :center, :vertical => :center, :wrap_text => true}
+        
+    th = s.add_style({b: true, fg_color: "FFFFFF", bg_color: "2a6099", border: {style: :thin, color: "000000"}, :alignment => {:horizontal => :center, :vertical => :center, :wrap_text => true} })
+    wb.add_worksheet(name: "sport monitoring") do |sheet|
+        sheet.merge_cells "A1:N1"
+        sheet.merge_cells "A2:N2"
+        sheet.merge_cells "A3:N3"
+        sheet.merge_cells "A4:N4"
+        sheet.add_row ["RELAÇÃO DE DIRETAMENTE BENEFICIADOS - Alunos"], style: title
+        sheet.add_row [""], :height => 5,style: global
+        sheet.add_row ["NOME DO PROJETO: Ano VII - Projeto Grael  - Ventos de Cidadania"], style: h2
+        sheet.add_row ["PROPONENTE: Instituto Runo Náutico"], style: h2
+        
+        sheet.add_row ["Nº","nome(ordem alfabetica)", "evento/modalidade","Núcleo", "endereço", "Bairro", "telefone", "idade","Camiseta","Bermuda","Maiô","Sunga","Óculos de Natação","Touca de Natação"],:height => 70, style: th
+        
+       
+        
+        remove_repeat_student(@inscriptions).each_with_index do |inscription, index|
+            student = inscription.student
+            modalidade = if inscription.classroom.professionalized?
+                "PROFISSIONALIZANTE"
+            elsif inscription.classroom.subjects.find_by(name: "Natação Básica").present?
+                "NATAÇÃO"
+            else
+                "VELA"
+            end
+            sheet.add_row [index + 1,student.name,modalidade,"Niterói",student.address, student.neighborhood.name,student.phone,student.age, "", "", "","","",""  ],widths: [:auto,:auto,:auto,:auto,:auto,:auto,:auto,:auto,:auto,:auto,:auto,:auto,:auto,:auto,:auto] ,style: global
+
+        end
+        sheet.column_widths 4
+
+        ########################
+        img = File.expand_path(Rails.root+'app/assets/images/logo_planilha.png' )
+        sheet.add_image(:image_src => img, noMove: true) do |image|
+            image.width = 190
+            image.height = 120
+            image.start_at 0, 0
+        end
+        sheet.rows.first.height =  60
+        sheet.rows.second.height = 60
+
+        ########################
+    end
+end

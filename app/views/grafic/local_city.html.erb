@@ -1,0 +1,12 @@
+<div class="flex-conteiner-monitoring">
+    <div class="title-monitoring">
+      <h1>Porcentagem de alunos por Cidade</h1>
+      <%= link_to 'EXPORTAR PARA EXCEL', student_places_path({}, format: :xlsx), class: "generate-button school-year-monitoring-link"%>
+    </div>
+    <div class="backButtonMonitoring">
+      <a id="back-page" class="edit-button ">Voltar</a>    
+    </div>
+    <div class="card-graphic">
+      <%= column_chart @date,height: "400px", suffix: "%" %>
+    </div>
+</div>

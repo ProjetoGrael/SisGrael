@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <%= wicked_pdf_stylesheet_link_tag "cards-index" %>     
+    <title>Document</title>
+  </head>
+    <body>
+      <h1 style="text-align: center;"><%= @title %></h1>
+        <div>
+          <h2>Informações Básicas</h2>
+          <div class="card-pdf">
+            <div class="titles">
+              <%= dont_print_nil(@service_sheet.student.name) %>,
+              <% if @service_sheet.student.birthdate != nil %>
+                <%= age(@service_sheet.student.birthdate) %> anos
+              <% else %>
+                <p>-</p>
+              <% end %>
+            </div>
+            <div class="registration-pdf">
+              <div class="field-info-pdf">
+                <p>Data de Nascimento: </p>
+                <%= @service_sheet.student.birthdate.strftime("%d/%m/%Y") if @service_sheet.student.birthdate.present? %>
+                <%= "-" if !@service_sheet.student.birthdate %>
+              </div>
+              <div class="field-info-pdf">
+                <p>Sexo:</p>
+                <%= pretty_sex(@service_sheet.student.sex) if @service_sheet.student.sex.present? %>
+                <%= "-" if !@service_sheet.student.sex.present? %>
+              </div>
+              <div class="field-info-pdf">
+                <p>Etnia:</p>
+                <%= dont_print_nil(@service_sheet.student.ethnicity) %>
+              </div>
+              <div class="field-info-pdf">
+                <p>Nacionalidade:</p>
+                <%= dont_print_nil(@service_sheet.student.nationality) %>
+              </div>
+            </div>
+            <div class="discipline-pdf" style="padding: 0 0 20px 0">
+              <div class="field-info-pdf">
+                <p>RG:</p>
+                <%= dont_print_nil(@service_sheet.student.rg) %>
+              </div>
+              <div class="field-info-pdf">
+                <p>Órgão Expedidor:</p>
+                <%= dont_print_nil(@service_sheet.student.issuing_agency) %>
+              </div>
+              <div class="field-info-pdf">
+                <p>Data de Emissão:</p>
+                <%= dont_print_nil(pretty_date(@service_sheet.student.issuing_date)) %>
+              </div>
+              <div class="field-info-pdf">
+                <p>CPF:</p>
+                <%= dont_print_nil(@service_sheet.student.cpf) %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-pdf">
+          <p class="title-card-show-container" style="margin: 10px 10px; font-weight: bold">
+            <span>1</span>Informações do Perfil
+          </p>
+          <div class="grid">
+            <div class="field-info-pdf">
+              <p>Estado:</p>
+              <%= dont_print_nil(@service_sheet.student.state.name) %>
+            </div>
+            <div class="field-info-pdf">
+              <p>Cidade:</p>
+              <%= dont_print_nil(@service_sheet.student.city.name) %>
+            </div>
+            <div class="field-info-pdf">    
+              <p>Bairro:</p>
+              <%= dont_print_nil(@service_sheet.student.neighborhood.name) %>
+            </div>
+            <div class="field-info-pdf">
+              <p>Nome da Escola que frequenta:</p>
+              <%= dont_print_nil(@service_sheet.student.school.name) %>
+            </div>
+            <div class="field-info-pdf">
+              <p>Faz uso de algum medicamento:</p>
+              <%= dont_print_nil(@service_sheet.student.medication) %>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-pdf">
+          <p class="title-card-show-container" style="margin: 10px 10px; font-weight: bold">
+            <span>2</span>Identificação
+          </p>
+          <div class="grid">
+            <div class="field-info-pdf">
+              <p>Tempo de permanência neste endereço:</p>
+              <%= dont_print_nil(@service_sheet.dwell_time_address) %>
+            </div>
+            <div class="field-info-pdf">
+              <p>Estado civil:</p>
+              <%= dont_print_nil(@service_sheet.marital_status) %>
+            </div>
+            <div class="field-info-pdf">
+              <p>Possui Deficiência?:</p>
+              <%= dont_print_nil(pretty_bool_service_sheet(@service_sheet.disabled_person)) %>
+            </div>
+            <div class="field-info-pdf">
+              <p>Possui Documentação?:</p>
+              <%= dont_print_nil(pretty_bool_service_sheet(@service_sheet.has_documentation)) %>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-pdf alwaysbreak">
+          <p class="title-card-show-container" style="margin: 10px 10px; font-weight: bold">
+            <span>3</span>Filiação
+          </p>
+          <div class="grid">
+            <div class="field-info-pdf">
+              <p>Pai:</p>
+              <%= dont_print_nil(@service_sheet.father) %>
+            </div>
+            <div class="field-info-pdf">
+              <p>Mãe:</p>
+              <%= dont_print_nil(@service_sheet.mother) %>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-pdf">
+            <p class="title-card-show-container" style="margin: 10px 10px; font-weight: bold"><span>4</span>Composição Familiar</p>
+            <div class="grid">
+            <table style="width: 100%; text-align: left; margin: 20px 20px">
+              <thead>
+                <tr>
+                  <th style="width: 30%">Nome</th>
+                  <th style="width: 25%">Escolaridade</th>
+                  <th style="width: 10%">Idade</th>
+                  <th style="width: 15%">Ocupação</th>
+                  <th style="width: 10%">Renda</th>
+                </tr>
+              </thead>
+            
+              <tbody>
+                <% @service_sheet.student.family_members.each do |fm| %>
+                  <tr>
+                    <td><%= fm.name %></td>
+                    <td><%= fm.scholarity %></td>
+                    <td><%= fm.age %></td>
+                    <td><%= fm.occupation %></td>
+                    <td><%= fm.income %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+            <div class="field-info-pdf">
+                <p>Quantidade de Familiares:</p>
+                <%= dont_print_nil(@service_sheet.student.family_members.length) %>
+            </div>
+            <div class="field-info-pdf">
+            <p>Renda Familiar Total:</p>
+                <% t_income = 0.0 %>
+                <% @service_sheet.student.family_members.each{|fm| t_income += fm.income} %>
+                <%= t_income %>
+            </div>
+            <div class="field-info-pdf">
+                <p>Renda Familiar Média</p>
+                <%= t_income / @service_sheet.student.family_members.length if @service_sheet.student.family_members.length != 0 %>
+                <%= "0.0" if @service_sheet.student.family_members.length == 0 %>
+            </div>
+        </div>
+        </div>
+
+         <div class="card-pdf">
+            <p class="title-card-show-container" style="margin: 10px 10px; font-weight: bold"><span>5</span>Programas assistenciais do aluno</p>
+            <div class="grid">
+            <table style="width: 80%; text-align: left; margin: 20px 20px">
+            <thead>
+                <tr>
+                    <th style="width: 50%">Nome do Programa</th>
+                    <th style="width: 30%">Valor Recebido</th>
+                </tr>
+            </thead>
+        
+            <tbody>
+                <% @service_sheet.student.program_aids.each do |pa| %>
+                    <tr>
+                        <td><%= pa.assistance_program.name %></td>
+                        <td><%= pa.value %></td>
+                    </tr>
+                <% end %>
+            </tbody>
+            </table>
+            <div class="field-info-pdf">
+                <p>Quantidade de programas:</p>
+                <%= dont_print_nil(@service_sheet.student.program_aids.length) %>
+            </div>
+            <div class="field-info-pdf">
+                <p>Valor Total:</p>
+                <% total_value_program_aids = 0.0 %>
+                <% @service_sheet.student.program_aids.each do |pa| %>
+                    <% total_value_program_aids += pa.value %>
+                <% end %>
+                <%= total_value_program_aids %>
+            </div>
+            <div class="field-info-pdf">
+                <p>Trabalha Atualmente?:</p>
+                <%= dont_print_nil(pretty_bool_service_sheet(@service_sheet.current_working)) %>
+            </div>
+            <div class="field-info-pdf">
+                <p>Quanto ganha?:</p>
+                <%= dont_print_nil(@service_sheet.salary) %>
+            </div>
+            <div class="field-info-pdf">
+                <p>Qual sua situação de trabalho?:</p>
+                <%= dont_print_nil(@service_sheet.working_situation) %>
+            </div>
+            <div class="field-info-pdf">
+                <p>Outra situação de Trabalho:</p>
+                <%= dont_print_nil(@service_sheet.working_situation_other) %>
+            </div>
+            <div class="field-info-pdf">
+                <p>Recebe algum tipo de benefício?:</p>
+                <%= dont_print_nil(pretty_bool_service_sheet(@service_sheet.receives_benefit)) %>
+            </div>
+            <div class="field-info-pdf">
+                <p>Qual tipo de benefício?:</p>
+                <%= dont_print_nil(@service_sheet.receives_benefit_wich) %>
+            </div>
+        </div>
+        </div>
+
+         <div class="card-pdf alwaysbreak">
+            <p class="title-card-show-container" style="margin: 10px 10px; font-weight: bold"><span>6</span>Despesas</p>
+            <div class="grid">
+            <table style="width: 50%; text-align: left; margin: 20px 20px">
+                <thead>
+                    <tr>
+                        <th style="width: 35%;">Nome</th>
+                        <th style="width: 15%;">Valor</th>
+                    </tr>
+                </thead>       
+                
+                <tbody>
+                    <% @service_sheet.student.expenses.each do |expense| %>
+                            <tr>
+                                <td><%= expense.name %></td>
+                                <td><%= expense.value %></td>
+                            </tr>
+                    <% end %>
+                </tbody>
+            </table>
+        </div>
+        </div>
+
+         <div class="card-pdf">
+            <p class="title-card-show-container" style="margin: 10px 10px; font-weight: bold"><span>7</span>Situação Habitacional</p>
+            <div class="grid">
+                <div class="field-info-pdf">
+                    <p>Há quanto tempo reside nesta cidade?:</p>
+                    <%= dont_print_nil(@service_sheet.dwell_time_city) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p>Cidade anterior:</p>
+                    <%= dont_print_nil(@service_sheet.previously_resided_city) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p>Estado da residencia:</p>
+                    <%= dont_print_nil(@service_sheet.residence_status) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p>Explique sobre o estado de sua residencia:</p>
+                    <%= dont_print_nil(@service_sheet.residence_status_text) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p>Tipo de residencia:</p>
+                    <%= dont_print_nil(@service_sheet.kind_of_residence) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p>Explique sobre o tipo de residencia:</p>
+                    <%= dont_print_nil(@service_sheet.kind_of_residence_text) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p>Número de cômodos na casa:</p>
+                    <%= dont_print_nil(@service_sheet.room_number) %>
+                </div>
+            </div>
+        </div>
+
+         <div class="card-pdf">
+            <p class="title-card-show-container" style="margin: 10px 10px; font-weight: bold"><span>8</span>Saúde</p>
+            <div class="grid">
+                <div class="field-info-pdf">
+                    <p>Medicação:</p>
+                    <%= dont_print_nil(pretty_bool_service_sheet(@service_sheet.medication)) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p>Sobre medicação:</p>
+                    <%= dont_print_nil(@service_sheet.medication_text) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p>Tratamento psiquiátrico:</p>
+                    <%= dont_print_nil(pretty_bool_service_sheet(@service_sheet.psychiatric_treatment)) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p>Aonde foi feito o tratamento psiquiátrico?:</p>
+                    <%= dont_print_nil(@service_sheet.psychiatric_treatment_where) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p>Deficiência na família:</p>
+                    <%= dont_print_nil(pretty_bool_service_sheet(@service_sheet.deficiency_in_family)) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p>Texto sobre deficiência na família:</p>
+                    <%= dont_print_nil(@service_sheet.deficiency_in_family_text) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p>Possui plano de saúde?:</p>
+                    <%= dont_print_nil(@service_sheet.health_more_info) %>
+                </div>
+        </div>
+        </div>
+
+         <div class="card-pdf">
+            <p class="title-card-show-container" style="margin: 10px 10px; font-weight: bold"><span>9</span>Medidas Protetivas</p>
+            <div class="grid">
+                <div class="field-info-pdf">
+                    <p>Sob medida de proteção?:</p>
+                    <%= dont_print_nil(pretty_bool_service_sheet(@service_sheet.protective_measures)) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p>Explique sobre a medida de proteção:</p>
+                    <%= dont_print_nil(@service_sheet.protective_measures_text) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p>Cumpre ou já cumpriu medidas sócio-educativas?:</p>
+                    <%= dont_print_nil(pretty_bool_service_sheet(@service_sheet.socio_educational_measure)) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p>Explique sobre as medidas sócio-educativas:</p>
+                    <%= dont_print_nil(@service_sheet.socio_educational_measure_text) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p>Quando cumpriu medidas sócio-educativas?:</p>
+                    <%= dont_print_nil(@service_sheet.socio_educational_measure_when) %>
+                </div>
+        </div>
+        </div>
+
+         <div class="card-pdf">
+            <p class="title-card-show-container" style="margin: 10px 10px; font-weight: bold"><span>10</span>Observações</p>
+            <div class="grid">
+                <div class="field-info-pdf">
+                    <p>Notas:</p>
+                    <%= dont_print_nil(@service_sheet.notes) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p>Referências:</p>
+                    <%= dont_print_nil(@service_sheet.referrals) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p>Técnico responsável:</p>
+                    <%= dont_print_nil(@service_sheet.responsible_technician) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p>Renda per capta:</p>
+                    <%= dont_print_nil(@service_sheet.per_capta_income) %>
+                </div>
+                <div class="field-info-pdf">
+                    <p>Renda Familiar Total:</p>
+                    <%= dont_print_nil(@service_sheet.total_income) %>
+                </div>
+        </div>
+        </div>
+      
+    </body>
+</html>

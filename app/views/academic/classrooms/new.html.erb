@@ -1,0 +1,5 @@
+<h1>Nova Turma</h1>
+
+<%= link_to 'Voltar', school_year_classrooms_path(@classroom.school_year || params[:school_year_id]), class: 'generate-button', style: 'display: inline;' %>
+
+<%= render 'form', classroom: @classroom %>

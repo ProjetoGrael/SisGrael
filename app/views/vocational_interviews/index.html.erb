@@ -1,0 +1,81 @@
+<p id="notice"><%= notice if notice != "You are not authorized to access this page"%></p>
+
+<h1 style="margin-bottom: 0;">Entrevistas Profissionalizantes</h1>
+
+<div class="container-65">
+  <div class="flex-end" style="margin-bottom: 40px;">
+    <%= link_to 'Voltar', social_service_index_path, class: 'generate-button' %>
+  </div>
+</div>
+
+<% @vocational_interviews.each do |vi| %>
+  <div class="card">
+    <div class="card-action">
+      <%= link_to student_vocational_interview_path(student_id: vi.student.id, id: 1), :class => 'card-link' do %>
+        <div class="action-photo">
+          <% if vi.student.photo.present? %>
+            <%= image_tag vi.student.photo.small.url, :class => 'student-photo' %>
+          <% else %>
+            <div class="student-photo students-icone-panel icon"></div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+    <div class="card-content">
+      <div class="titles">
+        <%= link_to student_vocational_interview_path(student_id: vi.student.id, id: 1), :class => 'card-link' do %>
+          <%= age(vi.student.birthdate) %>
+          <%= vi.student.name %>
+        <% end %>
+      </div>
+
+      <%= link_to student_vocational_interview_path(student_id: vi.student.id, id: 1), :class => 'card-link' do %>      
+        <div class="grid registration">
+          <div class="field-info">
+            <p>Data de Nascimento:</p>
+            <%= vi.student.birthdate.strftime("%d/%m/%Y") if vi.student.birthdate.present?%>
+          </div>
+
+          <div class="field-info">
+            <p>Sexo:</p>
+            <%= pretty_sex(vi.student.sex) if vi.student.sex.present? %>
+          </div>
+
+          <div class="field-info">
+            <p>Etnia:</p>
+            <%= vi.student.ethnicity %>
+          </div>
+            
+          <div class="field-info">
+            <p>Nacionalidade:</p>
+            <%= vi.student.nationality %>
+          </div>
+        </div>
+      <% end %>
+
+      <%= link_to student_vocational_interview_path(student_id: vi.student.id, id: 1), :class => 'card-link' do %>
+        <div class="grid discipline">
+          <div class="field-info">
+            <p>RG:</p>
+            <%= vi.student.rg %>
+          </div>
+          
+          <div class="field-info">
+            <p>Órgão Expedidor:</p>
+            <%= vi.student.issuing_agency %>
+          </div>
+          
+          <div class="field-info">
+            <p>Data de Emissão:</p>
+            <%= pretty_date(vi.student.issuing_date) %>
+          </div>
+          
+          <div class="field-info">
+            <p>CPF:</p>
+            <%= vi.student.cpf %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

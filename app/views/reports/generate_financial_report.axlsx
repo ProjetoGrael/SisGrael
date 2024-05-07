@@ -1,0 +1,49 @@
+def display_account(account)
+  account.bank + ' | ' + account.agency + '-' + account.number
+end
+wb = xlsx_package.workbook
+wb.styles do |s|
+
+#################
+
+  title = s.add_style alignment: {horizontal: :center}, fg_color: "fafafa", bg_color: "333333"
+  normal = s.add_style alignment: {horizontal: :center},:border => { :style => :thin, :color => "333333" }
+
+  wb.add_worksheet(name: "reports") do |sheet|
+    if  (@records.any?) 
+      if @kind == 'transaction_category'
+        sheet.add_row ["Data", "Pagador","Recebedor", "Conta", "Descrição", "Valor"], style: title
+
+      elsif @kind == 'account'
+        sheet.add_row ["Data", "Pagador","Recebedor", "Natureza", "Descrição", "Valor"], style: title
+
+      else
+        sheet.add_row ["Data", "Pagador","Recebedor", "Conta", "Natureza", "Descrição", "Valor"], style: title
+      end
+
+      @records.each do |transaction|
+        if @kind == 'transaction_category'
+          sheet.add_row [ transaction.transaction_date.strftime("%d/%m/%y"), transaction.payer.name, transaction.receiver.name, display_account(transaction.account), transaction.description, number_to_currency( transaction.value, unit: 'R$', separator: ',', delimiter: '.')], style: normal
+
+        elsif @kind == 'account'
+          sheet.add_row [ transaction.transaction_date.strftime("%d/%m/%y"), transaction.payer.name, transaction.receiver.name, transaction.transaction_category.description, transaction.description, number_to_currency( transaction.value, unit: 'R$', separator: ',', delimiter: '.')], style: normal
+
+        else
+          sheet.add_row [ transaction.transaction_date.strftime("%d/%m/%y"), transaction.payer.name, transaction.receiver.name, display_account(transaction.account), transaction.transaction_category.description, transaction.description, number_to_currency( transaction.value, unit: 'R$', separator: ',', delimiter: '.')], style: normal
+
+        end        
+      end
+      sheet.add_row []
+      sheet.add_row ["Saldo: "+(number_to_currency @current_value, unit: 'R$', separator: ',', delimiter: '.')]
+
+    else
+      sheet.add_row ["Não há transações a serem exibidas."]
+    end
+
+
+    if @kind != 'transaction_category' and @kind != 'account'
+      sheet.column_widths 10, 20, 20, 20, 20, 20, 20, 20, 20, 20
+    end
+
+   end
+end

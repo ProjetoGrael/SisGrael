@@ -1,0 +1,239 @@
+wb = xlsx_package.workbook
+
+#Pegando os alunos que não são evadidos, nem desistentes
+@active_students = Student.where('status != ?', 2).where('status != ?', 5)
+
+def function_count_students_with_vocational_interview
+    count = 0
+    @active_students.each do |student|
+        if student.vocational_interview != nil
+            count += 1
+        end
+    end
+    return count
+end
+
+def function_count_students_with_service_sheet
+    count = 0
+    @active_students.each do |student|
+        if student.service_sheet != nil
+            count += 1
+        end
+    end
+    return count
+end
+
+@count_students_with_vocational_interview = function_count_students_with_vocational_interview
+@count_students_with_service_sheet = function_count_students_with_service_sheet
+
+def per_cent_beneficiary_assistencial_programs
+    count = 0
+    
+    #Descobrindo os alunos que não são evadidos e nem desistentes
+    students_active = @active_students
+    
+    #Se o aluno tiver algum programa assistencial, adiciona na contagem.
+    students_active.each do |student|
+        if student.assistance_programs.any?
+            count += 1
+        end
+    end
+
+    #Validação para não fazer a divisão por 0
+    if @count_students_with_service_sheet != 0
+        return ((Float(count) / @count_students_with_service_sheet) * 100)
+    else
+        return 0
+    end
+end
+
+# type = 0 - Transporte Público
+# type = 1 - Transporte Particular
+# type = 2 - Transporte Privado
+def per_cent_transportation_to_project(type)
+    count = 0
+    
+    #Descobrindo os alunos que não são evadidos e nem desistentes
+    students_active = @active_students
+
+    students_active.each do |student|
+        if student.vocational_interview != nil
+            if type == 0
+                if student.vocational_interview.project_access == "Transporte público"
+                    count += 1
+                end
+            end
+            if type == 1
+                if student.vocational_interview.project_access == "Transporte particular"
+                    count += 1        
+                end
+            end
+            if type == 2
+                if student.vocational_interview.project_access == "Transporte privado"
+                    count += 1
+                end
+            end
+        end
+    end
+
+    #Validação para não fazer a divisão por 0
+    if @count_students_with_vocational_interview != 0
+        return ((Float(count) / @count_students_with_vocational_interview) * 100)
+    else
+        return 0
+    end
+end
+
+def per_cent_motivation(motivation)
+    count = 0
+    
+    #Descobrindo os alunos que não são evadidos e nem desistentes
+    students_active = @active_students
+
+    students_active.each do |student|
+        if student.vocational_interview != nil
+            if student.vocational_interview.motivation == motivation
+                count += 1
+            end
+        end
+    end
+
+    #Validação para não fazer a divisão por 0
+    if @count_students_with_vocational_interview != 0
+        return ((Float(count) / @count_students_with_vocational_interview) * 100)
+    else
+        return 0
+    end
+end
+
+def per_cent_students_working
+    count = 0
+    
+    #Descobrindo os alunos que não são evadidos e nem desistentes
+    students_active = @active_students
+
+    students_active.each do |student|
+        if student.service_sheet != nil
+            if student.service_sheet.current_working == true
+                count += 1
+            end  
+        end
+    end
+
+    #Validação para não fazer a divisão por 0
+    if @count_students_with_service_sheet != 0
+        return ((Float(count) / @count_students_with_service_sheet) * 100)
+    else
+        return 0
+    end
+end
+
+def per_cent_students_have_income
+    count = 0
+    
+    #Descobrindo os alunos que não são evadidos e nem desistentes
+    students_active = @active_students
+
+    students_active.each do |student|
+        if student.vocational_interview != nil
+            if(student.vocational_interview.have_income == true)
+                count += 1
+            end  
+        end
+    end
+
+    #Validação para não fazer a divisão por 0
+    if @count_students_with_vocational_interview != 0
+        return ((Float(count) / @count_students_with_vocational_interview) * 100)
+    else
+        return 0
+    end
+end
+
+def average_all_family_income
+    sum = 0
+    count_students = 0
+
+    Student.all.each do |student|
+        if student.service_sheet != nil
+
+            count_students += 1
+
+            total_income = 0.0
+            student.family_members.each do |fm|
+                if fm.income != nil
+                    total_income += fm.income
+                end
+            end
+
+            #adicionando o rendimento do estudante
+            if student.service_sheet != nil
+                if student.service_sheet.salary != nil   
+                    total_income += salary
+                end
+            end
+
+            #Soma um por causa do próprio aluno
+            mean = total_income / (student.family_members.length + 1)
+
+            sum += mean
+        end
+    end
+
+    #Validação para não dividir por 0
+    if count_students != 0
+        return (Float(sum) / count_students).round(2)
+    else 
+        return 0
+    end
+end
+wb.styles do |s|
+    wb.add_worksheet(name: "social service monitoring") do |sheet|
+    
+     ##################################################
+        title = s.add_style fg_color: "3333ee" , b: true, sz: 15 , :alignment => {:horizontal => :center, :vertical => :center, :wrap_text => true}
+        sub_title = s.add_style fg_color: "3333ee" ,  sz: 15 , :alignment => {:horizontal => :center, :vertical => :center, :wrap_text => true}
+        yellow_line = s.add_style bg_color: "ffff00" ,:alignment => {:horizontal => :center, :vertical => :center, :wrap_text => true}
+        th = s.add_style bg_color: "2972a4", fg_color: "fafafa" , :alignment => {:horizontal => :center, :vertical => :center, :wrap_text => true}, b: true, sz: 12
+        
+        sheet.add_row ["","RELATÓRIO DE MONITORAMENTO",'','','','','',''], style: title
+        sheet.add_row ["", "Relatório de Serviço Social ", "","","","","",""], style: sub_title
+        sheet.add_row [''],  height: 5
+        ###################################  
+     
+    sheet.add_row ["% Alunos beneficiários de programas sociais", per_cent_beneficiary_assistencial_programs]
+    sheet.add_row ["% Alunos se locomovem para o projeto por meio de transporte público", per_cent_transportation_to_project(0)]
+    sheet.add_row ["% Alunos se locomovem para o projeto por meio de transporte particular", per_cent_transportation_to_project(1)]
+    sheet.add_row ["% Alunos se locomovem para o projeto por meio de transporte privado", per_cent_transportation_to_project(2)]
+    sheet.add_row []
+
+    sheet.add_row ['% de Alunos que escolheram o projeto Grael por Escolhas Pessoais', per_cent_motivation('Escolhas pessoais')]
+    sheet.add_row ['% de Alunos que escolheram o projeto Grael por Disponibilidade de vaga no mercado de trabalho', per_cent_motivation('Disponibilidade de vaga no mercado de trabalho')]
+    sheet.add_row ['% de Alunos que escolheram o projeto Grael por Esporte', per_cent_motivation('Esporte')]
+    sheet.add_row ['% de Alunos que escolheram o projeto Grael por Influência de familiares/terceiros', per_cent_motivation('Influência de familiares/terceiros')]
+    sheet.add_row ['% de Alunos que escolheram o projeto Grael por Outra Motivação', per_cent_motivation('Outra motivação')]
+    sheet.add_row []
+
+    sheet.add_row ['% Alunos que possuem Atividade remunerada/renda', per_cent_students_have_income]
+    sheet.add_row ['Renda Familiar média geral (TODOS os alunos)', 'R$ ' + average_all_family_income.to_s]
+    sheet.add_row ['% Alunos que estão trabalhando', per_cent_students_working]
+    sheet.add_row ['% Alunos que não estão trabalhando', 100 - per_cent_students_working]
+    sheet.add_row []
+    ##################################################################
+        img = File.expand_path(Rails.root+'app/assets/images/logo_planilha.png' )
+        sheet.add_image(:image_src => img, noMove: true) do |image|
+            image.width = 190
+            image.height = 120
+            image.start_at 0, 0
+        end
+        sheet.merge_cells sheet.rows.first.cells[(1..6)]
+        sheet.merge_cells sheet.rows.second.cells[(1..6)]
+        sheet.rows.first.height =  60
+        sheet.rows.second.height =  60
+        sheet.rows[2].height =  5
+        sheet.rows[3].height = 40
+        sheet.column_widths 55, 20, 20, 20, 20, 20,20, 20, 20, 20, 20, 20,20, 20, 20, 20, 20, 20,20, 20, 20, 20, 20, 20,20, 20, 20, 20, 20, 20
+        ######################
+    
+end
+end

@@ -1,0 +1,43 @@
+<h1>Alunos faltantes</h1>
+
+<% if @absents.present? %>
+    <div class="absences-content">
+    <% @absents.each do |absent| %>
+
+        <div class="card-absence" id="card_absence_reports_<%= absent[:subject_history_id] %>">
+
+            <div class="card-content">
+                    <%= link_to absence_report_path(absent[:student_id]), :class => 'card-link' do %>
+                        <div class="titles">    
+                            <%= absent[:student] %>
+                        </div>
+                    <% end %>
+
+                <% absent.each do |key, value| %>
+                    
+                    <% unless key == :mobile_phone || key == :email || key == :student || key == :student_id || key == :subject || key == :subject_history_id %>
+
+                    <%= link_to absence_report_path(absent[:student_id]), :class => 'card-link' do %>
+
+                        <div class="absence-content">
+                            <div class="absence-info">
+                                <p><%= pretty_key(key) %></p>
+                                <%= absent[key].present? ? absent[key] : "Sem registro" %>
+                            </div>
+                        </div>
+
+                    <% end %>
+
+                    <% end %>
+                    
+                <% end %>
+            </div>
+
+        </div>
+        
+    <% end %>
+        </div>
+
+<% else %>
+<h1> Não existem alunos que atendam ao requisito de alunos faltantes no momento. </h1>
+<% end %>

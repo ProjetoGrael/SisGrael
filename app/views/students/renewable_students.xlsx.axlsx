@@ -1,0 +1,52 @@
+wb = xlsx_package.workbook
+
+def print_classroom_subjects(student, school_year)
+    string = ""
+    classrooms = Academic::Classroom.where("school_year_id = ?", school_year.id).joins(:inscriptions).where("student_id = ?", student.id)
+    classrooms.each do |classroom|
+        classroom.classroom_subjects.each do |cs|
+            if string != ""
+                string += ", "
+            end
+            string += cs.subject.name
+        end
+    end
+    return string
+end
+
+def print_classroom(student, school_year)
+    classroom = student.classrooms.find_by(school_year_id: school_year.id)
+    return classroom.fantasy_name
+end
+
+def relation_renewed_evaded(academic, renewed_students)
+    number_renewed = renewed_students.length
+    number_evaded_or_desisted = Academic::Inscription.joins(:classroom).where("school_year_id = ?", academic.id).where(student_status: "evaded").or(Academic::Inscription.joins(:classroom).where("school_year_id = ?", academic.id).where(student_status: "desisted")).length
+    if number_evaded_or_desisted != 0
+        return String((Float(number_renewed) / Float(number_evaded_or_desisted) * 100).round) + "%"
+    else 
+        return "0%"
+    end
+end
+
+wb.add_worksheet(name: "Alunos Renovados") do |sheet|
+    sheet.column_widths 55
+
+    sheet.add_row ["Relatório da Secretaria"]
+    sheet.add_row ["Alunos Renovados - " + @academic.name]
+    sheet.add_row ["Nome", "Turma", "Cursos", "Data de Renovação"]
+
+    #Definindo estilos
+    color_red = sheet.styles.add_style(:fg_color => "FF0000")
+
+    @renewed_students.each do |student|
+        if(student.inscriptions.where(classroom: Academic::Classroom.where(school_year: Academic::SchoolYear.current)).where(student_status: "evaded").or(student.inscriptions.where(classroom: Academic::Classroom.where(school_year: Academic::SchoolYear.current)).where(student_status: "desisted")) != [])
+            sheet.add_row [student.name + " - DESISTENTE", print_classroom(student, @academic), print_classroom_subjects(student, @academic), student.inscriptions.joins(:classroom).find_by("school_year_id = ?", @academic.id).renewable_date], :style => [color_red]
+        else
+            sheet.add_row [student.name, print_classroom(student, @academic), print_classroom_subjects(student, @academic), student.inscriptions.joins(:classroom).find_by("school_year_id = ?", @academic.id).renewable_date]
+        end
+    end
+
+    sheet.add_row []
+    sheet.add_row ["Relação Renovados/Evadidos", relation_renewed_evaded(@academic, @renewed_students)]
+end

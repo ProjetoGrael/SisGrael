@@ -1,0 +1,41 @@
+    <h1>Financeiro</h1>
+    <div class="flex-painel">
+      <div>
+        <%= link_to accounts_path do %>
+          <div class="card-painel card-center">
+            <div>     
+              <div class="bank-index icon"></div>
+              <p>Contas</p>
+            </div>
+          </div>
+        <% end %>
+        
+        <%= link_to projects_path do %>
+          <div class="card-painel card-center">
+            <div>
+              <div class="projects-index icon"></div>
+              <p>Projetos</p>      
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <div>
+        <%= link_to cash_book_path do %>
+          <div class="card-painel card-center">
+            <div>       
+              <div class="cash-book-index icon"></div>
+              <p>Livro Caixa</p>      
+            </div>
+          </div>
+        <% end %>
+
+        <%= link_to financial_reports_path do %>
+          <div class="card-painel card-center">
+            <div>       
+              <div class="report-index icon"></div>
+              <p>Relatório</p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>

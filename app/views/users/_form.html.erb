@@ -1,0 +1,80 @@
+<%= form_with(model: user, local: true, class: 'container-85') do |form| %>
+  
+  <% if user.errors.any? %>
+    <script>
+        $(document).ready(function(){
+          swal("
+            <h2>"+
+              "<%= pluralize(user.errors.count, "erro") %> proibiu de salvar este usuário:"+
+            "</h2>"+
+            "<ul>"+
+              "<% user.errors.full_messages.each do |message| %>"+
+              "<li>"+"<%= message %>"+"</li>"+
+              "<% end %>"+
+            "</ul>"
+          ,"","");
+        });
+    </script>
+  <% end %>
+
+  <div class="card">
+    <div class="card-show-container">
+      <div class="grid-1-column grid">
+        <div id="image_field">
+          <%= form.file_field :picture, id: "image_label" %>
+          <label for="image_label">Escolher Imagem</label>
+          <%= form.hidden_field :picture_cache %>
+        </div>
+      </div>
+
+      <div class="grid-2-columns grid">
+        <div class="field-info">
+          <p>Nome:</p>
+          <%= form.text_field :name, id: :user_name %>
+        </div>
+
+        <div class="field-info">
+          <p>Email:</p>
+          <%= form.email_field :email, id: :user_email %>
+        </div>
+
+        <div class="field-info">
+          <p>Tipo:</p>
+          <%= form.select :kind, user_kinds, id: :user_kind %>
+        </div>
+
+        <div class="field-info">
+          <p>Senha:</p>
+          <%= form.password_field :password, id: :user_password %>
+        </div>
+      </div>
+       <div class="grid-1-column grid">
+        <div id="image_field">
+          <%= form.file_field :signature, id: "signature_label" %>
+          <label for="signature_label">Escolher Assinatura</label>
+          <%= form.hidden_field :signature_cache %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="line-buttons" style="display: block;">
+    <%= link_to 'Voltar', users_path, class: 'generate-button', style: 'display: inline;' %>
+    <%= form.submit 'Salvar Usuário', class: 'generate-button', style: 'display: inline;' %>
+  </div>
+
+  <% end %>
+
+
+<script>
+$("[type=file]").on("change", function(){
+  // Name of file and placeholder
+  var file = this.files[0].name;
+  var dflt = $(this).attr("placeholder");
+  if($(this).val()!=""){
+    $(this).next().text(file);
+  } else {
+    $(this).next().text(dflt);
+  }
+});
+</script>

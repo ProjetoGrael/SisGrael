@@ -1,0 +1,9 @@
+<nav class="menu-top">
+  <ul>
+    <li><% if (current_user.admin? && !current_page?(main_index_path) ) %>
+        <%= link_to 'Painel Adm', main_index_path %>
+    <% end %></li>
+    <li><%= link_to 'Perfil', current_user, class: "button-nav" %></li>
+    <li> <%= link_to 'Sair', destroy_user_session_path, method: :delete, class:'button-nav' %></li>
+  </ul>
+</nav>

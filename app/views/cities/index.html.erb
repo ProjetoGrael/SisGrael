@@ -1,0 +1,38 @@
+<h1>Cidades</h1>
+<p><%= notice if notice != "You are not authorized to access this page"%></p>
+
+<% if(@cities.any?) %>
+
+    <div class="container-65">
+      <div class="flex-end">
+        <%= link_to 'Nova Cidade', new_city_path, class:'edit-button' %>
+        <%= link_to 'Voltar', secretary_index_path, class: 'edit-button', style: 'margin-left: 10px;' %>
+      </div>
+    </div>
+        
+    <% @cities.each do |city| %>
+
+          <div class="card">
+            <div class="card-action">
+              <div class="action-buttons">
+                <%= link_to 'Editar', edit_city_path(city), class:"edit-button" %>
+                <%= link_to 'Excluir', city, method: :delete, class:"delete-button" %>
+              </div>
+            </div>
+
+            <div class="card-content">
+              <div class="titles" style="padding: 30px 20px;">
+                <%= city.name %>
+              </div>
+            </div>
+          </div>
+          
+    <% end %>
+      
+    
+
+<% else %>
+  <p>Não há cidades a serem exibidos.</p>
+  <%= link_to 'Nova Cidade', new_city_path, class:'edit-button' %>
+  <%= link_to 'Voltar', secretary_index_path, class: 'edit-button' %>
+<% end %>

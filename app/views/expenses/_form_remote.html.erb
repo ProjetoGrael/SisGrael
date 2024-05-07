@@ -1,0 +1,23 @@
+<%= form_with({:id => 'add-expense-form', :class => "container-modal"}) do |form| %>
+
+  <h1>Adicionar despesa</h1>
+
+  <ul id="expense-errors-ul"></ul>
+
+  <div class="card-show-container">
+    <div class="grid-1-column grid">
+      <div class="field-info">
+        <p>Nome:</p>
+        <%= form.text_field :name, id: "add-expense-name" %>
+      </div>
+
+      <div class="field-info">
+        <p>Valor:</p>
+        <%= form.number_field :value, id: "add-expense-value", :step => :any %>
+      </div>
+    </div>
+  </div>
+
+  <button id="add-expense-button" class="generate-button">Salvar Despesa</button>
+
+<% end %>

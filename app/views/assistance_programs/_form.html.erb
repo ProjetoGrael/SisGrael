@@ -1,0 +1,21 @@
+<%= form_with(model: @program, local: true) do |f| %>
+
+<% if @program.errors.any? %>
+<div id="error_explanation">
+<h2>Alguns erros impediram este programa de ser salvo:</h2>
+
+<ul>
+<% @program.errors.full_messages.each do |message| %>
+<li><%= message %></li>
+<% end %>
+</ul>
+</div>
+<% end %>
+
+  <div class="field">
+    <%= f.label :name, 'Nome' %>
+    <%= f.text_field :name %>
+  </div>
+
+  <%= f.submit "Salvar Programa", class: "button-edit" %>
+<% end %>

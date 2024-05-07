@@ -1,0 +1,47 @@
+<p id="notice"><%= notice if notice != "You are not authorized to access this page"%></p>
+
+
+<h1>Cursos Lecionados por <%= @teacher.name %></h1>
+
+
+    <h2>Atuais Cursos lecionados</h2>
+    
+    <div class='container-65'>
+      <div class='flex-end'>
+        <%= link_to 'Voltar', teacher_panel_path(@teacher), class: 'generate-button' %>
+      </div>
+    </div>
+    <% @current_classroom_subjects.each do |classroom_subject| %>
+          <div class="card">
+            <div class="card-action">
+              <div class="action-buttons">
+                
+                <%= link_to 'Exibir', classroom_subject, :class => 'generate-button' %>
+                <% if can? :update, Academic::ClassroomSubject %>
+                  <%= link_to 'Editar',  edit_subject_path(classroom_subject) , class:"edit-button" %>
+                <% end %>
+              </div>
+            </div>
+
+            <div class="card-content">
+              <div class="titles">               
+                <%= classroom_subject.subject.name %>
+                <div class="button-students">
+                  <%= link_to 'Aulas', classroom_subject_lessons_path(classroom_subject.id, Date.today.year, Date.today.mon), class: 'edit-button' %>
+                </div>
+              </div>
+
+              <div class="grid registration">
+                <div>
+                  <p>Turma:</p>
+                  <%= classroom_subject.classroom.fantasy_name %>
+                </div>
+                <div>
+                  <p>Período Letivo</p>
+                  <%= classroom_subject.classroom.school_year.name %>
+                </div>
+              </div>
+            </div>
+          </div>
+    <% end %>
+

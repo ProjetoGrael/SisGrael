@@ -1,0 +1,41 @@
+<%= form_with({:id => 'add-family-member-form', :class => "container-modal"}) do |form| %>
+
+  <h1>Adicionar membro familiar</h1>
+
+  <ul id="family-errors-ul"></ul>
+
+  <div class="card-show-container">
+    <div class="grid-1-column grid">
+        <div class="field-info">
+          <p>Nome:</p>
+          <%= form.text_field :name, id: "add-member-name" %>
+        </div>
+        <div class="field-info">
+          <p>Ocupação:</p>
+          <%= form.text_field :occupation, id: "add-member-occupation" %>
+        </div>
+
+        <div class="field-info">
+          <p>Escolaridade:</p>
+          <%= form.select :scholarity, scholarity_options, id: :scholarity %>
+        </div>
+    </div>
+    <div class="grid-2-columns grid">
+        
+        <div class="field-info">
+          <p>Idade:</p>
+          <%= form.number_field :age, id: "add-member-age" %>
+        </div>
+
+        <div class="field-info">
+          <p>Renda:</p>
+          <%= form.number_field :income, id: "add-member-income", step: :any %>
+        </div>
+    </div>
+
+
+  </div>
+
+  <button id="add-member-button" class="generate-button">Salvar familiar</button>
+
+<% end %>

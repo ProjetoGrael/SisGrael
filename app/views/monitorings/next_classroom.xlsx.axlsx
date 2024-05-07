@@ -1,0 +1,55 @@
+wb = xlsx_package.workbook
+wb.styles do |s|
+    wb.add_worksheet(name: "proxima-turma") do |sheet|   
+        ##################################################################
+        title = s.add_style fg_color: "3333ee", b: true, sz: 15 , alignment: {horizontal: :center, vertical: :center, wrap_text: true}
+        sub_title = s.add_style fg_color: "3333ee", sz: 15, alignment: {horizontal: :center, vertical: :center, wrap_text: true}
+        yellow_line = s.add_style bg_color: "ffff00", alignment: {horizontal: :center, vertical: :center, wrap_text: true}
+        th = s.add_style bg_color: "2972a4", fg_color: "fafafa", alignment: {horizontal: :center, vertical: :center, wrap_text: true}, b: true, sz: 12
+
+        sheet.add_row ["","RELATÓRIO DE MONITORAMENTO",'','','','','',''], style: title
+        sheet.add_row ["", "Relatório de Próximo Curso",'','','','','',''], style: sub_title
+        sheet.add_row [''],  height: 5
+        ##################################################################
+
+        sheet.column_widths 55
+
+        sheet.add_row [
+            "Nome",
+            "Turma",
+            "Situação",
+            "Instrutor da Disciplina Principal",
+            "Proximo Curso",
+            "Opinião do Concelho"
+        ], style: th
+
+        @inscriptions.joins(:student).order('LOWER(name)').each do |inscription|
+            sheet.add_row [
+                inscription.student.name, 
+                inscription.classroom.fantasy_name,
+                translate_situation(inscription.situation), 
+                teacher_name(inscription.classroom),
+                next_subject_name(inscription), 
+                inscription.counsel_opinion
+            ]
+        end
+        ##################################################################
+        img = File.expand_path(Rails.root + 'app/assets/images/logo_planilha.png')
+        sheet.add_image(:image_src => img, noMove: true) do |image|
+            image.width = 190
+            image.height = 120
+            image.start_at 0, 0
+        end
+
+        sheet.merge_cells sheet.rows.first.cells[(1..6)]
+        sheet.merge_cells sheet.rows.second.cells[(1..6)]
+        sheet.rows.first.height =  60
+        sheet.rows.second.height =  60
+        sheet.rows[2].height =  5
+        sheet.row_style 3, th
+        sheet.row_style 4, th
+        sheet.rows[3].height = 40
+        sheet.column_widths 35, 20, 20, 20, 20, 20,20, 20, 20, 20, 20, 20,20, 20, 20, 20, 20, 20,20, 20, 20, 20, 20, 20,20, 20, 20, 20, 20, 20
+        ##################################################################    
+    end
+end

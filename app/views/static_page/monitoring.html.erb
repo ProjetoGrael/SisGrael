@@ -1,0 +1,44 @@
+<h1>Monitoramento</h1>
+<h4 class="subtitle">Legendas: <span class="subtitle-box red"></span> PDF  <span class="subtitle-box green"></span> .XLSX  <span class="subtitle-box blue"></span> Grafico</h4>
+<div class="flex-monitoring-horizontal">
+  <div class="flex-monitoring.vertical">
+    <div class="card-monitoring">
+      <h2>Por Período Letivo</h2>
+      <%= link_to 'Análise das Disciplinas', grafic_student_school_year_path(), class:"generate-button school-year-monitoring-link grafic-button-color" %>
+      <%= link_to 'Relatório por Aluno', student_grade_path(), class: "generate-button school-year-monitoring-link grafic-button-color"%>
+      <%= link_to 'Presença por Disciplina', per_school_year_concept_grafic_path(), class: "generate-button school-year-monitoring-link grafic-button-color"%>
+      <%= link_to 'Tempo de Permanência', time_stay_grafic_path(), class:"generate-button school-year-monitoring-link grafic-button-color", style: "margin-right: 5px" %>
+      <%= link_to 'Presença por Período Letivo', presence_per_school_year_path(), class:"generate-button school-year-monitoring-link grafic-button-color"%>
+      <%= link_to 'Origem Residencial', local_grafic_path(), class:"grafic-button-color generate-button school-year-monitoring-link "%>
+    </div>
+  </div>
+  <div class="flex-monitoring-vertical">
+    <div class="card-monitoring">
+      <h2>Por alunos</h2>
+      <%= link_to 'Relatório Geral.', student_monitoring_path({},format: :xlsx), class: "generate-button school-year-monitoring-link"%>
+      <%#=link_to 'Relatorio por Tempo de Permanencia', student_individual_monitoring_path({}, format: :xlsx), class: "generate-button school-year-monitoring-link"%>
+    </div>
+    <div class="card-monitoring">
+      <h2>Serviço Social</h2>
+      <%= link_to 'Inserção no Mercado de Trabalho', table_labor_market_insertion_path({}, format: :xlsx), class: "generate-button school-year-monitoring-link"%>
+      <%= link_to 'Estatísticas Serviço Social', monitoring_social_service_path({}, format: :xlsx), class: "generate-button school-year-monitoring-link" %>
+    </div>
+  </div>
+  <div class="flex-monitoring-vertical">
+    <div class="card-monitoring">
+      <h2>Outros Relatórios</h2>
+      <div class="three-button">
+        <%= form_tag(:monitoring_index, method: :get, id: 'form_of_monitoring') do  %>
+          <%= select_tag(:school_year_id, options_from_collection_for_select(Academic::SchoolYear.all, "id", "name", @school_year), onChange: 'change();')%> 
+        <% end %>
+        <%= link_to 'Planilha do conselho', pdf_of_concel_path({}, format: :pdf), class: "pdf-button-color generate-button school-year-monitoring-link", id: "pdf_of_concel_link_in_main_page_monitoring"%>
+        <%= link_to 'Resultados do conselho', school_year_info_path({}, format: :pdf), class: "pdf-button-color generate-button school-year-monitoring-link", id: "school_year_info_link_in_main_page_monitoring"%>
+        <%= link_to 'Próxima turma', generate_next_classroom_path({}, format: :xlsx), class: "generate-button school-year-monitoring-link", id: "school_year_next_subject_id" %>
+      </div>
+      <%= link_to 'Relatório por Conceito e Avaliação', monitoring_instructor_path({}, format: :xlsx), class: "generate-button school-year-monitoring-link" %>
+      <%= link_to 'Relatório Quantitativo de alunos atendidos', monitoring_per_school_year_path({}, format: :xlsx), class: "generate-button school-year-monitoring-link" %>
+      <%= link_to 'Relatório para Ministerio do Esporte', sport_monitoring_path({}, format: :xlsx), class: "generate-button school-year-monitoring-link"%>
+    </div>
+  </div>
+</div>
+</div>

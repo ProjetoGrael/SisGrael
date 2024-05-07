@@ -1,0 +1,40 @@
+/*##########################################################
+
+ #######  #######  #     #  #######   #####  
+ #        #     #  ##    #     #     #     # 
+ #        #     #  # #   #     #     #       
+ #####    #     #  #  #  #     #      #####  
+ #        #     #  #   # #     #           # 
+ #        #     #  #    ##     #     #     # 
+ #        #######  #     #     #      #####   
+*/
+
+@font-face {
+    font-family: Typo-Hoop;
+    font-weight: normal;
+    src: asset-url("Typo-Hoop_Regular_Demo.otf") format("opentype");
+}
+
+@font-face {
+    font-family: Nunito;
+    font-weight: bold;
+    src: asset-url('Nunito-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: Nunito;
+    font-weight: normal;
+    src: asset-url('Nunito-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: Nunito;
+    font-weight: lighter;
+    src: asset-url('Nunito-Light.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: Nunito;
+    font-weight: lighter;
+    src: asset-url('Nunito-SemiBold.ttf') format('truetype');
+}

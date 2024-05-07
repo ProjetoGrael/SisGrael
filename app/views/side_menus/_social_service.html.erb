@@ -1,0 +1,50 @@
+<li>
+  <%= link_to social_service_students_path do %>
+    <div class="students-icone-menu icon-menu"></div>
+    <span>Alunos</span>
+  <% end %>
+</li>
+
+<% if Academic::SchoolYear.current %>
+  <li>
+    <%= link_to school_year_classrooms_path(Academic::SchoolYear.current) do %>
+      <div class="classes-icone-menu icon-menu"></div>
+      <span>Turmas</span>
+    <% end %>
+  </li>
+<% end %>
+
+<li>
+  <%= link_to index_student_service_sheets_path do %>
+  <div class="file-icone-menu icon-menu"></div>
+  <span>Fichas</span>
+  <%end%>
+</li>
+
+<li>
+  <%=link_to index_interview_path(current_user) do %>
+    <div class="assist-icone-menu icon-menu"></div>
+    <span>Entrevistas</span>
+  <% end %> 
+</li>
+
+<li>
+  <%= link_to school_years_path  do %>
+  <div class="calendar-icone-menu icon-menu"></div>
+  <span>Períodos</span>
+  <%end%>
+</li>
+
+<li>
+  <%= link_to page_labor_market_path do %>
+    <div class="report-white-icone-menu icon-menu"></div>
+    <span class="big_span">Inserção no Mercado</span> 
+  <% end %>
+</li>
+<%# Colocar um nome menor ao inves de inserção no mercado %>
+<li>
+  <%= link_to monitoring_index_path do %>
+    <div class="monitoring-icone-panel icon-menu"></div>
+    <span>Monitoramento</span>
+  <% end %> 
+</li>

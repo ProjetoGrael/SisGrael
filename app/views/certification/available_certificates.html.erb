@@ -1,0 +1,22 @@
+<h1>Certificados Disponíveis</h1>
+
+<% @inscriptions_approved.each do |inscription| %>
+
+    <div class="card">
+        <div class="card-content">
+            <div class="titles" style="border-radius: 5px 5px 0 0;">                
+                Turma <%= inscription.classroom.fantasy_name %>
+                <div class="button-students">
+                    <a href=<%= "/alunos/#{@student.id}/gerar-certificado.pdf?inscription=#{inscription.id}" %> class="edit-button">Gerar</a>                
+                </div>
+            </div>
+            <% inscription.classroom.subjects.each do |subject| %>
+                <div class="grid-1-column grid registration certificate-card-line">
+                    <div class="field-info">
+                        <%= subject.name %>
+                    </div>
+                </div>
+            <% end %>
+        </div>
+    </div>
+<% end %>

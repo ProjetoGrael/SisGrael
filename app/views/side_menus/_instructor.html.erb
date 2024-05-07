@@ -1,0 +1,24 @@
+<li>
+    <%= link_to teacher_link do %>
+    <div class="teacher-icone-menu icon-menu"></div>
+    <span>Educador</span>
+    <% end %>
+</li>
+
+<li>
+    <%= link_to teacher_classroom_subjects_link do %>
+    <div class="courses-icone-menu icon-menu"></div>
+    <span>Cursos</span>
+    <% end %>
+</li>
+
+<% if Academic::SchoolYear.current != nil %>
+
+<li>
+    <%= link_to no_class_path(Academic::SchoolYear.current, :current_month) do %>
+    <div class="calendar1-icone-menu icon-menu"></div>
+    <span>Calendário</span>
+    <% end %>
+</li>
+
+<% end %>

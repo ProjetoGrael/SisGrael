@@ -1,0 +1,59 @@
+
+<%= form_with(model: @interview, url: interview_create_path, local: true) do |form|%>
+  <% if @interview.errors.any? %>
+    <div id="error_explanation">
+      <h2>Alguns erros impediram este entrevista de ser salva:</h2>
+      <ul>
+        <% @interview.errors.full_messages.each do |message| %>  
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <input type=hidden id="authenticity_token" value="<%= form_authenticity_token %>">
+
+  <div class="card-interview card-interview-grid">
+    <p class="grid-full" style="margin-bottom: 15px;">Encaminhamento para o Serviço Social</p>
+    <div class="divider grid-half" style="margin-top: 0;"></div>
+    <div class="field-info grid-half">
+        <%= form.autocomplete_field :student_name, autocomplete_student_name_interviews_path, id_element: '#interview_student_id', 'data-noMatchesLabel' => 'Não Encontrado', placeholder: "Digite o nome do aluno" %>
+        <%= form.hidden_field :student_id, id: :interview_student_id %>
+      </div>
+      <div class="field-info grid-half">
+        <%= form.text_area :reason, id: :reason_interview, placeholder: "Observações"%>
+      </div>
+      <div class= "field-info-duo grid-full" style="gap: 15px;">
+        <%= form.select :date_of_interview, options_for_select(interview_date_options), { include_blank: "Escolha a data..." }, id: :date_of_interview_select %>
+        <%= form.select :user_id, options_for_select([]), {include_blank: "Escolha o horário..."}, id: :free_times_schedules %>
+        <%= form.time_field :time_of_interview, id: :time_of_interview, style: 'width: auto;' %>
+        <%= form.select :kind, options_for_select(interview_kinds) %>
+      </div>
+      <div class="field-info-duo grid-full" style='margin-bottom: 0;'>
+        <%= form.submit 'Agendar', class: 'generate-button', style: 'display: inline;' %>
+      </div>
+    <div id="card-student-interview"></div>
+  </div>
+<%end%>
+  
+<div class ="card-interview">
+  <div class="card-show-container">
+    <p>Alunos já agendados</p>
+    <div class="divider"></div>
+    <% @interviews.each do |interview| %>
+      <div class="line-interview">
+        <span><%= interview.student_name%></span>
+        <span><%= "#{I18n.l(interview.date_of_interview)} - #{interview.time_of_interview.strftime("%H:%M")}" %></span>
+        <%= link_to 'Excluir', interview_remove_path(interview), method: :delete, class: "delete-button" %>
+      </div>
+      <div class="divider"></div>
+    <% end %>
+  </div>
+  <!-- 
+  <div class="card-show-container">
+    <p>Horários Disponiveis</p>
+    <div class="divider"></div>
+    <div id="free-times"></div>
+  </div>
+  -->
+</div>

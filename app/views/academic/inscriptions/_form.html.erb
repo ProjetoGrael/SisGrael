@@ -1,0 +1,13 @@
+<h2>Inscrição em Turma</h2>
+
+<%= form_with(url: inscriptions_path, local: true, scope: :inscription, id: 'student_inscription_form') do |form| %>
+    <%= form.hidden_field :student_id, value: params[:id] %>
+
+    <%= form.label :school_year_id, "Período Letivo" %>
+    <%= form.select :school_year_id, student_school_year_options, {}, id: 'student_school_year' %>
+
+    <%= form.label :classroom_id, "Turma" %>
+    <%= form.select :classroom_id, student_classroom_options, {}, id: 'student_classroom' %>
+    
+    <%= form.submit "inscrição", class: "generate-button" %>
+<% end %>

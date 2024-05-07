@@ -1,0 +1,148 @@
+<p id="notice"><%= notice if notice != "You are not authorized to access this page"%></p>
+
+<h1><%= @classroom.fantasy_name %></h1>
+
+<h2 style="margin-bottom: 20px">Cursos</h2>
+
+<div class="container-65">
+  <div class="flex-end">
+    <% if can? :create, Academic::ClassroomSubject %>
+      <%= link_to 'Adicionar Curso', new_classroom_subject_path(@classroom.id), class: 'generate-button' %>
+      <%= link_to 'Gerar Certificados', certification_by_classroom_path(format: 'pdf', classroom: @classroom.id), class: 'generate-button', style: 'margin-left: 10px;' %>
+    <% end %>
+    <% if can? :table_of_secretary, Academic::Classroom%>
+      <%= link_to "Controle de disciplinas", table_of_secretary_path(@classroom.id), class: 'generate-button', style: 'margin-left: 10px;' %>
+    <% end %>
+    <% if can? :show_counsel, Academic::Classroom%>
+      <%= link_to 'Conselho', final_evaluation_path(@classroom.id), class: 'delete-button space_button', style: 'margin-left: 10px;' %>
+    <% end %>
+    <% if can? :update, @classroom %>
+      <%= link_to 'Editar', edit_classroom_path(@classroom), class: 'edit-button', style: 'margin: 0 10px;' %>
+    <% end %>
+    <a id="back-page" class="generate-button">Voltar</a>
+  </div>
+</div>
+<% if @classroom.main_id.present?%>
+  <h2>Disciplinas principais</h2>
+  <div class="card">
+      <% if (can? :show, Academic::ClassroomSubject.find(@classroom.main_id) or can? :destroy, Academic::ClassroomSubject.find(@classroom.main_id)) %>
+        <div class="card-action">
+          <div class="action-buttons">
+            <% if can? :show, Academic::ClassroomSubject.find(@classroom.main_id) %>
+              <%= link_to 'Exibir', Academic::ClassroomSubject.find(@classroom.main_id), class: 'generate-button' %>
+            <% end %>
+            <% if can? :destroy, Academic::ClassroomSubject.find(@classroom.main_id) %>
+              <%= link_to 'Excluir', Academic::ClassroomSubject.find(@classroom.main_id), method: :delete, data: { confirm: 'Tem certeza?' }, class: 'delete-button' %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="card-content">
+        <div class="titles">
+          <%= Academic::ClassroomSubject.find(@classroom.main_id).subject.name %>
+          
+        </div>
+
+        <div class="grid registration">
+          <div>
+            <p>Educador:</p>
+            <%= Academic::ClassroomSubject.find(@classroom.main_id).teacher.present? ? Academic::ClassroomSubject.find(@classroom.main_id).teacher.name : "N/A"%>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<h2>Disciplinas complementares</h2>
+<% @classroom.classroom_subjects.joins(:subject).order('name').each do |register| %>
+  <% next if register.id == @classroom.main_id %>
+  <div class="card">
+    <% if (can? :read, register or can? :destroy, register) %>
+      <div class="card-action">
+        <div class="action-buttons">
+          <% if can? :read, register %>
+            <%= link_to 'Exibir', register, class: 'generate-button' %>
+          <% end %>
+          <% if can? :destroy, register %>
+            <%= link_to 'Excluir', register, method: :delete, data: { confirm: 'Tem certeza?' }, class: 'delete-button' %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="card-content">
+      <div class="titles">
+        <%= register.subject.name %>
+        <% if can? :update, Academic::Classroom %>
+          <%= link_to  "Turma Principal", promote_classroom_subject_path(register.id), class: 'promote-button' %>
+        <% end %>
+
+      </div>
+
+      <div class="grid registration">
+        <div>
+          <p>Educador:</p>
+          <%= register.teacher.present? ? register.teacher.name : "N/A"%>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<% end %>
+
+<br><br>
+
+<h2>Alunos Inscritos</h2>
+<div class="container-65">
+  <div class="flex-end" style="margin-top: 20px">
+    <% if can? :frequency_list, Academic::Classroom %>
+      <%= select_tag 'month', options_for_select(month_options(@classroom)), id: 'month_select', class: 'select-pauta' %>
+      <%= link_to 'Gerar Relatório de Frequência', pdf_of_frequency_list_path(classroom_id: @classroom.id, month: month_options(@classroom)[0][1], format: :pdf), classroom_id: @classroom.id, target: '_blank', :class => 'generate-button', :id => 'generate-frequency-list-button', style: "margin-right: 5px" %>
+    <% end %>
+  </div>  
+</div>
+
+<% @inscriptions.each do |register| %>
+
+  <div class="card">
+    <div class="card-action">
+      <div class="action-buttons">
+        <%= link_to 'Exibir', register.student, class: 'generate-button' %>
+        <% if can? :destroy, Academic::Inscription %>
+          <%= link_to 'Excluir', inactive_inscription_path(register), method: :patch, data: { confirm: 'Tem certeza?' }, class: 'delete-button' %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="card-content">
+      <div class="titles">
+        <%= register.student.name %>
+        <% if register.student_status == 'evaded' %>
+          <div class="alert evaded">Evadido</div>
+        <% elsif register.student_status == 'desisted' %>
+          <div class="alert evaded">Desistente</div>
+        <% end %>
+      </div>
+
+      <div class="grid registration">
+        <div>
+          <p>Matrícula:</p>
+          <%= register.student.registration_number %>
+        </div>
+        <div>
+          <p>Laudo Médico</p>
+          <%= register.student.medical_report%>
+        </div>
+        <div>
+          <p>Observações Gerais</p>
+          <%= register.student.behavior%>
+          <%= register.student.difficulties%>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% end %>
+
+
+

@@ -1,0 +1,41 @@
+<h1>Naturezas de Transação</h1>
+
+<% if(@transaction_categories.any?) %>
+  <div class="table">
+    <%= link_to 'nova natureza', new_transaction_category_path, class:'button-new' %>
+    <table>
+      <thead>
+        <tr>
+          <th>Natureza</th>
+          <th>Ação</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @transaction_categories.each do |transaction_category| %>
+          <tr>
+            <td><div class="linkable"><%= transaction_category.description %></div></td>
+            <td><div class="linkable">
+              <%= link_to 'Editar', edit_transaction_category_path(transaction_category), class:"green-action-button action-button" %>
+              <%= link_to 'Excluir', transaction_category, method: :delete, class:"red-action-button action-button" %>
+            </div></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <%= link_to cash_book_path, class:'button-back' do %>
+      <div class='icon-back'></div>
+    <% end %>
+    
+  </div>
+
+  <%= paginacao(@transaction_categories) %>
+<% else %>
+  <p>Não há estados a serem exibidos.</p>
+  <%= link_to 'novo estado', new_state_path, class:'button-new' %>
+  <%= link_to cash_book_path, class:'button-back' do %>
+    <div class='icon-back'></div>
+  <% end %>
+<% end %>
+

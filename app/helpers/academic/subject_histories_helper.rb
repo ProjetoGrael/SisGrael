@@ -1,0 +1,3 @@
+module Academic::SubjectHistoriesHelper
+
+end

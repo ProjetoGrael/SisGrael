@@ -1,0 +1,53 @@
+<li>
+  <%= link_to students_path do %>
+    <div class="students-icone-menu icon-menu"></div>
+    <span>Alunos</span>
+  <% end %>
+</li>
+<% if Academic::SchoolYear.current %>
+  <li>
+    <%= link_to school_year_classrooms_path(Academic::SchoolYear.current) do %>
+      <div class="classes-icone-menu icon-menu"></div>
+      <span>Turmas</span>
+    <% end %>
+  </li>
+<% end %>
+
+<li>
+  <%= link_to teachers_path do %>
+    <div class="teacher-icone-menu icon-menu"></div>
+    <span>Educadores</span>
+  <% end %> 
+</li>
+
+<li>
+  <%= link_to subjects_path do %>
+    <div class="prancheta-icone-menu icon-menu"></div>
+    <span>Disciplinas</span>
+  <% end %>
+</li>
+
+<% if Academic::SchoolYear.current %>
+
+  <li>
+    <%= link_to no_class_path(Academic::SchoolYear.current, :current_month) do %>
+      <div class="calendar1-icone-menu icon-menu"></div>
+      <span>Calendário</span>
+    <% end %>
+  </li>
+
+<% end %>
+
+<li>
+  <%= link_to monitoring_index_path do %>
+    <div class="report-white-icone-menu icon-menu"></div>
+    <span>Monitoramento</span>
+  <% end %>
+</li>
+
+<li>
+  <%= link_to school_years_path do %>
+    <div class="school-year-icone-menu-save icon-menu"></div>
+    <span>Períodos</span>
+  <% end %>
+</li>

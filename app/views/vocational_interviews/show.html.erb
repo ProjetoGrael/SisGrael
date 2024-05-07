@@ -1,0 +1,279 @@
+<p id="notice"><%= notice if notice != "You are not authorized to access this page"%></p>
+
+<h1>Identificação</h1>
+  <%if @student.present? %>
+
+  <div class="buttons-vocational-interview">
+    <a id="back-page" class="edit-button" style="margin-left: 5px">Voltar</a>
+    <%= link_to 'Gerar PDF', pdf_show_vocational_interview_path(@vocational_interview.id, {}, format: :pdf), target: '_blank',style: "margin-left: 5px" ,:class => 'edit-button' %>
+    <%= link_to 'Editar Formulário', edit_student_vocational_interview_path(id: @vocational_interview.id, student_id: @student.id), style: "margin-left: 5px",:class => 'edit-button' %>
+  </div>
+  <div class="card">
+    <div class="card-action">
+      <div class="action-photo">
+        <% if @student.photo.present? %>
+          <%= image_tag @student.photo.small.url, :class => 'student-photo' %>
+        <% else %>
+          <div class="student-photo students-icone-panel icon"></div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="card-content">
+      <div class="titles">
+        <%= age(@student.birthdate) %>
+        <%= @student.name %>
+      </div>
+            
+      <div class="grid registration">
+        <div class="field-info">
+          <p>Data de Nascimento:</p>
+          <%= @student.birthdate.strftime("%d/%m/%Y") if @student.birthdate.present?%>
+        </div>
+
+        <div class="field-info">
+          <p>Sexo:</p>
+          <%= pretty_sex(@student.sex) if @student.sex.present? %>
+        </div>
+
+        <div class="field-info">
+          <p>Etnia:</p>
+          <%= @student.ethnicity %>
+        </div>
+          
+        <div class="field-info">
+          <p>Nacionalidade:</p>
+          <%= @student.nationality %>
+        </div>
+      </div>
+
+      <div class="grid discipline">
+        <div class="field-info">
+          <p>RG:</p>
+          <%= @student.rg %>
+        </div>
+        
+        <div class="field-info">
+          <p>Órgão Expedidor:</p>
+          <%= @student.issuing_agency %>
+        </div>
+        
+        <div class="field-info">
+          <p>Data de Emissão:</p>
+          <%= pretty_date(@student.issuing_date) %>
+        </div>
+        
+        <div class="field-info">
+          <p>CPF:</p>
+          <%= @student.cpf %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>1</span> Informações Escolares</p>
+      <div class="grid-3-columns grid">
+        <div class="field-info">
+          <p>Escola:</p>
+          <%= @student.school.name %>
+        </div>
+
+        <div class="field-info">
+          <p>Última Instituição:</p>
+          <%= @vocational_interview.last_attended_educational_institution %>
+        </div>
+        
+        <div class="field-info">
+          <p>Turno:</p>
+          <%= pretty_school_shift(@student.school_shift) if @student.school_shift.present? %>
+        </div>
+      
+        <div class="field-info">
+          <p>Matrículado no curso:</p>
+          <%= @vocational_interview.enrolled_in_the_course %>
+        </div>
+      
+        <div class="field-info">
+          <p>Repetência:</p>
+          <%= pretty_bool_vocational_interview(@vocational_interview.repetition) + ", " + @vocational_interview.amount_repetitions.to_s + " repetências" %>
+        </div>
+
+        <div class="field-info">
+          <p>Necessidades especiais:</p>
+          <%= @vocational_interview.special_needs %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>2</span> Moradia</p>
+      <div class="grid-3-columns grid">
+        <div class="field-info">
+          <p>Com quem reside:</p>
+          <%= @vocational_interview.live_with %>
+        </div>
+
+        <div class="field-info">
+          <p>Condição da moradia:</p>
+          <%= @vocational_interview.housing_condition %>
+        </div>
+          
+        <div class="field-info">
+          <p>Moradia conta com infraestrutura urbana:</p>
+          <%= @vocational_interview.urban_infrastructure %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>3</span> Sobre o Projeto Grael</p>
+      <div class="grid">
+        <div class="field-info">
+          <p>Acesso ao Projeto:</p>
+          <%= @vocational_interview.project_access %>
+        </div>
+        <div class="field-info">
+          <p>Como se desloca até o projeto: Não presente na tabela</p>
+          <%#=  @vocational_interview.project_access_text %>
+        </div>
+        <div class="field-info">
+        <p>Frequentou o projeto Grael anteriormente:</p>
+          <%= pretty_bool_vocational_interview(@vocational_interview.already_attended) %>
+        </div>
+        
+        <div class="field-info">
+        <p>Possui experiência náutica:</p>
+          <%= pretty_bool_vocational_interview(@vocational_interview.nautical_experience) %>
+        </div>
+        
+        <div class="field-info">
+          <p>Já participou de cursos ou projetos sociais?</p>
+          <%= pretty_bool_vocational_interview(@vocational_interview.already_attended_to_other) %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>4</span> Acesso ao Projeto</p>
+      <div class="grid-2-columns grid">
+        <div class="field-info">
+          <p>Qual foi a motivação ao escolher as atividades do projeto Grael:</p>
+          <%= @vocational_interview.motivation %>
+        </div>
+          
+        <div class="field-info">
+          <p>Quantos transportes utiliza por dia para chegar até o Projeto Grael:</p>
+          <%= @vocational_interview.number_transport %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>5</span> Acesso à renda</p>
+      <div class="grid-3-columns grid">
+        <div class="field-info">
+          <p>Possui alguma atividade remunerada ou renda:</p>
+          <%= pretty_bool_vocational_interview(@vocational_interview.have_income) %>
+        </div>
+          
+        <div class="field-info">
+          <p>Já trabalhou ou trabalha:</p>
+          <%= pretty_bool_vocational_interview(@vocational_interview.work) %>
+        </div>
+
+        <div class="field-info">
+          <p>Quem trabalha na família:</p>
+          <div class="grid">
+            <p>Pai</p>
+            <%= pretty_bool_vocational_interview(@vocational_interview.father_works) %>
+
+            <p>Mãe</p>
+            <%= pretty_bool_vocational_interview(@vocational_interview.mother_works) %>
+
+            <p>Padastro</p>
+            <%= pretty_bool_vocational_interview(@vocational_interview.step_father_works) %>
+
+            <p>Madrasta</p>
+            <%= pretty_bool_vocational_interview(@vocational_interview.step_mother_works) %>
+
+            <p>Irmãos</p>
+            <%= pretty_bool_vocational_interview(@vocational_interview.brothers_works) %>
+
+            <p>Avós</p>
+            <%= pretty_bool_vocational_interview(@vocational_interview.grandparents_works) %>
+
+            <p>Outros</p>
+            <%= pretty_bool_vocational_interview(@vocational_interview.other_works) %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>6</span> Conhecimentos de informática</p>
+      <div class="grid-3-columns grid">
+        <div class="field-info">
+          <p>Conhece e utiliza o pacote office (word, excel, powerpoint):</p>
+          <%= pretty_bool_vocational_interview(@vocational_interview.microsoft_office_knowledge) %>
+        </div>
+          
+        <div class="field-info">
+          <p>Acessa a internet:</p>
+          <%= pretty_bool_vocational_interview(@vocational_interview.internet_surfer) %>
+        </div>
+          
+        <div class="field-info">
+          <p>Utiliza redes sociais:</p>
+          <%= pretty_bool_vocational_interview(@vocational_interview.social_networks) %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>7</span> Convívio familiar</p>
+      <div class="grid-3-columns grid">
+        <div class="field-info">
+          <p>Como é o convívio familiar:</p>
+          <%= @vocational_interview.family_life %>
+        </div>
+          
+        <div class="field-info">
+          <p>Quais as pricipais atividades de lazer:</p>
+          <%= @vocational_interview.recreation_doing%>
+        </div>
+          
+        <div class="field-info">
+          <p>O que gosta de fazer com a família:</p>
+          <%= @vocational_interview.reveal_about_family_text%>
+        </div>
+      </div>
+    </div>
+  </div>
+        
+  <div class="card">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>8</span> Observações finais</p>
+      <div class="grid-1-column grid">
+        <div class="field-info">
+          <p>Observações finais:</p>
+          <%= @vocational_interview.concluding_remarks %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<% end %>

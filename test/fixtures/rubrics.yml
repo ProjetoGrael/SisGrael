@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  numeration: 1
+  title: MyString
+  classification: 1
+  value: 9.99
+  project: one
+
+two:
+  numeration: 1
+  title: MyString
+  classification: 1
+  value: 9.99
+  project: two

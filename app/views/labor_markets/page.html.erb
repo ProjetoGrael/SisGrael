@@ -1,0 +1,30 @@
+<h1>Tabela de Inserção no Mercado</h1>
+<div class="flex-painel">
+    <%= link_to new_labor_market_path do %>
+        <div class="card-painel card-center">
+            <div>     
+                <div class="students-icone-panel icon"></div>
+                <p>Criar Novo Registro</p>
+            </div>
+        </div>
+    <% end %>
+
+    <%= link_to labor_markets_path do %>
+        <div class="card-painel card-center">
+            <div>     
+                <div class="students-icone-panel icon"></div>
+                <p>Ver Registros</p>
+            </div>
+        </div>
+    <% end %>
+
+    <%= link_to table_labor_market_insertion_path({},format: :xlsx) do %>
+        <div class="card-painel card-center">
+            <div>     
+                <div class="students-icone-panel icon"></div>
+                <p>Gerar Tabela de Inserção no Mercado</p>
+            </div>
+        </div>
+    <% end %>
+
+</div>

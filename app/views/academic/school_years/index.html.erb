@@ -1,0 +1,77 @@
+<p id="notice"><%= notice if notice != "You are not authorized to access this page"%></p>
+
+<h1>Períodos Letivos</h1>
+<% if can? :create, Academic::SchoolYear %>
+  <%= link_to 'Novo Período Letivo', new_school_year_path, class: 'edit-button' %>
+<% end %>
+<a id="back-page" class="edit-button" style="margin-left: 5px">Voltar</a>
+
+  <% @school_years.each do |school_year| %>
+
+    <div class="card">
+      <% if (can? :update, school_year or can? :read, school_year or can? :destroy, school_year) %>
+        <div class="card-action">
+          <div class="action-buttons">
+            <% if can? :read, school_year %>
+              <%= link_to 'Turmas', school_year_classrooms_path(school_year), class: "generate-button" %>
+            <% end %>
+            <% if can? :update, school_year %>
+              <%= link_to 'Editar', edit_school_year_path(school_year), class:"edit-button" %>
+            <% end %>
+            <% if can? :destroy, school_year %>
+              <%= link_to 'Excluir', school_year, method: :delete, data: { confirm: 'Tem certeza?' }, class:"delete-button" %>
+            <% end %>
+
+          </div>
+        </div>
+      <% end %>
+
+        <div class="card-content">
+          <div class="titles">
+            <%= school_year.name %>
+            <div class="button-students">
+              <%= link_to 'Dias sem Aula', no_class_path(school_year, 0), :class => 'edit-button' %>
+            </div>
+          </div>
+
+            <div class="grid-2-column grid registration">
+              <div class="field-info">
+                <p>Começo:</p>
+                <%= l school_year.start %>
+              </div>
+
+              <div class="field-info">
+                <p>Fim:</p>
+                <%= l school_year.final %>
+              </div>
+            </div>
+
+            <div class="grid-3-column grid discipline">
+            
+              <div class="field-info">
+                <p>Capacidade:</p>
+                <%= school_year.capacity %>
+              </div>
+
+              <div class="field-info">
+                <p>Alunos no sistema:</p>
+                <%=Student.where(status: 'renewed').length %>
+              </div>
+
+              <div class="field-info">
+                <p>Matriculados:</p>
+                <%= school_year.inscriptions.where(active: true).length %>
+              </div>
+
+            </div>
+          </div>
+      
+    </div>
+      
+        
+        
+
+    <% end %>
+
+
+

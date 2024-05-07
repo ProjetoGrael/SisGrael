@@ -1,0 +1,49 @@
+<% if (notice) %>
+  <script>
+      $(document).ready(function(){
+        swal("<%= notice if notice != "You are not authorized to access this page"%>","","");
+      });
+  </script>
+<% end %>
+
+<h1>
+</h1>
+
+<div class="show-container">
+  <p>
+    <strong>Valor:</strong>
+    <%= number_to_currency @transaction.value, unit: "R$", separator: ",", delimiter: "." %>
+  </p>
+
+  <p>
+    <strong>Data:</strong>
+    <%= @transaction.transaction_date %>
+  </p>
+
+  <p>
+    <strong>Pagador:</strong>
+    <%= @transaction.payer.name %>
+  </p>
+
+  <p>
+    <strong>Recebedor:</strong>
+    <%= @transaction.receiver.name %>
+  </p>
+
+  <p>
+    <strong>Conta:</strong>
+    <%= display_account(@transaction.account) %>
+  </p>
+
+  <p>
+    <strong>Descrição:</strong>
+    <%= @transaction.description %>
+  </p>
+
+    <%= link_to transactions_path, class:'button-back' do %>
+        <div class='icon-back'></div>
+      <% end %>
+
+</div>
+
+

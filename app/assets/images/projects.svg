@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" id="Camada_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 480 480" style="enable-background:new 0 0 480 480;" xml:space="preserve">
+<path d="M194.7,146L176,162.6V160H80v96h96v-72l29.3-26.1L194.7,146z M160,240H96v-64h64v0.9L128.3,205l-18.7-18.7l-11.3,11.3
+	l29.3,29.3l32.3-28.7V240z"/>
+<path d="M80,280v96h96v-72l29.3-26.1l-10.6-12L176,282.6V280H80z M160,360H96v-64h64v0.9L128.3,325l-18.7-18.7l-11.3,11.3l29.3,29.3
+	l32.3-28.7V360z"/>
+<path d="M216,216h200v16H216V216z"/>
+<path d="M216,336h200v16H216V336z"/>
+<path d="M32,96h40v16H32V96z"/>
+<path d="M32,128h40v16H32V128z"/>
+<path d="M32,368v40h40v-16H48v-24H32z"/>
+<path d="M448,136V96h-40v16h24v24H448z"/>
+<path d="M0,0v480h480v-24h-16v8H16v-24h464v-24h-16v8H16V80h448v288h16V0H0z M16,64V16h448v48H16z"/>
+<path d="M32,32h16v16H32V32z"/>
+<path d="M64,32h16v16H64V32z"/>
+<path d="M96,32h16v16H96V32z"/>
+<path d="M128,32h16v16h-16V32z"/>
+<path d="M464,384h16v16h-16V384z"/>
+</svg>

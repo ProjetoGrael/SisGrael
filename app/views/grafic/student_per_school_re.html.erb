@@ -1,0 +1,15 @@
+<div class="flex-conteiner-monitoring">
+    <div class="title-monitoring">
+        <h2>Análise das Disciplinas</h2>
+        <%= link_to 'EXPORTAR PARA EXCEL', monitoring_council_path({}, format: :xlsx), class: "generate-button school-year-monitoring-link"%>
+    </div>
+    <div class="backButtonMonitoring">
+        <a id="back-page" class="edit-button ">Voltar</a>    
+    </div>
+    <div class="card-graphic">
+        <%= form_tag(:grafic_student_school_year, method: :get, id: 'form_of_school_year') do  %>
+            <%= select_tag(:school_year_id,options_from_collection_for_select(Academic::SchoolYear.all, "id", "name", @school_year_id),onChange: 'this.form.submit();')%> 
+        <% end %>
+        <%= bar_chart @date,height: "300px", options: {layout: {padding: {top: 400}} },library: { scales: { xAxes: [{ ticks: { stepSize: 10, beginAtZero: true}}]}}, xtitle: "Quantidade"%>
+    </div>
+</div>

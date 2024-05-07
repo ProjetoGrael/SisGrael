@@ -1,0 +1,47 @@
+<p id="notice"><%= notice if notice != "You are not authorized to access this page"%></p>
+
+<h1>Aulas</h1>
+
+<div class="container-modal">
+  <div class="flex-end">
+    <% if can? :create, Academic::Lesson %>
+      <%= link_to 'Nova Aula', new_classroom_subject_lesson_path(params[:classroom_subject_id]), class: 'edit-button' %>
+    <% end %>
+    <%= link_to 'Voltar', classroom_subject_path(params[:classroom_subject_id]), class: 'edit-button', style: 'margin-left: 10px;' %>
+  </div>
+
+  <%= select_tag :select_period, options_for_select(get_month_of_school_year(@classroom_subject), value: "#{ params[:year]}-#{params[:month]}.delete(' ')"), {include_blank: true} %>
+
+  <% @lessons.each do |lesson| %>
+    <div class="card-aulas">
+      <% if can? [:update, :destroy], lesson %>
+        <div class="card-action">
+          <div class="action-buttons">
+            <% if can? :update, lesson %>
+              <%= link_to 'Editar', edit_lesson_path(lesson), class: 'edit-button' %>
+            <% end %>
+            <% if can? :destroy, lesson %>
+              <%= link_to "Excluir", lesson, method: :delete, class: 'delete-button'%>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <%= link_to lesson, class: 'card-link' do %>
+        <div class="card-content">
+          <div class="titles">
+            <%= l lesson.day %>
+            <% if lesson.holiday %>
+              <div class="alert evaded">Feriado</div>
+            <% end %>
+          </div>
+
+          <div id="registration" class="registration">
+            <%= done_mensage(lesson) %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+<%= paginacao(@schools) if @pagination == true%>

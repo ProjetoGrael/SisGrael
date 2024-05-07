@@ -1,0 +1,393 @@
+### Início Legenda do Relatório ###
+### Início Legenda do Relatório ###
+### Início Legenda do Relatório ###
+
+# 1 - FUNÇÕES GERAIS --- Funções globais do relatório
+# 2 - FUNÇÕES general_data --- Funções específicas da seção de Dados gerais
+# 3 - def general_data --- Função que imprime todas as linhas da seção de Dados Gerais no excel
+# 4 - FUNÇÕES council --- Funções específicas da seção do conselho
+# 5 - def council_monitoring --- Função que imprime todas as linhas da seção do conselho no excel
+# 6 - FUNÇÕES instructor --- Funções específicas da seção do instrutor
+# 7 - def instructor_monitoring --- Função que imprime todas as linhas da seção do instrutor no excel
+# 8 - FUNÇÕES social_service --- Funções específicas do serviço social
+# 9 - def social_service_monitoring --- Função que imprime todas as linhas da seção do Serviço Social no excel
+# 10 - FUNÇÕES student_profile --- Funções específicas do Perfil do Aluno
+# 11 - def student_profile --- Função que imprime todas as linhas da seção do Perfil do Estudante no excel
+
+### Fim Legenda do Relatório ###
+### Fim Legenda do Relatório ###
+### Fim Legenda do Relatório ###
+
+wb = xlsx_package.workbook
+
+def general_data(sheet, school_year_one, school_year_two, school_year_three, school_year_four, merge_cells_initial, wb)
+  sheet.add_row ["", "Número de Vagas oferecidas por período letivo", general_data_school_year_capacity(school_year_one), general_data_school_year_capacity(school_year_two), general_data_school_year_capacity(school_year_three), general_data_school_year_capacity(school_year_four)]
+  sheet.add_row ["", "Número de Vagas ocupadas por período letivo", general_data_school_year_occupied_vacancies(school_year_one), general_data_school_year_occupied_vacancies(school_year_two), general_data_school_year_occupied_vacancies(school_year_three), general_data_school_year_occupied_vacancies(school_year_four)]
+  sheet.add_row ["", "Número de Vagas ociosas por período letivo", general_data_school_year_idle_vacancies(school_year_one), general_data_school_year_idle_vacancies(school_year_two), general_data_school_year_idle_vacancies(school_year_three), general_data_school_year_idle_vacancies(school_year_four)]
+  sheet.add_row ["", "Número de Alunos cadastrados no SisGrael por período letivo", general_data_number_of_registred_students(school_year_one), general_data_number_of_registred_students(school_year_two), general_data_number_of_registred_students(school_year_three), general_data_number_of_registred_students(school_year_four)]
+  sheet.add_row ["", "Número de Alunos matriculados por período letivo", general_data_number_of_matriculate_students(school_year_one), general_data_number_of_matriculate_students(school_year_two), general_data_number_of_matriculate_students(school_year_three), general_data_number_of_matriculate_students(school_year_four)]
+
+  ### INICIO VARIAVEIS
+  general_data_matriculate_professionalized_one, general_data_matriculate_sport_one, general_data_matriculate_environmental_one = general_data_number_of_matriculate_students_per_program(school_year_one)
+  general_data_matriculate_professionalized_two, general_data_matriculate_sport_two, general_data_matriculate_environmental_two = general_data_number_of_matriculate_students_per_program(school_year_two)
+  general_data_matriculate_professionalized_three, general_data_matriculate_sport_three, general_data_matriculate_environmental_three = general_data_number_of_matriculate_students_per_program(school_year_three)
+  general_data_matriculate_professionalized_four, general_data_matriculate_sport_four, general_data_matriculate_environmental_four = general_data_number_of_matriculate_students_per_program(school_year_four)
+  ### FIM VARIAVEIS
+
+  sheet.add_row ["", "Número de Alunos Matriculados por Programa Profissionalizante por período letivo", general_data_matriculate_professionalized_one, general_data_matriculate_professionalized_two, general_data_matriculate_professionalized_three, general_data_matriculate_professionalized_four]
+  sheet.add_row ["", "Número de Alunos Matriculados por Programa Esportivo por período letivo", general_data_matriculate_sport_one, general_data_matriculate_sport_two, general_data_matriculate_sport_three, general_data_matriculate_sport_four]
+  sheet.add_row ["", "Número de Alunos Matriculados por Programa Ambiental por período letivo", general_data_matriculate_environmental_one, general_data_matriculate_environmental_two, general_data_matriculate_environmental_three, general_data_matriculate_environmental_four]
+  @subjects.each do |subject|
+    sheet.add_row ["", "Número de Alunos matriculados na disciplina " + subject.name + " por período letivo", general_data_number_of_matriculate_students_per_subject(subject, school_year_one), general_data_number_of_matriculate_students_per_subject(subject, school_year_two), general_data_number_of_matriculate_students_per_subject(subject, school_year_three), general_data_number_of_matriculate_students_per_subject(subject, school_year_four)]
+  end
+  sheet.add_row ["", "Número de Turmas oferecidas por período letivo", general_data_number_of_classrooms(school_year_one), general_data_number_of_classrooms(school_year_two), general_data_number_of_classrooms(school_year_three), general_data_number_of_classrooms(school_year_four)]
+  sheet.add_row ["", "Número de Alunos ativos por período letivo", general_data_number_active_students(school_year_one), general_data_number_active_students(school_year_two), general_data_number_active_students(school_year_three), general_data_number_active_students(school_year_four)]
+
+  ### INICIO VARIAVEIS
+  general_data_active_professionalized_one, general_data_active_sport_one, general_data_active_environmental_one = general_data_number_of_active_students_per_program(school_year_one)
+  general_data_active_professionalized_two, general_data_active_sport_two, general_data_active_environmental_two = general_data_number_of_active_students_per_program(school_year_two)
+  general_data_active_professionalized_three, general_data_active_sport_three, general_data_active_environmental_three = general_data_number_of_active_students_per_program(school_year_three)
+  general_data_active_professionalized_four, general_data_active_sport_four, general_data_active_environmental_four = general_data_number_of_active_students_per_program(school_year_four)
+  ### FIM VARIAVEIS
+
+  sheet.add_row ["", "Número de Alunos ativos por Programa Profissionalizante por período letivo", general_data_active_professionalized_one, general_data_active_professionalized_two, general_data_active_professionalized_three, general_data_active_professionalized_four]
+  sheet.add_row ["", "Número de Alunos ativos por Programa Esportivo por período letivo", general_data_active_sport_one, general_data_active_sport_two, general_data_active_sport_three, general_data_active_sport_four]
+  sheet.add_row ["", "Número de Alunos ativos por Programa Ambiental por período letivo", general_data_active_environmental_one, general_data_active_environmental_two, general_data_active_environmental_three, general_data_active_environmental_four]
+  @subjects.each do |subject|
+    sheet.add_row ["", "Número de Alunos ativos na disciplina " + subject.name + " por período letivo", general_data_number_of_active_students_per_subject(subject, school_year_one), general_data_number_of_active_students_per_subject(subject, school_year_two), general_data_number_of_active_students_per_subject(subject, school_year_three), general_data_number_of_active_students_per_subject(subject, school_year_four)]
+  end
+  sheet.add_row ["", "Número de Alunos evadidos por período letivo", general_data_number_evaded_students(school_year_one), general_data_number_evaded_students(school_year_two), general_data_number_evaded_students(school_year_three), general_data_number_evaded_students(school_year_four)]
+
+  ### INICIO VARIAVEIS
+  general_data_evaded_professionalized_one, general_data_evaded_sport_one, general_data_evaded_environmental_one = general_data_number_of_evaded_students_per_program(school_year_one)
+  general_data_evaded_professionalized_two, general_data_evaded_sport_two, general_data_evaded_environmental_two = general_data_number_of_evaded_students_per_program(school_year_two)
+  general_data_evaded_professionalized_three, general_data_evaded_sport_three, general_data_evaded_environmental_three = general_data_number_of_evaded_students_per_program(school_year_three)
+  general_data_evaded_professionalized_four, general_data_evaded_sport_four, general_data_evaded_environmental_four = general_data_number_of_evaded_students_per_program(school_year_four)
+  ### FIM VARIAVEIS
+
+  sheet.add_row ["", "Número de Alunos evadidos por Programa Profissionalizante por período letivo", general_data_evaded_professionalized_one, general_data_evaded_professionalized_two, general_data_evaded_professionalized_three, general_data_evaded_professionalized_four]
+  sheet.add_row ["", "Número de Alunos evadidos por Programa Esportivo por período letivo", general_data_evaded_sport_one, general_data_evaded_sport_two, general_data_evaded_sport_three, general_data_evaded_sport_four]
+  sheet.add_row ["", "Número de Alunos evadidos por Programa Ambiental por período letivo", general_data_evaded_environmental_one, general_data_evaded_environmental_two, general_data_evaded_environmental_three, general_data_evaded_environmental_four]
+  @subjects.each do |subject|
+    sheet.add_row ["", "Número de Alunos evadidos por " + subject.name + " por período letivo", general_data_number_of_evaded_students_per_subject(subject, school_year_one), general_data_number_of_evaded_students_per_subject(subject, school_year_two), general_data_number_of_evaded_students_per_subject(subject, school_year_three), general_data_number_of_evaded_students_per_subject(subject, school_year_four)]
+  end
+  sheet.add_row ["", "Número de Alunos rematrícula/renovado – total por período letivo", general_data_number_renewed_students(school_year_one), general_data_number_renewed_students(school_year_two), general_data_number_renewed_students(school_year_three), general_data_number_renewed_students(school_year_four)]
+
+  sheet.add_row [""]
+  
+  #Variavel que define qual é a primeira célula que deve sofrer mescla  
+  initial = merge_cells_initial
+  #Variavel que recebe o calculo de qual é a celula final que deve sofrer mescla
+  final = initial + 17 + (@subjects.length * 3)
+
+  #Adiciona o nome da seção na primeira célula
+  sheet.rows[initial - 1].cells[0].value = "Dados Gerais"
+  #Faz com que o nome da seção fique centralizado verticalmente e horizontalmente
+  sheet.rows[initial - 1].cells[0].style = wb.styles.add_style :alignment => { :horizontal => :center, :vertical => :center}
+
+  #Executa a mescla das células dessa seção
+  sheet.merge_cells "A#{initial}:A#{final}"
+
+  #Retorna a o número da célula de mescla inicial do próximo bloco
+  return final + 2
+end
+
+def council_monitoring(sheet, school_year_one, school_year_two, school_year_three, school_year_four, merge_cells_initial, wb)
+
+  if school_year_one
+    insc_len_school_year_one = school_year_one.inscriptions.active.length
+  else
+    insc_len_school_year_one = 0
+  end
+  if school_year_two
+    insc_len_school_year_two = school_year_two.inscriptions.active.length
+  else
+    insc_len_school_year_two = 0
+  end
+  if school_year_three
+    insc_len_school_year_three = school_year_three.inscriptions.active.length
+  else
+    insc_len_school_year_three = 0
+  end
+  if school_year_four
+    insc_len_school_year_four = school_year_four.inscriptions.active.length
+  else
+    insc_len_school_year_four = 0
+  end
+
+  grades_school_year_one = council_monitoring_get_percent_grade(school_year_one)
+  grades_school_year_two = council_monitoring_get_percent_grade(school_year_two)
+  grades_school_year_three = council_monitoring_get_percent_grade(school_year_three)
+  grades_school_year_four = council_monitoring_get_percent_grade(school_year_four)
+
+  sheet.add_row ["", "% Notas A", grades_school_year_one[0], grades_school_year_two[0], grades_school_year_three[0], grades_school_year_four[0]]
+  sheet.add_row ["", "% Notas B", grades_school_year_one[1], grades_school_year_two[1], grades_school_year_three[1], grades_school_year_four[1]]
+  sheet.add_row ["", "% Notas C", grades_school_year_one[2], grades_school_year_two[2], grades_school_year_three[2], grades_school_year_four[2]]
+  sheet.add_row ["", "% Notas D", grades_school_year_one[3], grades_school_year_two[3], grades_school_year_three[3], grades_school_year_four[3]]
+  sheet.add_row ["", "% Aprovados", council_monitoring_get_percent_situation(school_year_one, "approved", insc_len_school_year_one), council_monitoring_get_percent_situation(school_year_two, "approved", insc_len_school_year_two), council_monitoring_get_percent_situation(school_year_three, "approved", insc_len_school_year_three), council_monitoring_get_percent_situation(school_year_four, "approved", insc_len_school_year_four)]
+  sheet.add_row ["", "% Participantes", council_monitoring_get_percent_situation(school_year_one, "participant", insc_len_school_year_one), council_monitoring_get_percent_situation(school_year_two, "participant", insc_len_school_year_two), council_monitoring_get_percent_situation(school_year_three, "participant", insc_len_school_year_three), council_monitoring_get_percent_situation(school_year_four, "participant", insc_len_school_year_four)]
+  sheet.add_row ["", "% Reprovados por Falta", council_monitoring_get_percent_situation(school_year_one, "lack_of_lesson", insc_len_school_year_one), council_monitoring_get_percent_situation(school_year_two, "lack_of_lesson", insc_len_school_year_two), council_monitoring_get_percent_situation(school_year_three, "lack_of_lesson", insc_len_school_year_three), council_monitoring_get_percent_situation(school_year_four, "lack_of_lesson", insc_len_school_year_four)]
+  sheet.add_row ["", "% Próximo Curso", council_monitoring_get_percent_next_course(school_year_one, insc_len_school_year_one), council_monitoring_get_percent_next_course(school_year_two, insc_len_school_year_two), council_monitoring_get_percent_next_course(school_year_three, insc_len_school_year_three), council_monitoring_get_percent_next_course(school_year_four, insc_len_school_year_four)]
+  
+  sheet.add_row [""]
+
+  #Variavel que define qual é a primeira célula que deve sofrer mescla  
+  initial = merge_cells_initial
+  #Variavel que recebe o calculo de qual é a celula final que deve sofrer mescla
+  final = initial + 7
+
+  #Adiciona o nome da seção na primeira célula
+  sheet.rows[initial - 1].cells[0].value = "Monitoramento do Conselho"
+  #Faz com que o nome da seção fique centralizado verticalmente e horizontalmente
+  sheet.rows[initial - 1].cells[0].style = wb.styles.add_style :alignment => { :horizontal => :center, :vertical => :center}
+
+  #Executa a mescla das células dessa seção
+  sheet.merge_cells "A#{initial}:A#{final}"
+
+  #Retorna a o número da célula de mescla inicial do próximo bloco
+  return final + 2
+end
+
+def instructor_monitoring(sheet, school_year_one, school_year_two, school_year_three, school_year_four, merge_cells_initial, wb)
+  @instructors.each do |instructor|
+
+    ### INICIO VARIAVEIS
+    instructor_per_centage_grade_a_school_year_one, instructor_per_centage_grade_b_school_year_one, instructor_per_centage_grade_c_school_year_one, instructor_per_centage_grade_d_school_year_one = instructor_per_centage_grades(instructor, school_year_one)
+    instructor_per_centage_grade_a_school_year_two, instructor_per_centage_grade_b_school_year_two, instructor_per_centage_grade_c_school_year_two, instructor_per_centage_grade_d_school_year_two = instructor_per_centage_grades(instructor, school_year_two)
+    instructor_per_centage_grade_a_school_year_three, instructor_per_centage_grade_b_school_year_three, instructor_per_centage_grade_c_school_year_three, instructor_per_centage_grade_d_school_year_three = instructor_per_centage_grades(instructor, school_year_three)
+    instructor_per_centage_grade_a_school_year_four, instructor_per_centage_grade_b_school_year_four, instructor_per_centage_grade_c_school_year_four, instructor_per_centage_grade_d_school_year_four = instructor_per_centage_grades(instructor, school_year_four)
+
+    instructor_per_centage_presences_absent_school_year_one, instructor_per_centage_presences_later_school_year_one, instructor_per_centage_presences_present_school_year_one, instructor_per_centage_presences_justified_absence_school_year_one, instructor_per_centage_presences_not_launched_school_year_one = instructor_per_centage_presences(instructor, school_year_one)
+    instructor_per_centage_presences_absent_school_year_two, instructor_per_centage_presences_later_school_year_two, instructor_per_centage_presences_present_school_year_two, instructor_per_centage_presences_justified_absence_school_year_two, instructor_per_centage_presences_not_launched_school_year_two = instructor_per_centage_presences(instructor, school_year_two)
+    instructor_per_centage_presences_absent_school_year_three, instructor_per_centage_presences_later_school_year_three, instructor_per_centage_presences_present_school_year_three, instructor_per_centage_presences_justified_absence_school_year_three, instructor_per_centage_presences_not_launched_school_year_three = instructor_per_centage_presences(instructor, school_year_three)
+    instructor_per_centage_presences_absent_school_year_four, instructor_per_centage_presences_later_school_year_four, instructor_per_centage_presences_present_school_year_four, instructor_per_centage_presences_justified_absence_school_year_four, instructor_per_centage_presences_not_launched_school_year_four = instructor_per_centage_presences(instructor, school_year_four)
+
+    ### FIM VARIAVEIS
+
+    sheet.add_row ["", "Instrutor: " + instructor.name]
+    sheet.add_row ["", "% Conceitos 'A'", instructor_per_centage_grade_a_school_year_one, instructor_per_centage_grade_a_school_year_two, instructor_per_centage_grade_a_school_year_three, instructor_per_centage_grade_a_school_year_four]
+    sheet.add_row ["", "% Conceitos 'B'", instructor_per_centage_grade_b_school_year_one, instructor_per_centage_grade_b_school_year_two, instructor_per_centage_grade_b_school_year_three, instructor_per_centage_grade_b_school_year_four]
+    sheet.add_row ["", "% Conceitos 'C'", instructor_per_centage_grade_c_school_year_one, instructor_per_centage_grade_c_school_year_two, instructor_per_centage_grade_c_school_year_three, instructor_per_centage_grade_c_school_year_four]
+    sheet.add_row ["", "% Conceitos 'D'", instructor_per_centage_grade_d_school_year_one, instructor_per_centage_grade_d_school_year_two, instructor_per_centage_grade_d_school_year_three, instructor_per_centage_grade_d_school_year_four]
+    sheet.add_row ["", "% Faltas", instructor_per_centage_presences_absent_school_year_one, instructor_per_centage_presences_absent_school_year_two, instructor_per_centage_presences_absent_school_year_three, instructor_per_centage_presences_absent_school_year_four]
+    sheet.add_row ["", "% Atrasos", instructor_per_centage_presences_later_school_year_one, instructor_per_centage_presences_later_school_year_two, instructor_per_centage_presences_later_school_year_three, instructor_per_centage_presences_later_school_year_four]
+    sheet.add_row ["", "% Presença", instructor_per_centage_presences_present_school_year_one, instructor_per_centage_presences_present_school_year_two, instructor_per_centage_presences_present_school_year_three, instructor_per_centage_presences_present_school_year_four]
+    sheet.add_row ["", "% Faltas justificadas", instructor_per_centage_presences_justified_absence_school_year_one, instructor_per_centage_presences_justified_absence_school_year_two, instructor_per_centage_presences_justified_absence_school_year_three, instructor_per_centage_presences_justified_absence_school_year_four]
+    sheet.add_row ["", "% Não lançado", instructor_per_centage_presences_not_launched_school_year_one, instructor_per_centage_presences_not_launched_school_year_two, instructor_per_centage_presences_not_launched_school_year_three, instructor_per_centage_presences_not_launched_school_year_four]
+    sheet.add_row ["", "% Faltas acima de 25%", instructor_per_centage_absents_more_than_25(instructor, school_year_one), instructor_per_centage_absents_more_than_25(instructor, school_year_two), instructor_per_centage_absents_more_than_25(instructor, school_year_three), instructor_per_centage_absents_more_than_25(instructor, school_year_four)]
+    sheet.add_row ["", "% Presença igual ou maior 75%", instructor_per_centage_presents_more_than_75(instructor, school_year_one), instructor_per_centage_presents_more_than_75(instructor, school_year_two), instructor_per_centage_presents_more_than_75(instructor, school_year_three), instructor_per_centage_presents_more_than_75(instructor, school_year_four)]
+  end
+  sheet.add_row [""]
+
+  #Variavel que define qual é a primeira célula que deve sofrer mescla  
+  initial = merge_cells_initial
+  #Variavel que recebe o calculo de qual é a celula final que deve sofrer mescla
+  final = initial + (12 * @instructors.length) - 1
+
+  #Adiciona o nome da seção na primeira célula
+  sheet.rows[initial - 1].cells[0].value = "Monitoramento por Instrutor"
+  #Faz com que o nome da seção fique centralizado verticalmente e horizontalmente
+  sheet.rows[initial - 1].cells[0].style = wb.styles.add_style :alignment => { :horizontal => :center, :vertical => :center}
+
+  #Executa a mescla das células dessa seção
+  sheet.merge_cells "A#{initial}:A#{final}"
+
+  #Retorna a o número da célula de mescla inicial do próximo bloco
+  return final + 2
+end
+
+def social_service_monitoring(sheet, school_year_one, school_year_two, school_year_three, school_year_four, merge_cells_initial, wb)
+
+  if school_year_one != nil
+    students_school_year_one = Student.where('created_at <= ?', school_year_one.final)
+  else
+    students_school_year_one = nil
+  end
+
+  if school_year_two != nil
+    students_school_year_two = Student.where('created_at <= ?', school_year_two.final)
+  else
+    students_school_year_two = nil
+  end
+
+  if school_year_three != nil
+    students_school_year_three = Student.where('created_at <= ?', school_year_three.final)
+  else
+    students_school_year_three = nil
+  end
+
+  if school_year_four != nil
+    students_school_year_four = Student.where('created_at <= ?', school_year_four.final)
+  else
+    students_school_year_four = nil
+  end
+
+  sheet.add_row ["", "Renda familiar média geral", mean_all_family_income(students_school_year_one), mean_all_family_income(students_school_year_two), mean_all_family_income(students_school_year_three), mean_all_family_income(students_school_year_four)]
+  sheet.add_row ["", "% Alunos Beneficiários de Programas Sociais", social_service_monitoring_per_cent_beneficiary_assistencial_programs(students_school_year_one), social_service_monitoring_per_cent_beneficiary_assistencial_programs(students_school_year_two), social_service_monitoring_per_cent_beneficiary_assistencial_programs(students_school_year_three), social_service_monitoring_per_cent_beneficiary_assistencial_programs(students_school_year_four)]
+  sheet.add_row ["", "Quantidade Total de Alunos inseridos no mercado de trabalho", social_service_labor_market_students(students_school_year_one), social_service_labor_market_students(students_school_year_two), social_service_labor_market_students(students_school_year_three), social_service_labor_market_students(students_school_year_four)]
+  sheet.add_row ["", "Quantidade de Alunos do Sexo Masculino inseridos no mercado de trabalho", social_service_labor_market_students_by_sex(0, students_school_year_one), social_service_labor_market_students_by_sex(0, students_school_year_two), social_service_labor_market_students_by_sex(0, students_school_year_three), social_service_labor_market_students_by_sex(0, students_school_year_four)]
+  sheet.add_row ["", "Quantidade de Alunos do Sexo Feminino inseridos no mercado de trabalho", social_service_labor_market_students_by_sex(1, students_school_year_one), social_service_labor_market_students_by_sex(1, students_school_year_two), social_service_labor_market_students_by_sex(1, students_school_year_three), social_service_labor_market_students_by_sex(1, students_school_year_four)]
+  sheet.add_row ["", "Quantidade de Alunos do Sexo Outros inseridos no mercado de trabalho", social_service_labor_market_students_by_sex(2, students_school_year_one), social_service_labor_market_students_by_sex(2, students_school_year_two), social_service_labor_market_students_by_sex(2, students_school_year_three), social_service_labor_market_students_by_sex(2, students_school_year_four)]
+  VocationalInterview.project_accesses.each do |transportation, index|
+    sheet.add_row ["", "% Acesso ao Projeto por " + transportation, social_service_per_cent_transportation_students(transportation, students_school_year_one), social_service_per_cent_transportation_students(transportation, students_school_year_two), social_service_per_cent_transportation_students(transportation, students_school_year_three), social_service_per_cent_transportation_students(transportation, students_school_year_four)]
+  end
+  VocationalInterview.motivations.each do |motivation, index|
+    sheet.add_row ["", "% de alunos que escolheram o Projeto Grael por " + motivation, social_service_per_cent_motivation_students(motivation, students_school_year_one), social_service_per_cent_motivation_students(motivation, students_school_year_two), social_service_per_cent_motivation_students(motivation, students_school_year_three), social_service_per_cent_motivation_students(motivation, students_school_year_four)]
+  end
+  sheet.add_row ["", "% Alunos que possuem atividade remunerada ou renda", social_service_per_cent_have_income_students(true, students_school_year_one), social_service_per_cent_have_income_students(true, students_school_year_two), social_service_per_cent_have_income_students(true, students_school_year_three), social_service_per_cent_have_income_students(true, students_school_year_four)]
+  sheet.add_row ["", "% Alunos que não possuem atividade remunerada ou renda", social_service_per_cent_have_income_students(false, students_school_year_one), social_service_per_cent_have_income_students(false, students_school_year_two), social_service_per_cent_have_income_students(false, students_school_year_three), social_service_per_cent_have_income_students(false, students_school_year_four)]
+  sheet.add_row ["", "% Alunos que tem o Pai como responsável pela renda da família", social_service_per_cent_father_reponsible_for_income_family(students_school_year_one), social_service_per_cent_father_reponsible_for_income_family(students_school_year_two), social_service_per_cent_father_reponsible_for_income_family(students_school_year_three), social_service_per_cent_father_reponsible_for_income_family(students_school_year_four)]
+  sheet.add_row ["", "% Alunos que tem a Mãe como responsável pela renda da família", social_service_per_cent_mother_reponsible_for_income_family(students_school_year_one), social_service_per_cent_mother_reponsible_for_income_family(students_school_year_two), social_service_per_cent_mother_reponsible_for_income_family(students_school_year_three), social_service_per_cent_mother_reponsible_for_income_family(students_school_year_four)]
+  sheet.add_row ["", "% Alunos que tem o Padastro como responsável pela renda da família", social_service_per_cent_step_father_reponsible_for_income_family(students_school_year_one), social_service_per_cent_step_father_reponsible_for_income_family(students_school_year_two), social_service_per_cent_step_father_reponsible_for_income_family(students_school_year_three), social_service_per_cent_step_father_reponsible_for_income_family(students_school_year_four)]
+  sheet.add_row ["", "% Alunos que tem a Madrasta como responsável pela renda da família", social_service_per_cent_step_mother_reponsible_for_income_family(students_school_year_one), social_service_per_cent_step_mother_reponsible_for_income_family(students_school_year_two), social_service_per_cent_step_mother_reponsible_for_income_family(students_school_year_three), social_service_per_cent_step_mother_reponsible_for_income_family(students_school_year_four)]
+  sheet.add_row ["", "% Alunos que tem os Irmãos como responsável pela renda da família", social_service_per_cent_brothers_reponsible_for_income_family(students_school_year_one), social_service_per_cent_brothers_reponsible_for_income_family(students_school_year_two), social_service_per_cent_brothers_reponsible_for_income_family(students_school_year_three), social_service_per_cent_brothers_reponsible_for_income_family(students_school_year_four)]
+  sheet.add_row ["", "% Alunos que tem os Avós como responsável pela renda da família", social_service_per_cent_grandparents_reponsible_for_income_family(students_school_year_one), social_service_per_cent_grandparents_reponsible_for_income_family(students_school_year_two), social_service_per_cent_grandparents_reponsible_for_income_family(students_school_year_three), social_service_per_cent_grandparents_reponsible_for_income_family(students_school_year_four)]
+  sheet.add_row ["", "% Alunos que tem Outros como responsável pela renda da família", social_service_per_cent_other_reponsible_for_income_family(students_school_year_one), social_service_per_cent_other_reponsible_for_income_family(students_school_year_two), social_service_per_cent_other_reponsible_for_income_family(students_school_year_three), social_service_per_cent_other_reponsible_for_income_family(students_school_year_four)]
+  
+  sheet.add_row [""]
+
+  #Variavel que define qual é a primeira célula que deve sofrer mescla  
+  initial = merge_cells_initial
+  #Variavel que recebe o calculo de qual é a celula final que deve sofrer mescla
+  final = initial + 14 + VocationalInterview.motivations.length + VocationalInterview.project_accesses.length
+
+  #Adiciona o nome da seção na primeira célula
+  sheet.rows[initial - 1].cells[0].value = "Monitoramento do Serviço Social"
+  #Faz com que o nome da seção fique centralizado verticalmente e horizontalmente
+  sheet.rows[initial - 1].cells[0].style = wb.styles.add_style :alignment => { :horizontal => :center, :vertical => :center}
+
+  #Executa a mescla das células dessa seção
+  sheet.merge_cells "A#{initial}:A#{final}"
+
+  #Retorna a o número da célula de mescla inicial do próximo bloco
+  return final + 2
+end
+
+def student_profile(sheet, school_year_one, school_year_two, school_year_three, school_year_four, merge_cells_initial, wb)
+  if school_year_one != nil
+    students_school_year_one = Student.where('created_at <= ?', school_year_one.final)
+  else
+    students_school_year_one = nil
+  end
+
+  if school_year_two != nil
+    students_school_year_two = Student.where('created_at <= ?', school_year_two.final)
+  else
+    students_school_year_two = nil
+  end
+
+  if school_year_three != nil
+    students_school_year_three = Student.where('created_at <= ?', school_year_three.final)
+  else
+    students_school_year_three = nil
+  end
+
+  if school_year_four != nil
+    students_school_year_four = Student.where('created_at <= ?', school_year_four.final)
+  else
+    students_school_year_four = nil
+  end
+
+  sheet.add_row ["", "% Masculino", student_profile_per_cent_students_per_gender(0, students_school_year_one), student_profile_per_cent_students_per_gender(0, students_school_year_two), student_profile_per_cent_students_per_gender(0, students_school_year_three), student_profile_per_cent_students_per_gender(0, students_school_year_four)]
+  sheet.add_row ["", "% Feminino", student_profile_per_cent_students_per_gender(1, students_school_year_one), student_profile_per_cent_students_per_gender(1, students_school_year_two), student_profile_per_cent_students_per_gender(1, students_school_year_three), student_profile_per_cent_students_per_gender(1, students_school_year_four)]
+  sheet.add_row ["", "% Outros", student_profile_per_cent_students_per_gender(2, students_school_year_one), student_profile_per_cent_students_per_gender(2, students_school_year_two), student_profile_per_cent_students_per_gender(2, students_school_year_three), student_profile_per_cent_students_per_gender(2, students_school_year_four)]
+
+  sheet.add_row ["", "% 09 – 15", student_profile_per_cent_students_per_age(9, 15, students_school_year_one), student_profile_per_cent_students_per_age(9, 15, students_school_year_two), student_profile_per_cent_students_per_age(9, 15, students_school_year_three), student_profile_per_cent_students_per_age(9, 15, students_school_year_four)]
+  sheet.add_row ["", "% 16 – 29", student_profile_per_cent_students_per_age(16, 29, students_school_year_one), student_profile_per_cent_students_per_age(16, 29, students_school_year_two), student_profile_per_cent_students_per_age(16, 29, students_school_year_three), student_profile_per_cent_students_per_age(16, 29, students_school_year_four)]
+  sheet.add_row ["", "% Crianças (09 a 12 anos)", student_profile_per_cent_students_per_age(9, 12, students_school_year_one), student_profile_per_cent_students_per_age(9, 12, students_school_year_two), student_profile_per_cent_students_per_age(9, 12, students_school_year_three), student_profile_per_cent_students_per_age(9, 12, students_school_year_four)]
+  sheet.add_row ["", "% Adolescentes (13 a 17 anos)", student_profile_per_cent_students_per_age(13, 17, students_school_year_one), student_profile_per_cent_students_per_age(13, 17, students_school_year_two), student_profile_per_cent_students_per_age(13, 17, students_school_year_three), student_profile_per_cent_students_per_age(13, 17, students_school_year_four)]
+  sheet.add_row ["", "% Jovens (18 a 29 anos)", student_profile_per_cent_students_per_age(18, 29, students_school_year_one), student_profile_per_cent_students_per_age(18, 29, students_school_year_two), student_profile_per_cent_students_per_age(18, 29, students_school_year_three), student_profile_per_cent_students_per_age(18, 29, students_school_year_four)]
+
+  sheet.add_row ["", "% 09 – 15 Masculino", student_profile_per_cent_students_per_gender_and_per_age(0, 9, 15, students_school_year_one), student_profile_per_cent_students_per_gender_and_per_age(0, 9, 15, students_school_year_two), student_profile_per_cent_students_per_gender_and_per_age(0, 9, 15, students_school_year_three), student_profile_per_cent_students_per_gender_and_per_age(0, 9, 15, students_school_year_four)]
+  sheet.add_row ["", "% 09 – 15 Feminino", student_profile_per_cent_students_per_gender_and_per_age(1, 9, 15, students_school_year_one), student_profile_per_cent_students_per_gender_and_per_age(1, 9, 15, students_school_year_two), student_profile_per_cent_students_per_gender_and_per_age(1, 9, 15, students_school_year_three), student_profile_per_cent_students_per_gender_and_per_age(1, 9, 15, students_school_year_four)]
+  sheet.add_row ["", "% 09 – 15 Outros", student_profile_per_cent_students_per_gender_and_per_age(2, 9, 15, students_school_year_one), student_profile_per_cent_students_per_gender_and_per_age(2, 9, 15, students_school_year_two), student_profile_per_cent_students_per_gender_and_per_age(2, 9, 15, students_school_year_three), student_profile_per_cent_students_per_gender_and_per_age(2, 9, 15, students_school_year_four)]
+  sheet.add_row ["", "% 16 – 29 Masculino", student_profile_per_cent_students_per_gender_and_per_age(0, 16, 29, students_school_year_one), student_profile_per_cent_students_per_gender_and_per_age(0, 16, 29, students_school_year_two), student_profile_per_cent_students_per_gender_and_per_age(0, 16, 29, students_school_year_three), student_profile_per_cent_students_per_gender_and_per_age(0, 16, 29, students_school_year_four)]
+  sheet.add_row ["", "% 16 – 29 Feminino", student_profile_per_cent_students_per_gender_and_per_age(1, 16, 29, students_school_year_one), student_profile_per_cent_students_per_gender_and_per_age(1, 16, 29, students_school_year_two), student_profile_per_cent_students_per_gender_and_per_age(1, 16, 29, students_school_year_three), student_profile_per_cent_students_per_gender_and_per_age(1, 16, 29, students_school_year_four)]
+  sheet.add_row ["", "% 16 – 29 Outros", student_profile_per_cent_students_per_gender_and_per_age(2, 16, 29, students_school_year_one), student_profile_per_cent_students_per_gender_and_per_age(2, 16, 29, students_school_year_two), student_profile_per_cent_students_per_gender_and_per_age(2, 16, 29, students_school_year_three), student_profile_per_cent_students_per_gender_and_per_age(2, 16, 29, students_school_year_four)]
+  sheet.add_row ["", "% Crianças (09 a 12 anos) Masculino", student_profile_per_cent_students_per_gender_and_per_age(0, 9, 12, students_school_year_one), student_profile_per_cent_students_per_gender_and_per_age(0, 9, 12, students_school_year_two), student_profile_per_cent_students_per_gender_and_per_age(0, 9, 12, students_school_year_three), student_profile_per_cent_students_per_gender_and_per_age(0, 9, 12, students_school_year_four)]
+  sheet.add_row ["", "% Crianças (09 a 12 anos) Feminino", student_profile_per_cent_students_per_gender_and_per_age(1, 9, 12, students_school_year_one), student_profile_per_cent_students_per_gender_and_per_age(1, 9, 12, students_school_year_two), student_profile_per_cent_students_per_gender_and_per_age(1, 9, 12, students_school_year_three), student_profile_per_cent_students_per_gender_and_per_age(1, 9, 12, students_school_year_four)]
+  sheet.add_row ["", "% Crianças (09 a 12 anos) Outros", student_profile_per_cent_students_per_gender_and_per_age(2, 9, 12, students_school_year_one), student_profile_per_cent_students_per_gender_and_per_age(2, 9, 12, students_school_year_two), student_profile_per_cent_students_per_gender_and_per_age(2, 9, 12, students_school_year_three), student_profile_per_cent_students_per_gender_and_per_age(2, 9, 12, students_school_year_four)]
+  sheet.add_row ["", "% Adolescentes (13 a 17 anos) Masculino", student_profile_per_cent_students_per_gender_and_per_age(0, 13, 17, students_school_year_one), student_profile_per_cent_students_per_gender_and_per_age(0, 13, 17, students_school_year_two), student_profile_per_cent_students_per_gender_and_per_age(0, 13, 17, students_school_year_three), student_profile_per_cent_students_per_gender_and_per_age(0, 13, 17, students_school_year_four)]
+  sheet.add_row ["", "% Adolescentes (13 a 17 anos) Feminino", student_profile_per_cent_students_per_gender_and_per_age(1, 13, 17, students_school_year_one), student_profile_per_cent_students_per_gender_and_per_age(1, 13, 17, students_school_year_two), student_profile_per_cent_students_per_gender_and_per_age(1, 13, 17, students_school_year_three), student_profile_per_cent_students_per_gender_and_per_age(1, 13, 17, students_school_year_four)]
+  sheet.add_row ["", "% Adolescentes (13 a 17 anos) Outros", student_profile_per_cent_students_per_gender_and_per_age(2, 13, 17, students_school_year_one), student_profile_per_cent_students_per_gender_and_per_age(2, 13, 17, students_school_year_two), student_profile_per_cent_students_per_gender_and_per_age(2, 13, 17, students_school_year_three), student_profile_per_cent_students_per_gender_and_per_age(2, 13, 17, students_school_year_four)]
+  sheet.add_row ["", "% Jovens (18 a 29 anos) Masculino", student_profile_per_cent_students_per_gender_and_per_age(0, 18, 29, students_school_year_one), student_profile_per_cent_students_per_gender_and_per_age(0, 18, 29, students_school_year_two), student_profile_per_cent_students_per_gender_and_per_age(0, 18, 29, students_school_year_three), student_profile_per_cent_students_per_gender_and_per_age(0, 18, 29, students_school_year_four)]
+  sheet.add_row ["", "% Jovens (18 a 29 anos) Feminino", student_profile_per_cent_students_per_gender_and_per_age(1, 18, 29, students_school_year_one), student_profile_per_cent_students_per_gender_and_per_age(1, 18, 29, students_school_year_two), student_profile_per_cent_students_per_gender_and_per_age(1, 18, 29, students_school_year_three), student_profile_per_cent_students_per_gender_and_per_age(1, 18, 29, students_school_year_four)]
+  sheet.add_row ["", "% Jovens (18 a 29 anos) Outros", student_profile_per_cent_students_per_gender_and_per_age(2, 18, 29, students_school_year_one), student_profile_per_cent_students_per_gender_and_per_age(2, 18, 29, students_school_year_two), student_profile_per_cent_students_per_gender_and_per_age(2, 18, 29, students_school_year_three), student_profile_per_cent_students_per_gender_and_per_age(2, 18, 29, students_school_year_four)]
+
+  sheet.add_row ["", "% Preta", student_profile_per_cent_students_per_ethnicity(2, students_school_year_one), student_profile_per_cent_students_per_ethnicity(2, students_school_year_two), student_profile_per_cent_students_per_ethnicity(2, students_school_year_three), student_profile_per_cent_students_per_ethnicity(2, students_school_year_four)]
+  sheet.add_row ["", "% Branca", student_profile_per_cent_students_per_ethnicity(0, students_school_year_one), student_profile_per_cent_students_per_ethnicity(0, students_school_year_two), student_profile_per_cent_students_per_ethnicity(0, students_school_year_three), student_profile_per_cent_students_per_ethnicity(0, students_school_year_four)]
+  sheet.add_row ["", "% Amarela", student_profile_per_cent_students_per_ethnicity(3, students_school_year_one), student_profile_per_cent_students_per_ethnicity(3, students_school_year_two), student_profile_per_cent_students_per_ethnicity(3, students_school_year_three), student_profile_per_cent_students_per_ethnicity(3, students_school_year_four)]
+  sheet.add_row ["", "% Parda", student_profile_per_cent_students_per_ethnicity(1, students_school_year_one), student_profile_per_cent_students_per_ethnicity(1, students_school_year_two), student_profile_per_cent_students_per_ethnicity(1, students_school_year_three), student_profile_per_cent_students_per_ethnicity(1, students_school_year_four)]
+  sheet.add_row ["", "% Indígena", student_profile_per_cent_students_per_ethnicity(4, students_school_year_one), student_profile_per_cent_students_per_ethnicity(4, students_school_year_two), student_profile_per_cent_students_per_ethnicity(4, students_school_year_three), student_profile_per_cent_students_per_ethnicity(4, students_school_year_four)]
+  sheet.add_row ["", "% Outras", student_profile_per_cent_students_per_ethnicity(5, students_school_year_one), student_profile_per_cent_students_per_ethnicity(5, students_school_year_two), student_profile_per_cent_students_per_ethnicity(5, students_school_year_three), student_profile_per_cent_students_per_ethnicity(5, students_school_year_four)]
+  
+  @cities.each do |city|
+    sheet.add_row ["", "% Alunos da Cidade " + city.name, student_profile_per_cent_students_per_city(city, students_school_year_one), student_profile_per_cent_students_per_city(city, students_school_year_two), student_profile_per_cent_students_per_city(city, students_school_year_three), student_profile_per_cent_students_per_city(city, students_school_year_four)]
+  end
+  @neighborhoods.each do |neighborhood|
+    sheet.add_row ["", "% Alunos do Bairro " + neighborhood.name, student_profile_per_cent_students_per_neighborhood(neighborhood, students_school_year_one), student_profile_per_cent_students_per_neighborhood(neighborhood, students_school_year_two), student_profile_per_cent_students_per_neighborhood(neighborhood, students_school_year_three), student_profile_per_cent_students_per_neighborhood(neighborhood, students_school_year_four)]
+  end
+
+  Student.school_shifts.each do |name, index|
+    sheet.add_row ["", "% " + pretty_school_shift(name), student_profile_per_cent_students_per_school_shift(name, students_school_year_one), student_profile_per_cent_students_per_school_shift(name, students_school_year_two), student_profile_per_cent_students_per_school_shift(name, students_school_year_three), student_profile_per_cent_students_per_school_shift(name, students_school_year_four)]
+  end
+  Student.grades.each do |name, index|
+    sheet.add_row ["", "% " + name, student_profile_per_cent_students_per_grade(name, students_school_year_one), student_profile_per_cent_students_per_grade(name, students_school_year_two), student_profile_per_cent_students_per_grade(name, students_school_year_three), student_profile_per_cent_students_per_grade(name, students_school_year_four)]
+  end
+
+  sheet.add_row ["", "% Estudando", student_profile_per_cent_students_studying(0, students_school_year_one), student_profile_per_cent_students_studying(0, students_school_year_two), student_profile_per_cent_students_studying(0, students_school_year_three), student_profile_per_cent_students_studying(0, students_school_year_four)]
+  sheet.add_row ["", "% Não Estudando", student_profile_per_cent_students_studying(1, students_school_year_one), student_profile_per_cent_students_studying(1, students_school_year_two), student_profile_per_cent_students_studying(1, students_school_year_three), student_profile_per_cent_students_studying(1, students_school_year_four)]
+  sheet.add_row ["", "% Trabalhando", student_profile_per_cent_students_working(true, students_school_year_one), student_profile_per_cent_students_working(true, students_school_year_two), student_profile_per_cent_students_working(true, students_school_year_three), student_profile_per_cent_students_working(true, students_school_year_four)]
+  sheet.add_row ["", "% Não Trabalhando", student_profile_per_cent_students_working(false, students_school_year_one), student_profile_per_cent_students_working(false, students_school_year_two), student_profile_per_cent_students_working(false, students_school_year_three), student_profile_per_cent_students_working(false, students_school_year_four)]
+  Student.project_indications.each do |name, index|
+    sheet.add_row ["", "% " + name, student_profile_per_cent_students_project_indication(name, students_school_year_one), student_profile_per_cent_students_project_indication(name, students_school_year_two), student_profile_per_cent_students_project_indication(name, students_school_year_three), student_profile_per_cent_students_project_indication(name, students_school_year_four)]
+  end
+  sheet.add_row ["", "% Alunos que tomam medicamento", student_profile_per_cent_students_medication(true, students_school_year_one), student_profile_per_cent_students_medication(true, students_school_year_two), student_profile_per_cent_students_medication(true, students_school_year_three), student_profile_per_cent_students_medication(true, students_school_year_four)]
+  
+  sheet.add_row [""]
+
+  #Variavel que define qual é a primeira célula que deve sofrer mescla  
+  initial = merge_cells_initial
+  #Variavel que recebe o calculo de qual é a celula final que deve sofrer mescla
+  final = initial + 33 + Student.project_indications.length + Student.grades.length + Student.school_shifts.length + @neighborhoods.length + @cities.length
+
+  #Adiciona o nome da seção na primeira célula
+  sheet.rows[initial - 1].cells[0].value = "Monitoramento por Perfil do Aluno"
+  #Faz com que o nome da seção fique centralizado verticalmente e horizontalmente
+  sheet.rows[initial - 1].cells[0].style = wb.styles.add_style :alignment => { :horizontal => :center, :vertical => :center}
+
+  #Executa a mescla das células dessa seção
+  sheet.merge_cells "A#{initial}:A#{final}"
+
+  #Retorna a o número da célula de mescla inicial do próximo bloco
+  return final + 2
+end
+
+
+wb.styles do |s|
+  wb.add_worksheet(name: "general monitoring") do |sheet|
+    sheet.column_widths 55
+    
+    sheet.add_row ["", "", print_school_year_name(@school_year_one), print_school_year_name(@school_year_two), print_school_year_name(@school_year_three), print_school_year_name(@school_year_four)]
+
+    merge_cells_initial = 2
+
+    if @general_data == "1"
+      merge_cells_initial = general_data(sheet, @school_year_one, @school_year_two, @school_year_three, @school_year_four, merge_cells_initial, wb)
+    end
+    if @council_monitoring == "1"
+      merge_cells_initial = council_monitoring(sheet, @school_year_one, @school_year_two, @school_year_three, @school_year_four, merge_cells_initial, wb)
+    end
+    if @instructor_monitoring == "1"
+      merge_cells_initial = instructor_monitoring(sheet, @school_year_one, @school_year_two, @school_year_three, @school_year_four, merge_cells_initial, wb)
+    end
+    if @social_service_monitoring == "1"
+      merge_cells_initial = social_service_monitoring(sheet, @school_year_one, @school_year_two, @school_year_three, @school_year_four, merge_cells_initial, wb)
+    end
+    if @student_profile == "1"
+      merge_cells_initial = student_profile(sheet, @school_year_one, @school_year_two, @school_year_three, @school_year_four, merge_cells_initial, wb)
+    end
+
+  end
+end
+    

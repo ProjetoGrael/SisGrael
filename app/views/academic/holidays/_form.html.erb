@@ -1,0 +1,37 @@
+<%= form_with(model: academic_holiday, local: true, class: 'container-85') do |form| %>
+  <% if academic_holiday.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(academic_holiday.errors.count, "error") %> prohibited this academic_holiday from being saved:</h2>
+
+      <ul>
+      <% academic_holiday.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="card">
+    <div class="card-show-container">
+      <div class="grid-1-column grid">
+        <div class="field-info">
+          <p>Nome:</p>
+          <%= form.text_field :name, id: :academic_holiday_name %>
+        </div>
+
+        <div class="field-info">
+          <p>Dia:</p>
+          <%= form.date_field :day, id: :academic_holiday_day %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%= form.hidden_field :school_year_id, value: holiday_school_year_value(academic_holiday), id: :academic_holiday_school_year_id %>
+
+  <div class="line-buttons" style="display: block;">
+    <%= link_to 'Voltar', school_year_holidays_path(holiday_school_year_value(@academic_holiday)), class: 'generate-button', style: 'display: inline;' %>
+    <%= form.submit 'Salvar Dia sem Aula', class: 'generate-button', style: 'display: inline;' %>
+  </div>
+  
+<% end %>

@@ -1,0 +1,105 @@
+<% if (notice) %>
+  <script>
+      $(document).ready(function(){
+        swal("<%= notice if notice != "You are not authorized to access this page"%>","","");
+      });
+  </script>
+<% end %>
+
+<div class="card-view">
+  <div class="card-action">
+    <div class="action-buttons">
+      <%= @rubric.numeration %>
+    </div>
+  </div>
+
+  <div class="card-content">
+    <div class="titles">
+      <%= @rubric.description %>
+    </div>
+
+    <div class="grid-1-column grid additional-infos">
+      <div>
+        <p>Projeto:</p>
+        <%= @rubric.project.title %>
+      </div>
+    </div>
+
+    <div class="grid-3-columns grid descriptions-financial">
+      <div>
+        <p>Valor:</p>
+        <%= number_to_currency @rubric.value, unit: "R$", separator: ",", delimiter: "." %>
+      </div>
+
+      <div>
+        <p>Saldo:</p>
+        <%= number_to_currency @rubric.current_value, unit: "R$", separator: ",", delimiter: "." %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-85">
+  <div class="flex-end">
+    <%= link_to 'Voltar', project_path(@rubric.project), class:'generate-button' %>
+  </div>
+</div>
+
+<div class="container-85 search-box">
+  <%= form_tag(@rubric, method: :get, class: "search-form") do %>
+    <%= text_field_tag :term, params[:term], :placeholder => "Digite a Descrição:", class: "search-input" %>
+    <%= submit_tag '', description: nil, class: 'search-button' %>
+  <% end %>   
+</div>
+
+<h1>Itens da Rubrica</h1>
+
+<% if (@rubric.rubric_items.any?) %>
+  <% @rubric_items.each do |rubric_item| %>
+    <div class="card">
+      <div class="card-action">
+        <%= link_to rubric_item, :class => 'card-link' do %>
+          <div class="action-buttons">
+            <%= rubric_item.numeration %>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="card-content">
+        <div class="titles">
+          <%= link_to 'Editar', edit_rubric_item_path(rubric_item), class:"edit-button", style:"text-align: center;" %>
+          <%= link_to 'Excluir', rubric_item, method: :delete, class:"delete-button", style:"margin-bottom: 5px; text-align: center;" %>
+        </div>
+
+        <%= link_to rubric_item, :class => 'card-link' do %>
+          <div class="grid-1-column grid additional-infos">
+            <div>
+              <p><%= rubric_item.description %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%= link_to rubric_item, :class => 'card-link' do %>
+          <div class="grid-1-column grid descriptions-financial">
+            <div>
+              <p>Valor:</p>
+              <%= number_to_currency rubric_item.value, unit: "R$", separator: ",", delimiter: "." %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="table">
+    <div class="show-action-buttons">
+      <%= link_to 'Novo Item', {action: :new, controller: :rubric_items, rubric_id: @rubric}, class: "button-new" %>
+    </div>
+  </div>
+
+  <%= paginacao(@rubric_items) %>
+
+<% else %>
+  <p>Não há itens da rubrica a serem exibidos.</p>
+  <%= link_to 'Novo Item', {action: :new, controller: :rubric_items, rubric_id: @rubric}, class: "button-new" %>
+<% end %>

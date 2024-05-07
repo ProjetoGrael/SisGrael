@@ -1,0 +1,31 @@
+<%= form_with(model: classroom, local: true, class: 'container-85') do |form| %>
+  <% if classroom.errors.any? %>
+    <div id="error_explanation">
+      <h2>Alguns erros impediram esta turma de ser salva:</h2>
+
+      <ul>
+      <% classroom.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="card">
+    <div class="card-show-container">
+      <div class="grid-1-column grid">
+        <div class="field-info">
+          <p>Nome:</p>
+          <%= form.text_field :fantasy_name, id: :classroom_fantasy_name %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%= form.hidden_field :school_year_id, value: school_year_value(classroom) %>
+
+  <div class="line-buttons" style="display: block;">
+    <%= form.submit 'Salvar Turma', class: 'generate-button', style: 'display: inline;' %>
+  </div>
+
+<% end %>

@@ -1,0 +1,43 @@
+<h1>Escolas</h1>
+<p><%= notice if notice != "You are not authorized to access this page"%></p>
+
+<% if (@schools.any?) %>
+    <div class="container-65">
+      <div class="flex-end">
+        <%= link_to 'Nova Escola', new_school_path, class:'edit-button' %>
+        <%= link_to 'Voltar', secretary_index_path, class: 'edit-button', style: 'margin-left: 10px;' %>
+      </div>
+    </div>
+      
+      <% @schools.each do |school| %>
+
+          <div class="card">
+            <div class="card-action">
+              <div class="action-buttons">
+                <%= link_to 'Editar', edit_school_path(school), class:"edit-button" %>
+                <%= link_to 'Excluir', school, method: :delete, class:"delete-button" %>
+              </div>
+            </div>
+
+            <div class="card-content">
+              <div class="titles">
+                <%= school.name %>
+              </div>
+
+              <div class="grid-1-column grid additional-infos">
+                <div>
+                  <p>N° Alunos:</p>
+                  <%= school.number_students %>
+                </div>
+              </div>
+            </div>
+          </div>
+
+      <% end %>
+
+  <%= paginacao(@schools) %>
+<% else %>
+  <p>Não há escolas a serem exibidos.</p>
+  <%= link_to 'Nova Escola', new_school_path, class:'edit-button' %>
+  <%= link_to 'Voltar', secretary_index_path, class: 'edit-button' %>
+<% end %>

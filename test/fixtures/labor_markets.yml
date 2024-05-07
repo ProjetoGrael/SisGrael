@@ -1,0 +1,31 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  year: 1
+  student: one
+  date_closure: 2020-01-16
+  date_start: 2020-01-16
+  date_exit: 2020-01-16
+  company: MyString
+  company_address: MyString
+  student_occupation_area: MyString
+  student_office: MyString
+  contact_name: MyString
+  contact_office: MyString
+  contact_email: MyString
+  company_phone_number: MyString
+
+two:
+  year: 1
+  student: two
+  date_closure: 2020-01-16
+  date_start: 2020-01-16
+  date_exit: 2020-01-16
+  company: MyString
+  company_address: MyString
+  student_occupation_area: MyString
+  student_office: MyString
+  contact_name: MyString
+  contact_office: MyString
+  contact_email: MyString
+  company_phone_number: MyString

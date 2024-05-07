@@ -1,0 +1,94 @@
+// Place all the styles related to the Grafic controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.grafic {
+  display: block;
+  height: 40px;
+}
+
+.flex-conteiner-monitoring {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-conteiner-monitoring .title-monitoring {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  width: 90%;
+}
+
+.flex-conteiner-monitoring .title-monitoring .generate-button {
+  color: #333333;
+}
+
+.card-graphic {
+  width: 70%;
+  max-height: 550px;
+  box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
+
+  margin-top: 50px;
+}
+
+.card-graphic canvas {
+  position: relative;
+}
+
+.backButtonMonitoring {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-top: 5px;
+  width: 90%;
+}
+
+.card-monitoring .grafic-button-color {
+  background-color: #126496;
+  border: 1px solid #126496;
+  color: #fafafa;
+  transition: 0.3s;
+}
+
+.card-monitoring .grafic-button-color:hover {
+  background-color: #2f80b3;
+  transition: 0.3s;
+}
+
+.card-monitoring .pdf-button-color {
+  background-color: #ff7b7b;
+  color: #fafafa;
+  border: 1px solid #ff7b7b;
+}
+
+.card-monitoring .pdf-button-color:hover {
+  background-color: #ff9e9e;
+  transition: 0.3s;
+}
+
+.subtitle{
+  text-align: left;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.subtitle-box{
+  width: 15px;
+  height: 10px;
+  display: inline-block;
+  margin-left: 15px;
+}
+
+.red{
+  background-color: #ff7b7b;
+}
+
+.green{
+  background-color: #93C166;
+}
+
+.blue{
+  background-color: #126496;
+}

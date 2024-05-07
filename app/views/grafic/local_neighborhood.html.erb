@@ -1,0 +1,12 @@
+<div class="flex-conteiner-monitoring">
+    <div class="title-monitoring">
+      <h1>Porcentagem de alunos por Bairro</h1>
+        <%= link_to 'EXPORTAR PARA EXCEL', student_places_path({}, format: :xlsx), class: "generate-button school-year-monitoring-link"%>
+    </div>
+    <div class="backButtonMonitoring" >
+        <a id="back-page" class="edit-button ">Voltar</a>    
+    </div>
+    <div class="card-graphic" style="max-height: 1400px;">
+      <%= bar_chart @date,height: "1400px",xtitle: "Porcentagem de Alunos", suffix: "%" ,max: 50, library: { scales: { xAxes: [{ ticks: { stepSize: 5, beginAtZero: true}}]}}%>
+   </div>
+</div>

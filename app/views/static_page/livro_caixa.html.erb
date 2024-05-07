@@ -1,0 +1,50 @@
+<% if (notice) %>
+  <script>
+      $(document).ready(function(){
+        swal("<%= notice if notice != "You are not authorized to access this page"%>","","");
+      });
+  </script>
+<% end %>
+
+  <h1>Livro Caixa</h1>
+  
+  <div class="flex-painel">
+    <div>
+      <%= link_to transactions_path do %>
+        <div class="card-painel card-center">
+          <div> 
+            <div class="transactions-icone-panel icon"></div>
+            <p>Transações</p>
+          </div>
+        </div>
+      <% end %>
+
+      <%= link_to transaction_categories_path do %>
+        <div class="card-painel card-center">
+          <div>     
+            <div class="transaction-types-icone-panel icon"></div>
+            <p>Naturezas de Transação</p>    
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div>
+      <%= link_to enterprises_path do %>
+        <div class="card-painel card-center">
+          <div>     
+            <div class="companies-icone-panel icon"></div>
+            <p>Empresas</p>    
+          </div>
+        </div>
+      <% end %>
+
+      <%= link_to organizations_path do %>
+        <div class="card-painel card-center">
+          <div> 
+            <div class="transaction-classes-icone-panel icon"></div>
+            <p>Classes</p>    
+          </div>
+        </div>  
+      <% end %>
+    </div>
+  </div>

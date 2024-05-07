@@ -1,0 +1,84 @@
+// Place all the styles related to the Students controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+@import "utilities/variables.scss";
+
+#div-link-renewed-students .titles {
+  height: unset;
+}
+
+#myBtn-school {
+  margin: 0px auto 15px;
+}
+
+div.status {
+  position: relative;
+}
+p.status {
+  display: inline-block;
+}
+
+#status-exclamation {
+  display: none;
+  color: red;
+  line-height: 50%;
+  font-weight: bold;
+  font-size: 1.1em;
+  padding: 5px 7px;
+  border: 2px solid red;
+  border-radius: 50px;
+  position: absolute;
+  right: 0px;
+  top: -2px;
+}
+
+.show {
+  display: inline-block !important;
+}
+.pedant {
+  font-size: 0.75em;
+  display: inline-block;
+}
+
+.status-alert {
+  color: red !important;
+}
+
+.select-status {
+  font-size: 0.85em;
+  font-style: italic;
+}
+
+.evaded {
+  font-size: 1em;
+  display: inline-block;
+  float: right;
+}
+
+.search-form-student {
+  width: 100%;
+  margin: 0 0 30px 0;
+  display: grid;
+  grid-template-columns: 1fr 4fr 1fr;
+
+  .grid-column-2 {
+    grid-column: 2;
+    justify-self: center;
+  }
+  .grid-column-3 {
+    grid-column: 3;
+    justify-self: end;
+  }
+
+  .search-input {
+    border-radius: 5px 0 0 5px;
+    width: 100%;
+    margin: 0;
+    margin-bottom: 20px;
+    background-color: $white-second;
+  }
+
+  .search-input::placeholder {
+    color: $gray;
+  }
+}

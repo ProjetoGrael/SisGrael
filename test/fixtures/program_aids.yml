@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  student: one
+  assistance_program: one
+  value: 9.99
+
+two:
+  student: two
+  assistance_program: two
+  value: 9.99

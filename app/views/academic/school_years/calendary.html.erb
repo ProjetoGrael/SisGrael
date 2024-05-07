@@ -1,0 +1,66 @@
+
+<h1>Calendário <%= @school_year.name %></h1>
+<input type= "hidden" value="<%= @school_year.id %>" id="school-year-id"/>
+<input type="hidden" value="<%= form_authenticity_token %>" id="token"/>
+
+<% if can? :create, Academic::Holiday %>
+<table id="calendary" class="calendary">
+<% else %>
+<table class="calendary">
+<% end %>
+    <tr>
+        <th >
+            <% if @current_month != 0 %>
+                <%= link_to '<', no_class_path(@school_year, @current_month -1), :class => 'month-change' %>
+            <% end %>
+        </th>
+        <th class="header-calendary" colspan="5"> <%= @month_name %></th>
+        <th>
+            <% if @current_month != (@school_year.final.mon- @school_year.start.mon) %>
+                <%= link_to '>', no_class_path(@school_year, @current_month +1), :class => 'month-change' %>
+            <% end %>
+        </th>
+    </tr>
+    <tr>
+        <th>D</th>
+        <th>S</th>
+        <th>T</th>
+        <th>Q</th>
+        <th>Q</th>
+        <th>S</th>
+        <th>S</th>
+        
+    </tr>
+    <% @count = 0 %>
+    <% indice = 0 %>
+    <% wk = @week_day %>
+    <% while indice < @days.length %>
+        <% if @count % 7 == 0 %>
+            <tr>
+        <% end %>  
+            
+        <% if wk == 0 %>
+            <% if Academic::Holiday.find_by(day: @date[indice]).present? %>
+                <td class="width-restrit unnormal-day">
+            <% else %>
+                <td class="width-restrit normal-day">
+            <% end %>
+            <%= @days[indice] %>
+            <input type="hidden" value="<%= @date[indice] %>"/>
+            </td>
+            <% indice = indice + 1 %>
+        <% else %>
+            <% wk = wk - 1 %>
+            <td></td>
+        <% end %>
+
+        <% @count += 1 %>
+        <% if @count % 7 == 0 %>
+            </tr>
+        <% end %> 
+    <% end %>
+    
+</table>
+
+
+

@@ -1,0 +1,28 @@
+<%= form_with(model: @state, local: true, class: 'container-85') do |f| %>
+<% if @state.errors.any? %>
+    <script>
+        $(document).ready(function(){
+          swal("<h2>"+"<%= pluralize(@state.errors.count, "erro") %> proibiu de salvar esta instituição:"
+          +"</h2><ul>"+"<% @state.errors.full_messages.each do |message| %>"
+          +"<li>"+"<%= message %>"+"</li>"+"<% end %>"+"</ul>","","");
+        });
+    </script>
+  <% end %>
+
+  <div class="card">
+    <div class="card-show-container">
+      <div class="grid-1-column grid">
+        <div class="field-info">
+          <p>Nome:</p>
+          <%= f.text_field :name %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="line-buttons" style="display: block;">
+    <%= link_to 'Voltar', states_path, class: 'generate-button', style: 'display: inline;' %>
+    <%= f.submit 'Salvar Estado', class: 'generate-button', style: 'display: inline;' %>
+  </div>
+
+<% end %>

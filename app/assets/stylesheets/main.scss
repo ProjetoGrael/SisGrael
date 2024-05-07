@@ -1,0 +1,581 @@
+@import "utilities/variables";
+@import "utilities/fonts";
+
+
+/*##########################################################
+
+ #######  ###  #######  #     #  #        #######   #####  
+    #      #      #     #     #  #        #     #  #     # 
+    #      #      #     #     #  #        #     #  #       
+    #      #      #     #     #  #        #     #   #####  
+    #      #      #     #     #  #        #     #        # 
+    #      #      #     #     #  #        #     #  #     # 
+    #     ###     #      #####   #######  #######   #####  
+                                                           
+*/
+
+h1 {
+    font-style: normal;
+    font-weight: bold;
+    line-height: normal;
+    font-size: 2.250em;
+    text-align: center;
+    color: $black;
+}
+
+/*##########################################################*/
+
+
+
+
+
+/*###################################################################################
+
+ #######  #######  ######   #     #  #     #  #           #     ######   ###  ####### 
+ #        #     #  #     #  ##   ##  #     #  #          # #    #     #   #   #     # 
+ #        #     #  #     #  # # # #  #     #  #         #   #   #     #   #   #     # 
+ #####    #     #  ######   #  #  #  #     #  #        #     #  ######    #   #     # 
+ #        #     #  #   #    #     #  #     #  #        #######  #   #     #   #     # 
+ #        #     #  #    #   #     #  #     #  #        #     #  #    #    #   #     # 
+ #        #######  #     #  #     #   #####   #######  #     #  #     #  ###  ####### 
+*/
+
+form {
+    margin: 0 auto;
+    width: max-content;
+    width: -moz-max-content;
+}
+
+.btn-add {
+    display: block;
+    width: 8ch;
+    height: 1.75em;
+    margin: 40px auto 0px auto;
+    background: $blue;
+    border-color: $blue;
+    border-radius: 5px;
+    font-family: Nunito;
+    font-style: normal;
+    font-weight: bold;
+    line-height: normal;
+    font-size: 1.75em;
+    text-align: center;
+    text-transform: uppercase;
+    color: $white;
+    transition-duration: .3s;
+    -webkit-transition-duration: .3s;
+}
+
+.btn-add:hover {
+    cursor: pointer;
+
+    transition-duration: .3s;
+    -webkit-transition-duration: .3s;
+}
+
+/*Estiliza o auto-completar.*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px #FFF6D7 inset;
+    box-shadow: 0 0 0px 1000px #FFF6D7 inset;
+    -webkit-text-fill-color: $black;
+
+}
+
+input[type="text"], 
+input[type="email"], 
+input[type="password"], 
+input[type="number"], 
+input[type="date"], 
+input[type="time"],
+textarea {
+    border-radius: 5px;
+    padding-left: .5em;
+    border: 1px solid #E0E0E0;
+    background: $white;
+    color: $black;
+}
+
+input[type="date"] {
+    padding: 5px;
+}
+
+input[type="checkbox"] {
+    margin: auto 0;
+}
+
+input[type="text"]:hover, 
+input[type="email"]:hover, 
+input[type="password"]:hover, 
+input[type="number"]:hover, 
+input[type="date"]:hover,
+input[type="time"]:hover,
+textarea:hover {
+    background-color: #EEE;
+}
+
+input:focus {
+    outline: none;
+    border: 1px solid #77B9F9;
+    border-radius: 5px;
+}
+
+input::placeholder {
+    color: #c0c0c0;
+    font-family: Nunito;
+    font-style: normal;
+    font-weight: lighter;
+}
+
+input[type="text"], 
+input[type="email"], 
+input[type="password"], 
+input[type="number"], 
+input[type="date"],
+input[type="time"],
+textarea {
+    display: block;
+    width: 350px;
+    height: 2.25em;
+    background: $white;
+    border: 1px solid #E0E0E0;
+    box-sizing: border-box;
+    font-size: 1.25em;
+    margin: 0 auto;
+    margin-bottom: 15px;
+}
+
+label {
+    font-size: 24px;
+    display: block;
+    text-align: left;
+}
+
+select, input {
+    display: block;
+    margin: 0 auto;
+}
+
+select {
+    margin-bottom: 15px;
+    border: 1px solid #E0E0E0;
+    background: $white;
+    color: $black;
+    border-radius: 5px;
+    padding: .5em;
+    width: 350px;
+    font-size: 1.25em;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    /*desenha a setinha para baixo*/
+    background-image:
+        linear-gradient(45deg, transparent 50%, gray 50%),
+        linear-gradient(135deg, gray 50%, transparent 50%),
+        linear-gradient(to right, #ccc, #ccc);
+    background-position:
+        calc(100% - 1.25em) calc(1em),
+        calc(100% - .75em) calc(1em),
+        calc(100% - 2.5em) 0.5em;
+    background-size:
+        .5em .5em,
+        .5em .5em,
+        1px 1.5em;
+    background-repeat: no-repeat;
+}
+
+
+select:focus {
+    outline: none;
+    border: 1px solid #77B9F9;
+    border-radius: 5px;
+}
+
+.select-evaded {
+    background-color: #EEE;
+}
+
+select:hover{
+    background-color: #EEE;
+}
+
+.campo {
+    font-weight: bold;
+}
+.field{
+    margin: 0 auto;
+    width: fit-content;
+    width: -moz-fit-content;
+    width: -webkit-fit-content;
+}
+textarea{
+    resize: none;
+    min-height: 5.25em;
+    padding-top: .5em; 
+}
+
+/* Estiliza image_field */
+
+#image_field {
+    width: 100%;
+}
+
+[type=file] {
+    position: absolute;
+    width: 0;
+    visibility: hidden;
+}
+
+[type=file] + label {
+  /* Decorative */
+    border-radius: 5px;
+    padding-left: .5em;
+    border: 1px solid #E0E0E0;
+    background: $white;
+    color: $black;
+    font-size: 1.25em;
+    text-align: center;
+    padding: 10px 0;
+    cursor: pointer;
+    font-family: Nunito;
+}
+[type=file] + label:hover {
+    background-color: #EEE;
+}
+
+.restrictions {
+    text-align: left;
+    font-size: .81em;
+    & li::before {
+        content:'*';
+    }
+}
+
+/*##########################################################*/
+
+
+
+
+
+/*###############################################
+
+ ######  ####### ####### ####### #######  #####  
+ #     # #     #    #    #     # #       #     # 
+ #     # #     #    #    #     # #       #       
+ ######  #     #    #    #     # #####    #####  
+ #     # #     #    #    #     # #             # 
+ #     # #     #    #    #     # #       #     # 
+ ######  #######    #    ####### #######  #####  
+                                                 
+*/
+
+
+.button-panel {
+    margin: 1em auto .5em auto;
+    width: max-content;
+    display: inline-block;
+    padding: .5em 1em;
+    background: $yellow;
+    border: 0;
+    border-radius: 5px; 
+    font-family: Nunito;
+    font-style: normal;
+    font-weight: bold;
+    line-height: normal;
+    font-size: 1em;
+    text-align: center;
+    text-transform: uppercase;
+    color: $white !important;
+    outline: none;
+    cursor: pointer;
+    transition-duration: .3s;
+    -webkit-transition-duration: .3s;
+}
+
+.button-panel:hover {
+    background: $yellow-hover;
+    color: $white !important;
+}
+
+.button-exit {
+    margin: 1em auto .5em auto;
+    width: max-content;
+    display: inline-block;
+    padding: .5em 1em;
+    background: #a94442;
+    border: 0;
+    border-radius: 5px; 
+    font-family: Nunito;
+    font-style: normal;
+    font-weight: bold;
+    line-height: normal;
+    font-size: 1em;
+    text-align: center;
+    text-transform: uppercase;
+    color: $white !important;
+    outline: none;
+    cursor: pointer;
+    transition-duration: .3s;
+    -webkit-transition-duration: .3s;
+}
+
+.button-exit:hover {
+    background: #cc5856;
+    color: $white !important;
+}
+
+.button-back, .change-password {
+    float: left;
+    margin: 1em 1em .5em auto;
+    padding: .5em .5em;
+    display: inline-block;
+    background: $blue;
+    border-radius: 5px;
+    color: $white;
+    transition-duration: .3s;
+    -webkit-transition-duration: .3s;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.button-back:hover, .change-password:hover {
+    background-color: $blue-hover;
+}
+
+.icon-back {
+    -webkit-mask-image: image-url("back.svg");
+    mask-image: image-url("back.svg");
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+    background: $white;
+    display: block;
+    width: 1.375em;
+    height: 1.375em;
+}
+
+.button-edit {
+    float: right;
+    display: inline-block;
+    margin: 1em auto .5em auto;
+    width: calc(100% - 4em);
+    padding: .5em 1em;
+    background: $yellow;
+    border-radius: 5px;
+    font-family: Nunito;
+    font-style: normal;
+    font-weight: bold;
+    line-height: normal;
+    font-size: 1em;
+    text-align: center;
+    text-transform: uppercase;
+    color: $white;
+    transition-duration: .3s;
+    -webkit-transition-duration: .3s;
+    border-width: 0;
+    cursor: pointer;
+}
+
+.button-edit:hover {
+    background-color: $yellow-hover;
+}
+
+.button-new {
+    margin: 1em auto .5em auto;
+    width: max-content;
+    display: table;
+    padding: .5em 1em;
+    background: $yellow;
+    border: 0;
+    border-radius: 5px; 
+    font-family: Nunito;
+    font-style: normal;
+    font-weight: bold;
+    line-height: normal;
+    font-size: 1em;
+    text-align: center;
+    text-transform: uppercase;
+    color: $white !important;
+    outline: none;
+    cursor: pointer;
+    transition-duration: .3s;
+    -webkit-transition-duration: .3s;
+}
+
+.button-new:hover {
+    background: $yellow-hover;
+    color: $white !important;
+}
+
+.table .button-new {
+    margin-top: 0; 
+    margin-right: 0;
+}
+
+
+/*  Seletor de Tabela em Show de Projeto  */
+
+.tabs a {
+    margin: 1em auto .5em auto;
+    display: inline-table;
+    padding: .5em 1em;
+    font-family: Nunito;
+    font-style: normal;
+    font-weight: bold;
+    line-height: normal;
+    font-size: 1em;
+    text-align: center;
+    text-transform: uppercase;
+    outline: none;
+    cursor: pointer;
+    transition-duration: .3s;
+    -webkit-transition-duration: .3s;
+    border-radius: 5px;
+    border: 1px solid #E0E0E0;
+    background: $white;
+    color: $black;
+}
+
+.tabs a.active {
+    background-color: #EEE; 
+}
+
+.tabs a:hover {
+    background-color: #EEE;
+}
+
+.tabs-content div[id$="tab-content"] {
+    display: none; 
+  }
+  
+.tabs-content .active {
+    display: block !important; 
+}
+
+/*##########################################################*/
+
+.action-button {
+    border: 1px solid;
+    text-transform: uppercase;
+    padding: 0 .5em;
+}
+
+
+
+.green-action-button {
+    background-color: #dff0d8;
+    border-color: #3c763d;
+    color: #3c763d !important;
+}
+
+.green-action-button:hover {
+    background-color: #d0e9c6;
+}
+
+.blue-action-button {
+    background-color: #d9edf7;
+    border-color: #31708f;
+    color: #31708f !important;
+}
+
+.blue-action-button:hover {
+    background-color: #bcdff1;
+}
+
+.yellow-action-button {
+    background-color: #fcf8e3;
+    border-color: #8a6d3b;
+    color: #8a6d3b !important;
+}
+
+.yellow-action-button:hover {
+    background-color: #faf2cc;
+}
+
+.red-action-button {
+    background-color: #f2dede;
+    border-color: #a94442;
+    color: #a94442 !important;
+}
+
+.red-action-button:hover {
+    background-color: #ebcccc;
+}
+
+
+/*##########################################################*/
+/*##########################################################*/
+/*show*/
+.show-container {
+    max-width: 100%;
+    margin: 0 auto 1em auto;
+    font-size: 1em;
+}
+
+.show-container p {
+    font-size: 1em!important;
+    text-align: left!important;
+}
+
+.show-container:before, .show-container:after {
+    content: '';
+    clear: both;
+    display: table;
+}
+
+.show-action-buttons {
+    margin: 0.5em 0;
+    float: right;
+}
+
+.show-action-buttons .button-new {
+    display: inline-block;
+    width: 140px;
+}
+
+
+.footer {
+    width: 100%;
+    height: 1em;
+}
+
+@media (max-width: 1000px) {
+    .footer {
+        height: 5em;
+    }
+}
+
+/*##########################################################*/
+/*##########################################################*/
+/*show*/
+
+.perfil {
+    margin: 2em auto 1em auto;
+    border-radius: 50%;
+    display: block;
+    max-width: 150px;
+    max-height: 150px;
+    width: auto;
+    height: auto;
+}
+
+.flex-end {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+
+    &>*:not(:last-child) {
+        margin-right: 1em;
+    }
+}
+
+.selectWidth {
+    width: 400pxmonitoramento;
+}

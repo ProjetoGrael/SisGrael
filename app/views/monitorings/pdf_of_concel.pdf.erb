@@ -1,0 +1,74 @@
+<html>
+    <header>
+        <meta charset="UTF-8">
+        
+        <style>
+            .rumo-nautico {
+                width: 165px;
+                height: 105px;
+                
+            }
+            .projeto-grael{
+                width: 120px;
+                height: 105px;
+                float: right;
+                
+            }
+            .main-container{
+                width: 80%;
+                margin: 0 auto;
+                text-align: center;
+                padding-top: 70px;
+            }
+            h1{
+                color: blue;
+                font-weight: bold;
+            }
+            h3 {
+                color: #555599;
+                font-size: 22px;
+            }
+            h4 {
+                color: #555599;
+                font-size: 18px;
+            }
+            p {
+                margin: 65px;
+                font-size: 18px;
+                font-weight: bold;
+                color: rgba(0,0,0,.8)
+            }
+            #create_at{
+                margin: 104px;
+                color: black
+            }
+            #url{
+                margin: 0 auto;
+                color: black
+            }
+        </style>
+    </header>
+    <body>
+        <div class="image-container">
+            <%= wicked_pdf_image_tag 'image1.jpg', class: "rumo-nautico"%>
+            <%= wicked_pdf_image_tag 'image2.png', class: "projeto-grael"%>
+        </div>
+        <div class="main-container">
+            <h1>No Periodo Letivo - <%= @school_year.name%></h1>
+            <h3>De Duração: <%=I18n.l @school_year.start%> até <%=I18n.l @school_year.final%></h3>
+            <h4> Dos alunos inscritos desse periodo:</h4>
+            <% 1.upto(4) do |i| %>
+                <p>
+                    <%= final_counsel_percentage(@subject_histories, i) %>% com conceito <%=mean_hash i%> nas suas materias
+                </p>
+            <% end %>
+            <% length = @inscriptions.length.to_f %>
+            <p><%= (@inscriptions.where(situation: "approved").length.to_f * 100/length).round(2)%>% foram aprovados</p>
+            <p><%= (@inscriptions.where(situation: "participant").length.to_f * 100/length).round(2)%>% foram participantes</p>
+            <p><%= (@inscriptions.where(situation: "lack_of_lesson").length.to_f * 100/length).round(2)%>% foram reprovados por faltas</p>
+            <p><%= (@students_evaded.length.to_f * 100/length).round(2)%>% foram evadidos</p>
+        </div>
+        <p id="create_at">Emitido em <%=I18n.l Date.today%></p>
+        <p id="url">Documento gerado em: <%= @url %></p>
+    </body>
+</html>

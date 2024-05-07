@@ -1,0 +1,119 @@
+.container-council {
+  margin: 20px auto;
+  max-width: 90%;
+}
+
+.title-subject {
+  font-weight: bold;
+  padding: 10px 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px 5px 0 0;
+  height: 100%;
+  font-size: 1.5em;
+}
+
+.card-inscription {
+  padding: 10px 20px;
+  border: 1px solid #e0e0e0;
+  background-color: #fefefe;
+}
+
+.card-inscription:nth-last-child(1) {
+  border-radius: 0 0 5px 5px;
+}
+
+.card-inscription:nth-child(1),
+.card-inscription-final-observation:nth-child(1) {
+  border-radius: 5px 5px 0 0;
+}
+
+.row-inscription,
+.row-name-inscription {
+  display: flex !important;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.row-name-inscription {
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.row-name-inscription:hover .inscription-name,
+.inscription-name-underline {
+  text-decoration: underline;
+}
+
+.col-inscription {
+  display: flex;
+  flex-direction: column;
+}
+
+.field-student-photo .student-photo {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+}
+
+.inscription-content {
+  margin-left: 20px;
+}
+
+.inscription-name {
+  font-weight: bold;
+}
+
+.collapse-field {
+  display: none;
+}
+
+.student-visible {
+  display: block;
+}
+
+.divider {
+  border-top: 1px solid #e0e0e0;
+  margin: 15px 0;
+}
+
+.side-side {
+  display: flex;
+  justify-content: space-between;
+}
+
+.field-trio {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.programas-sociais .divider {
+  margin-top: 20px;
+}
+
+.opinion-council {
+  margin-top: 10px;
+}
+
+@media (max-width: 1000px) {
+  .row-inscription {
+    flex-direction: column;
+  }
+
+  .inscription-content {
+    margin: 0;
+  }
+}
+
+//CALENDARIO
+
+.side-side-form {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  margin: 20px auto;
+}
+
+.field-form-ocorrence {
+  margin-bottom: 20px;
+}

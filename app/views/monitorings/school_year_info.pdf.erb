@@ -1,0 +1,156 @@
+<html>
+    <header>
+        <meta charset="UTF-8">
+        <style>
+          .rumo-nautico {
+                width: 165px;
+                height: 105px;
+                
+            }
+            .projeto-grael{
+                width: 120px;
+                height: 105px;
+                float: right;
+                
+            }
+            .classroom-name, h1{
+                font-size: 25px;
+                text-align: center;
+                color: #4444ff;
+            }
+            .student-container{
+                border: solid rgba(0,0,0,.6) 1px;
+                margin: 10px 0;
+                
+                border-radius: 5px;
+                box-shadow: 0px 4px rgba(0,0,0,.3);
+            }
+            .horizon-line{
+                width: 100%;
+                height: 0px;
+                border-bottom: 1 solid rgba(0,0,0,.6);
+            }
+            div{
+                width: 100%;
+            }
+            tr, table, tbody{
+                height: 45px;
+                text-align: center;
+                width: 100%;
+            }
+            .main-container{
+                width: 80%;
+                margin: 0 auto;
+                text-align: center;
+                padding-top: 70px;
+            }
+            h1{
+                color: blue;
+                font-weight: bold;
+            }
+            h3 {
+                color: #555599;
+                font-size: 22px;
+            }
+            h4 {
+                color: #555599;
+                font-size: 18px;
+            }
+            p {
+                margin: 65px;
+                font-size: 18px;
+                font-weight: bold;
+                color: rgba(0,0,0,.8)
+            }
+            #create_at{
+                margin: 104px;
+                color: black
+            }
+            #url{
+                margin: 0 auto;
+                color: black;
+                margin-bottom: 20px;
+            }
+            .student-name, .student-situation{
+                width: 50%;
+                padding: 0;
+                margin: 0;
+                text-align: center;
+            }
+            .subject-info{
+                width: 50%;
+                padding: 0;
+                margin: 0;
+                text-align: center;
+            }
+            .student-name{
+                font-weight: bold;
+            }
+            #padding-top{
+                margin-top: 470px;
+            }
+            
+        </style>
+    </header>
+    <body>
+    <div class="image-container">
+            <%= wicked_pdf_image_tag 'image1.jpg', class: "rumo-nautico"%>
+            <%= wicked_pdf_image_tag 'image2.png', class: "projeto-grael"%>
+            <a id="back-page" class="edit-button ">Voltar</a>    
+        </div>
+        <div class="main-container">
+            <h1>No Periodo Letivo - <%= @school_year.name%></h1>
+            <h3>De Duração: <%=I18n.l @school_year.start%> até <%=I18n.l @school_year.final%></h3>
+            <h4> Dos alunos inscritos desse periodo:</h4>
+            <% 1.upto(4) do |i| %>
+                <p>
+                    <%= final_counsel_percentage(@subject_histories, i) %>% com conceito <%=mean_hash i%> nas suas materias
+                </p>
+            <% end %>
+            <% length = @inscriptions.length.to_f %>
+            <p><%= (@inscriptions.where(situation: "approved").length.to_f * 100/length).round(2)%>% foram aprovados</p>
+            <p><%= (@inscriptions.where(situation: "participant").length.to_f * 100/length).round(2)%>% foram participantes</p>
+            <p><%= (@inscriptions.where(situation: "lack_of_lesson").length.to_f * 100/length).round(2)%>% foram reprovados por faltas</p>
+            <p><%= (@students_evaded.length.to_f * 100/length).round(2)%>% foram evadidos</p>
+        </div>
+        <p id="create_at">Emitido em <%=I18n.l Date.today%></p>
+        <p id="url">Documento gerado em: <%= @url %></p>
+        <div class="image-container">
+                    </div>
+        <h1 id="padding-top">Informações sobre o periodo: <%= @school_year.name%></h1>
+        <%@classrooms.each do |classroom|%>
+            <div class="classroom-container">
+                <p class='classroom-name'>Turma <%= classroom.fantasy_name%></p>
+                <% classroom.inscriptions.active.each do |inscription| %>
+                    <div class="student-container">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="student-name"><%= inscription.student.name %></td>
+                                    <td class="student-situation">Situação: <%=translate_situation inscription.situation%></td> 
+                                </tr>
+                            </tbody>
+                        </table>
+                        <% inscription.classroom.classroom_subjects.each do |classroom_subject| %>
+                            <% subject_history = Academic::SubjectHistory.find_by(classroom_subject_id: classroom_subject.id, inscription_id: inscription.id)%>
+                            <% next if not subject_history.present? %>
+                            <% next unless subject_history.is_valid? %>
+                            <div class='horizon-line'></div>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td class="subject-info">Disciplina <%= subject_history.full_name%></td>
+                                        <td class="subject-info">Conselho <%=mean_hash subject_history.final_counsel%></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        <% end %>
+
+                    </div>
+                <% end %>
+            </div>
+        <% end %>
+        <h3>Emitido em <%=I18n.l Date.today%></h3>
+        <h3>Documento gerado em: <%= @url %></h3>
+    </body>
+<html>

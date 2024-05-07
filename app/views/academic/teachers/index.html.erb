@@ -1,0 +1,107 @@
+<p id="notice"><%= notice if notice != "You are not authorized to access this page"%></p>
+
+<h1>Educadores</h1>
+
+    <div class="container-85">
+      <div class='flex-end'>
+        <a id="back-page" class="generate-button" style="margin-left: 5px">Voltar</a>
+      </div>
+    </div>
+
+    <div class="search-box">
+      <%= form_tag(teachers_path, method: :get, class: "search-form") do %>
+        <%= text_field_tag :term, params[:term], :placeholder => "Digite o nome de um Educador:", class: "search-input" %>
+        <%= submit_tag '', title: nil, class: 'search-button' %>
+      <% end %>
+      <% #link_to "Novo", new_user_path, :class =>'button-new'%>
+    </div>
+    <% @teachers.each do |teacher| %>
+      <%if teacher.active?%>
+        <div class="card" style="max-width:72%;">
+      <%else%> 
+        <div class="card card-content-size" style="background-color: #e5e5e5;">
+      <% end %>
+        
+          <div class="card-action">
+              <div class="action-photo">
+                <% if teacher.photo.present? %>
+                  <%= image_tag teacher.photo.small.url, :class => 'user-photo' %>
+                <% else %>
+                  <% if pretty_sex(teacher.sex) == 'Masculino' %>
+                    <div class="user-photo men-teacher-icone-panel icon"></div>
+                  <% else %>
+                    <div class="user-photo women-teacher-icone-panel icon"></div>
+                  <% end %>
+                <% end %>
+              </div>            
+          </div>
+        
+
+          <div class="card-content ">
+            <div class="titles">
+                
+                <%= teacher.name %>
+              <div class="button-students">
+                <% if can? :teacher_subjects, teacher %>
+                  <%= link_to 'Disciplinas', teacher_subjects_path(teacher.id), class: "edit-button" %>
+                <% end %>
+                <% if can? :panel, teacher %>
+                  <%= link_to 'Painel Educador', teacher_panel_path(teacher), class: 'generate-button' %>
+                <% end %>
+                <% if can? :update, teacher %>
+                  <%= link_to 'Editar', edit_teacher_path(teacher), class:"edit-button" %>
+                <% end %>
+                <% if can? :destroy, teacher %>
+                  <%= link_to 'Excluir', teacher_disable_path(teacher), method: :patch, class:"delete-button", data: { confirm: 'Tem certeza?' } %>
+                <% end %>
+              </div>
+            </div>
+            
+              <div class="grid registration">
+                <div class="field-info">
+                  <p>Status:</p>
+                  <%= teacher.active ? 'Ativo' : 'Inativo' %>
+                </div>
+
+                <div class="field-info">
+                  <p>Nascimento:</p>
+                  <%= l teacher.birth %>
+                </div>
+
+                <div class="field-info">
+                  <p>Sexo:</p>
+                  <%= pretty_sex(teacher.sex) %>
+                </div>
+
+                <div class="field-info">
+                  <p>Etnia:</p>
+                  <%= teacher.ethnicity %>
+                </div>
+              </div>
+            
+              <div class="grid discipline">
+                <div class="field-info">
+                  <p>RG:</p>
+                  <%= teacher.rg %>
+                </div>
+
+                <div class="field-info">
+                  <p>CPF:</p>
+                  <%= teacher.cpf %>
+                </div>
+
+                <div class="field-info">
+                  <p>Telefone:</p>
+                  <%= teacher.phone %>
+                </div>
+
+                <div class="field-info">
+                  <p>Celular:</p>
+                  <%= teacher.mobile_phone %>
+                </div>
+              </div>
+
+          </div>
+        </div>
+
+    <% end %>

@@ -1,0 +1,40 @@
+$(document).ready(function() {
+    //Se tem estado busca todas as cidades deste estado e coloca como opções
+    <% if @student.state.id %>
+        var state_id = <%= @student.state.id %>
+        var city_select = $('#student_city_id') 
+        var neighborhood_select = $('#student_neighborhood_id')
+        $.ajax({
+            url: "/cidades/listar-cidades",
+            data: { state_id: state_id }
+        })
+        .done(function(result){
+            city_select.empty()
+            city_select.append('<option></option>')
+            for (var i = 0; i < result.length; i++) {
+                city_select.append('<option value="'+result[i][1]+'">'+result[i][0]+'</option>')
+            }
+            //Checa se estudante tem cidade, caso tenha seleciona a cidade dele
+            <% if @student.city and @student.city.id %>
+                city_select.val("<%=@student.city.id %>")
+
+                $.ajax({
+                    url: "/bairros/listar-bairros",
+                    data: { city_id: <%=@student.city.id %> },
+                    success: function(result){
+                        neighborhood_select.empty()
+                        neighborhood_select.append('<option></option>')
+                        for (var i = 0; i < result.length; i++) {
+                            neighborhood_select.append('<option value="'+result[i][1]+'">'+result[i][0]+'</option>')
+                        }    
+
+                        //Se tem bairro busca bairros
+                        <% if @student.neighborhood.id %>
+                            neighborhood_select.val('<%= @student.neighborhood.id %>')
+                        <% end %>
+                    }
+                })               
+            <% end %>
+        })
+    <% end %>
+})

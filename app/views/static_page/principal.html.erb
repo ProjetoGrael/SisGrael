@@ -1,0 +1,76 @@
+<% if (notice) %>
+  <script>
+      $(document).ready(function(){
+        swal("<%= notice if notice != "You are not authorized to access this page"%>","","");
+      });
+  </script>
+<% end %>
+
+
+  <h1>Painel Administrador</h1>
+    <div class="flex-painel">
+      
+        <%= link_to financial_index_path do %>
+          <div class="card-painel card-center">
+            <div>     
+              <div class="financial-icone-panel icon"></div>
+              <p>Financeiro</p>    
+            </div>
+          </div>
+        <% end %>
+
+        <%= link_to academic_index_path do %>
+        <div class="card-painel card-center">
+          <div>     
+            <div class="academic-icone-panel icon"></div>
+            <p>Acadêmico</p>    
+          </div>
+        </div>
+        <% end %>
+      
+        <%= link_to secretary_index_path do %>
+          <div class="card-painel card-center">
+            <div>     
+              <div class="secretary-icone-panel icon"></div>
+              <p>Secretaria</p>    
+            </div>
+          </div>
+        <% end %>
+
+        <%= link_to users_path do %>
+          <div class="card-painel card-center">
+            <div>     
+              <div class="users-icone-panel icon"></div>
+              <p>Usuários</p>    
+            </div>
+          </div>
+        <% end %>
+      
+        <%= link_to  monitoring_index_path do %>
+          <div class="card-painel card-center">
+            <div>     
+              <div class="monitoring-icone-panel icon"></div>
+              <p>Monitoramento</p>    
+            </div>
+          </div>
+        <% end %>
+
+        <%= link_to social_service_index_path do %>
+          <div class="card-painel card-center">
+            <div>     
+              <div class="social-services-panel icon"></div>
+              <p>Serviço Social</p>    
+            </div>
+          </div>
+        <% end %>
+
+      </div>
+
+      
+    </div>
+    <!--
+    <%= link_to 'Financeiro', {controller: :static_page, action: :financeiro} %>
+    <%= link_to 'Academico', {controller: :static_page, action: :academico} %>
+    <%= link_to 'Secretaria', {controller: :static_page, action: :secretaria} %>
+    -->
+

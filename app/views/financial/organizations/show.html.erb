@@ -1,0 +1,21 @@
+<% if (notice) %>
+  <script>
+      $(document).ready(function(){
+        swal("<%= notice if notice != "You are not authorized to access this page"%>","","");
+      });
+  </script>
+<% end %>
+<div class="show-container">
+  <h1>
+    <%= @institution.name %>
+  </h1>
+
+  <p>
+    <strong>Status:</strong>
+    <%= translate_status(@institution.status) %>
+  </p>
+
+  <%= link_to organizations_path, class:'button-back' do %>
+    <div class='icon-back'></div>
+  <% end %>
+</div>

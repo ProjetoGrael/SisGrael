@@ -1,0 +1,54 @@
+@import "utilities/variables";
+@import "utilities/fonts";
+
+
+
+/*
+##     ## ######## ##    ## ##     ##         ########  #######  ########  
+###   ### ##       ###   ## ##     ##            ##    ##     ## ##     ## 
+#### #### ##       ####  ## ##     ##            ##    ##     ## ##     ## 
+## ### ## ######   ## ## ## ##     ## #######    ##    ##     ## ########  
+##     ## ##       ##  #### ##     ##            ##    ##     ## ##        
+##     ## ##       ##   ### ##     ##            ##    ##     ## ##        
+##     ## ######## ##    ##  #######             ##     #######  ##        
+*/
+
+.menu-top {
+    right: 3em;
+    background-color: $light-gray;
+    border: 1px solid $gray;
+    font-weight: bold;
+    height: 50px;
+    display: table;
+    width: 100%;
+    text-align: right;
+    font-size: 0.875em;
+    color: $black;
+    font-family: Nunito;
+    box-sizing: border-box;
+}
+
+.menu-top a {
+    padding: 15px 20px;
+    color: $black;
+    font-size: 1.125em;
+}
+
+.menu-top a:hover {
+    color: $yellow;
+    text-decoration: underline;
+    transition: .1s;
+}
+
+.menu-top ul li:last-child  {
+    margin-right: 20px;
+}
+
+.menu-top ul {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.menu-top li {
+    display: inline-table;
+}

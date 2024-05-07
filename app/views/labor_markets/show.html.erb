@@ -1,0 +1,69 @@
+<p id="notice"><%= notice if notice != "You are not authorized to access this page"%></p>
+
+<p>
+  <strong>Ano:</strong>
+  <%= @labor_market.year %>
+</p>
+
+<p>
+  <strong>Nome do Aluno:</strong>
+  <%= @labor_market.student.name %>
+</p>
+
+<p>
+  <strong>Data de Fechamento:</strong>
+  <%= @labor_market.date_closure %>
+</p>
+
+<p>
+  <strong>Data de Início:</strong>
+  <%= @labor_market.date_start %>
+</p>
+
+<p>
+  <strong>Data de Fim:</strong>
+  <%= @labor_market.date_exit %>
+</p>
+
+<p>
+  <strong>Nome da Empresa:</strong>
+  <%= @labor_market.company %>
+</p>
+
+<p>
+  <strong>Endereço da Empresa:</strong>
+  <%= @labor_market.company_address %>
+</p>
+
+<p>
+  <strong>Área de Atuação do Estudante:</strong>
+  <%= @labor_market.student_occupation_area %>
+</p>
+
+<p>
+  <strong>Cargo do Estudante:</strong>
+  <%= @labor_market.student_office %>
+</p>
+
+<p>
+  <strong>Nome do Contato:</strong>
+  <%= @labor_market.contact_name %>
+</p>
+
+<p>
+  <strong>Cargo do Contato:</strong>
+  <%= @labor_market.contact_office %>
+</p>
+
+<p>
+  <strong>Email do Contato:</strong>
+  <%= @labor_market.contact_email %>
+</p>
+
+<p>
+  <strong>Telefone da Empresa:</strong>
+  <%= @labor_market.company_phone_number %>
+</p>
+
+<!-- link_to 'Editar', edit_labor_market_path(@labor_market) -->
+<%= link_to 'Voltar', labor_markets_path %>

@@ -1,0 +1,28 @@
+<div class="flex-conteiner-monitoring">
+    <div class="title-monitoring">
+        <h2>Relatório por Aluno</h2>
+        <%= link_to 'EXPORTAR PARA EXCEL', monitoring_council_path({}, format: :xlsx), class: "generate-button school-year-monitoring-link"%>
+    </div>
+    <div class="backButtonMonitoring">
+        <a id="back-page" class="edit-button ">Voltar</a>    
+    </div>
+    <div class="card-graphic">
+        <%= form_tag(:student_grade, method: :get, id: 'form_of_student') do  %>
+            <%= select_tag(:school_year_id, options_from_collection_for_select(Academic::SchoolYear.all, "id", "name", @school_year_id), prompt: "Escolha um período letivo", onChange: 'this.form.submit();')%>
+        <% end %>
+        <%= form_tag(:student_grade, method: :get, id: 'form_of_student') do  %>
+            <%= hidden_field_tag :school_year_id, params[:school_year_id] %>
+            <%= select_tag(:student_id,options_from_collection_for_select(Student.joins(inscriptions: [:classroom]).where('school_year_id = ?', params[:school_year_id]).order(name: :asc).uniq, "id", "name", @student_id), prompt: "Escolha um aluno",onChange: 'this.form.submit();')%>
+        <% end %>
+        <%= form_tag(:student_grade, method: :get, id: 'form_of_student') do  %>
+            <%= hidden_field_tag 'school_year_id', params[:school_year_id] %>
+            <%= hidden_field_tag 'student_id', params[:student_id] %>
+            <%= select_tag(:subject_id,options_from_collection_for_select(Academic::Subject.joins(classrooms: [:inscriptions]).where('student_id = ?', @student_id).where('school_year_id = ?', @year), "id", "name", @subject_id),prompt: "Escolha uma disciplina",onChange: 'this.form.submit();')%>
+        <% end %>
+        <% if @subject.present?%>
+
+        <%= pie_chart @date_second %>
+        
+        <% end %>
+    </div>
+</div>

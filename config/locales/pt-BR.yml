@@ -1,0 +1,473 @@
+pt-BR:
+  true: Sim
+  false: Não
+  helpers:
+    select:
+      prompt: Por favor selecione
+    submit:
+      create: Criar %{model}
+      submit: Salvar %{model}
+      update: Atualizar %{model}
+  errors:
+      messages:
+        extension_whitelist_error: Formato do arquivo não está na lista dos formatos aceitos
+        
+  activerecord:
+    models:
+      student: Estudante
+      vocational_interview: Entrevista Profissionalizante
+      service_sheet: Ficha de Atendimento
+      assistance_program: Programas Assistenciais
+      program_aid: Auxílio de Programas
+      family_member: Membros familiares
+      expense: Despesas
+      user: Usuário
+      financial/account: Conta Bancária
+      captation: Captação
+      fixed_cost: Custo Fixo
+      institution: Instituição
+      project: Projeto
+      rubric_item: Item de Rubrica
+      rubric: Rubrica
+      transaction_category: Categoria de Transação
+      transaction: Transação
+      academic/teacher: Educador
+      academic/subject: Disciplina
+      academic/classroom: Turma
+      academic/teacher_skill: Habilidade do Educador
+      academic/school_year: Período Letivo
+      academic/subject_history: Registro do Histórico
+      academic/classroom_subject: Curso
+      academic/inscription: Inscrição em Turma
+      academic/subject_level: Nivel de Disciplina
+      academic/holiday: Dia sem Aula
+      academic/lesson: Aula
+      academic/presence: Presença
+    attributes:
+      student:
+        absences: Ausências
+        city: Cidade
+        neighborhood: Bairro
+        school: Escola
+        state: Estado
+        year: Ano
+        semester: Semestre
+        photo: Foto
+        name : Nome
+        birthdate: Data de nascimento
+        sex : Sexo
+        ethnicity: Etnia
+        nationality : Nacionalidade
+        naturalness : Naturalidade
+        issuing_agency : Orgão expeditor
+        issuing_date: Data de emissão
+        adress: Endereço
+        sub_neighborhood: Sub bairro
+        phone: Telefone
+        mobile_phone: Celular
+        project_indication: Indicação do projeto
+        project_indicantion_description: Descrição do projeto indicado
+        medication: Medicação
+        school_shift: Turno escolar
+        grade: Nota
+        father_name: Nome do pai
+        father_cpf : CPF do pai
+        father_email: Email do pai
+        father_phone: Celular do pai
+        mother_name: Nome da mãe
+        mother_cpf: CPF da mãe
+        mother_email: Email da mãe
+        mother_phone: Celular da mãe
+        responsible_name: Nome do responsável
+        responsible_cpf: CPF do responsável
+        responsible_email: Email do responsável
+        responsible_phone: Celular do reponsável
+        number_residents: Número de residentes
+        annotations: Anotações
+      vocational_interview:
+        enrolled_in_the_course: Matriculado no Curso
+        social_name: Nome Social
+        phone: Telefone
+        mobile: Celular
+        last_attended_educational_institution: Última instituição de ensino
+        repetition: Repetência
+        special_needs: Portador de Necessidade Especial
+        live_with: Vive com
+        live_with_other: Vive com outros
+        housing_condition: Condição de Moradia
+        urban_infrastructure: Infraestrutura Urbana em sua Moradia?
+        motivation: Motivação ao escolher as atividades do Projeto Grael
+        other_motivation: Qual outra motivação?
+        already_attended: Já frequentou o Projeto Grael anteriormente?
+        already_attended_when: Quando?
+        already_attended_which: Quais atividades?
+        already_attended_which_other: Outras Atividades
+        already_attended_difference: O que ser Aluno do Projeto Grael fez diferença?
+        already_attended_difference_other: Outras Situações
+        nautical_experience: Experiência Náutica
+        nautical_experience_text: Quais?
+        already_attended_to_other: Já participou de Cursos ou Projetos Sociais?
+        already_attended_to_other_text: Quais?
+        project_access: Acesso ao Projeto
+        project_access_other: Outros
+        number_transport: Número de Transportes
+        have_income: Possui alguma renda?
+        work: Trabalha?
+        work_wich: Qual trabalho?
+        father_works: Pai trabalha
+        mother_works: Mãe trabalha
+        step_father_works: Padrasto trabalha
+        step_mother_works: Madrasta trabalha
+        brothers_works: Irmãos trabalham
+        grandparents_works: Avós trabalham
+        other_works: Outros trabalham
+        workers_in_family_other: Outros que trabalham
+        working_time: Tempo de trabalho
+        home_computer_use: Usa computador em casa?
+        work_computer_use: Usa computador no trabalho?
+        school_computer_use: Usa computador na escola?
+        lan_house_computer_use: Usa computador na Lan House?
+        friend_house_computer_use: Casa de parentes amigos ou vizinhos?
+        computer_use_other: Outro
+        computer_use_other_text: Quais outros lugares
+        microsoft_office_knowledge: Conhece e utiliza Pacote Office(Word, Excel, PowerPoint)?
+        internet_surfer: Acessa a internet?
+        social_networks: Possui redes sociais?
+        social_networks_text: Quais?
+        family_life: Como é o convívio familiar?
+        family_lunch: Almoçar juntos no fim de semana
+        family_talking_about_life: Conversar sobre sua vida
+        family_talking_about_work: Conversar sobre o trabalho dos seus parentes
+        recreational_activities: Atividades de lazer
+        recreation_doing: Atividades de lazer
+        family_weekend: Ver seu pai, sua mãe ou algum parente no final de semana (em caso de não morar com os pais)
+        reveal_about_family: Revele algo da sua convivência com sua família que queira destacar
+        reveal_about_family_text: O que gosta de fazer com a família
+        artistic_activity: Atividade Artística
+        religious_activity: Atividade Religiosa
+        sport_activity: Atividade Esportiva
+        family_activity: Atividade Familiar
+        comunity_activity: Atividade Comunitária
+        other_activity: Outras Atividades
+        about_future_with_family: Você fala com alguém da sua família sobre o que você quer no seu futuro?
+        about_future_with_family_who: Quem?
+        concluding_remarks: Observações finais
+        canoeing: Canoagem
+        sailing: Vela
+        swimming: Natação
+        ambiental_programs: Programas Ambientais
+        professional_courses: Cursos Profissionalizantes
+        professional_courses_text: Texto para Cursos Profissionalizantes
+        maide_difference_performance: Desempenho Escolar
+        maide_difference_relationships: Relacionamentos
+        maide_difference_problem_solutions: Solução de Problemas
+        maide_difference_comunity: Comunidade
+        project_access_text: Texto para acesso ao projeto
+        project_access_text: Texto para acesso ao projeto
+      service_sheet:
+        student: Estudante
+        dwell_time_address: Tempo de permanência neste endereço
+        marital_status: Estado civil
+        disabled_person: Possui Deficiência?
+        disabled_person_text: Explique sobre sua deficiência?
+        has_documentation: Possui documentação?
+        has_documentation_text: Quais documentações possui?
+        father: Pai
+        mother: Mãe
+        current_working: Trabalha atualmente?
+        salary: Quanto ganha?
+        working_situation: Qual sua situação de trabalho?
+        working_situation_other: Outra situação de trabalho.
+        receives_benefit: Recebe algum tipo de benefício?
+        receives_benefit_wich: Qual tipo de benefício?
+        family_income: Renda familiar
+        dwell_time_city: Há quanto tempo reside nesta cidade?
+        previously_resided_city: Cidade anterior
+        residence_status: Estado da residencia
+        residence_status_text: Explique sobre o estado de sua residencia
+        kind_of_residence: Tipo de residencia
+        kind_of_residence_text: Explique sobre o tipo de residencia
+        room_number: Número de cômodos na casa
+        medication: Medicação
+        medication_text: Sobre medicação
+        psychiatric_treatment: Tratamento psiquiátrico
+        psychiatric_treatment_where: Aonde foi feito o tratamento psiquiátrico?
+        deficiency_in_family: Deficiência na família
+        deficiency_in_family_text: Texto sobre deficiência na família
+        deficiency_in_family_who: Quem possui deficiencia na família?
+        health_more_info: Possui plano de saúde?
+        protective_measures: Sob medida de proteção?
+        protective_measures_text: Explique sobre a medida de proteção
+        socio_educational_measure: Cumpre ou já cumpriu medidas sócio-educativas?
+        socio_educational_measure_text: Explique sobre as medidas sócio-educativas
+        socio_educational_measure_when: Quando cumpriu medidas sócio-educativas?
+        notes: Notas
+        referrals: Referências
+        responsible_technician: Técnico responsável
+        medication_expense: Despesa médica
+        per_capta_income: Renda per capta
+      expense:
+        name: Nome
+        value: Valor
+      family_member:
+        name: Nome
+        age: Idade
+        scholarity: Escolaridade
+        occupation: Ocupação
+        income: Renda
+        student_id: Estudante
+      assistance_program:
+        name: nome
+      program_aid:
+        student_id: Estudante
+        assistance_program_id: Programa Assistencial
+        value: Valor
+      neighborhood: 
+        students: estudantes
+      city:
+        neighborhoods: bairros
+        students: estudantes
+      state:
+        cities: municípios
+        neighborhoods: bairros
+        students: estudantes
+      school:
+        students: estudantes
+      academic/teacher:
+        name: Nome
+        birth: Data de Nascimento
+        active: Status
+        sex : Sexo
+        rg: RG
+        cpf: CPF
+        cep: CEP
+        phone: Telefone
+        photo: Foto
+        mobile_phone: Celular
+        ethnicity: Etnia
+        nationality : Nacionalidade
+        naturalness : Naturalidade
+        issuing_agency : Orgão expeditor
+        issuing_date: Data de emissão
+        address: Endereço
+        partner_name: Nome do Cônjuge
+        partner_cpf: CPF do Cônjuge
+        partner_email: Email do Cônjuge
+        partner_phone: Telefone do Cônjuge
+      academic/subject:
+        name: Nome
+        syllabus: Ementa
+        planning: Ementa
+        active: Status
+        leveled: Tipo de Disciplina
+      academic/classroom:
+        name: Nome
+        fantasy_name: Nome
+        school_year: Período Letivo
+        teacher: Educador
+        teacher_id: Educador
+        subject: Disciplina
+        subject_id: Disciplina
+        active: Status
+      academic/teacher_skill:
+        teacher: Educador
+        subject: Disciplina
+      academic/school_year:
+        name: Nome do Período
+        start: Início
+        final: Final
+        capacity: Capacidade de Alunos
+        active: Status
+      academic/subject_history:
+        subject: Disciplina
+        subject_id: Disciplina
+        student: Aluno 
+        student_id: Aluno
+        counsel_opinion: Opinião do Conselho
+        situation: Situação
+        partial_counsel: Conselho Parcial
+        final_counsel: Conselho Final
+        
+      academic/classroom_subject:
+        classroom: Turma
+        classroom_id: Turma
+        subject: Disciplina
+        subject_id: Disciplina
+        teacher: Instrutor do Curso
+        teacher_id: Instrutor do Curso
+        start_time: Início
+        finish_time: Fim
+        lesson_on_monday: Aula na Segunda-feira
+        lesson_on_tuesday: Aula na Terça-feira
+        lesson_on_wednesday: Aula na Quarta-feira
+        lesson_on_thursday: Aula na Quinta-feira
+        lesson_on_friday: Aula na Sexta-feira
+      academic/inscription:
+        student: Aluno
+        student_id: Aluno
+        classroom: Turma
+        classroom_id: Turma
+      academic/subject_level:
+        subject: Disciplina
+        subject_id: Disciplina
+        name: Nome
+        order: Ordem do Nivel
+        active: Status
+      academic/holiday:
+        name: Nome
+        day: Dia
+        school_year: Período Letivo
+        school_year_id: Período Letivo
+      academic/lesson:
+        notes: Notas de Aula
+        observations: Observações
+        day: Dia da Aula
+        classroom_subject: Curso
+        classroom_subject_id: Curso
+      academic/presence:
+        situation: Situação
+        student: Aluno
+        student_id: Aluno
+        lesson: Aula
+        lesson_id: Aula
+
+      user:
+        name: Nome
+        picture: Imagem
+        kind: Tipo
+        email: E-mail
+        password: Senha
+        password_confirmation: Confirmação da Senha
+      financial/account:
+        number: Número
+        agency: Agência
+        bank: Banco
+        current_value: Saldo
+      financial/captation:
+        source: Fonte de Captação
+        value: Valor
+      financial/fixed_cost:
+        description: Descrição
+      financial/institution:
+        name: Nome
+        kind: Tipo
+      financial/project:
+        title: Título
+        description: Descrição
+        total_value: Valor Total
+        current_value: Saldo
+      financial/rubric_item:
+        numeration: Numeração
+        description: Descrição
+        value: Valor
+      financial/rubric:
+        numeration: Numeração
+        description: Descrição
+        value: Valor
+        current_value: Saldo
+      financial/transaction_category:
+        description: Descrição
+      financial/transaction:
+        value: Valor
+        description: Descrição
+        cost_type: Tipo de Custo  
+
+    errors:
+      format: ! '%{attribute} %{message}'
+      messages:
+        extension_white_list_error: formato do arquivo não está na lista dos formatos aceitos
+        accepted: deve ser aceito
+        blank: não pode ficar em branco
+        present: deve ficar em branco
+        required: é obrigatório
+        confirmation: não é igual a %{attribute}
+        empty: não pode ficar vazio
+        equal_to: deve ser igual a %{count}
+        even: deve ser par
+        exclusion: não está disponível
+        greater_than: deve ser maior que %{count}
+        greater_than_or_equal_to: deve ser maior ou igual a %{count}
+        inclusion: não está incluído na lista
+        invalid: não é válido
+        less_than: deve ser menor que %{count}
+        less_than_or_equal_to: deve ser menor ou igual a %{count}
+        not_a_number: não é um número
+        not_an_integer: não é um número inteiro
+        odd: deve ser ímpar
+        record_invalid: ! 'A validação falhou: %{errors}'
+        restrict_dependent_destroy:
+          has_one: "Não é possível excluir o registro pois existe um %{record} dependente"
+          has_many: "Não é possível excluir o registro pois existem %{record} dependentes"
+        taken: já está em uso
+        too_long: ! 'é muito longo (máximo: %{count} caracteres)'
+        too_short: ! 'é muito curto (mínimo: %{count} caracteres)'
+        wrong_length: não possui o tamanho esperado (%{count} caracteres)
+        other_than: "deve ser diferente de %{count}"
+      template:
+        body: ! 'Por favor, verifique o(s) seguinte(s) campo(s):'
+        header:
+          one: ! 'Não foi possível gravar %{model}: 1 erro'
+          other: ! 'Não foi possível gravar %{model}: %{count} erros.'
+  time:
+    am: ''
+    formats:
+      default: "%a, %d de %B de %Y, %H:%M:%S %z"
+      long: "%d de %B de %Y, %H:%M"
+      short: "%d de %B, %H:%M"
+    pm: ''
+    
+  date:
+      abbr_day_names:
+      - Dom
+      - Seg
+      - Ter
+      - Qua
+      - Qui
+      - Sex
+      - Sáb
+      abbr_month_names:
+      -
+      - Jan
+      - Fev
+      - Mar
+      - Abr
+      - Mai
+      - Jun
+      - Jul
+      - Ago
+      - Set
+      - Out
+      - Nov
+      - Dez
+      day_names:
+      - Domingo
+      - Segunda-feira
+      - Terça-feira
+      - Quarta-feira
+      - Quinta-feira
+      - Sexta-feira
+      - Sábado
+      formats:
+        default: "%d/%m/%Y"
+        long: "%d de %B de %Y"
+        short: "%d de %B"
+        month: "%B"
+        year: "%Y"
+      month_names:
+      -
+      - Janeiro
+      - Fevereiro
+      - Março
+      - Abril
+      - Maio
+      - Junho
+      - Julho
+      - Agosto
+      - Setembro
+      - Outubro
+      - Novembro
+      - Dezembro
+      order:
+      - :day
+      - :month
+      - :year

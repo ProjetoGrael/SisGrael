@@ -1,0 +1,89 @@
+<%= form_with(model: labor_market, local: true) do |form| %>
+  <% if labor_market.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(labor_market.errors.count, "error") %> prohibited this labor_market from being saved:</h2>
+
+      <ul>
+      <% labor_market.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <p>Ano</p>
+    <%= form.number_field :year, id: :labor_market_year %>
+  </div>
+
+  <div class="field">
+    <p>Aluno</p>
+    <%= form.autocomplete_field :student_name, autocomplete_student_name_labor_markets_path, 'data-noMatchesLabel' => 'Não Encontrado', placeholder: "Digite o nome do aluno", id_element: '#labor_market_student_id'%>
+    <%= form.hidden_field :student_id, id: :labor_market_student_id %>
+    <input type=hidden id="token" value="<%= form_authenticity_token %>">
+  </div>
+
+  <div class="field">
+    <p>Data de Fechamento</p>
+    <%= form.date_field :date_closure, id: :labor_market_date_closure %>
+  </div>
+
+  <div class="field">
+    <p>Data de Início</p>
+    <%= form.date_field :date_start, id: :labor_market_date_start %>
+  </div>
+
+  <div class="field">
+    <p>Data de Saída</p>
+    <%= form.date_field :date_exit, id: :labor_market_date_exit %>
+  </div>
+
+  <div class="field">
+    <p>Nome da Empresa</p>
+    <%= form.text_field :company, id: :labor_market_company %>
+  </div>
+
+  <div class="field">
+    <p>Endereço da Empresa</p>
+    <%= form.text_field :company_address, id: :labor_market_company_address %>
+  </div>
+
+  <div class="field">
+    <p>Área de Atuação do Estudante</p>
+    <%= form.text_field :student_occupation_area, id: :labor_market_student_occupation_area %>
+  </div>
+
+  <div class="field">
+    <p>Tipo de Contratação</p>
+    <%= form.text_field :hiring_kind, id: :labor_market_hiring_kind %>
+  </div>
+
+  <div class="field">
+    <p>Cargo do Estudante</p>
+    <%= form.text_field :student_office, id: :labor_market_student_office %>
+  </div>
+
+  <div class="field">
+    <p>Nome do Contato</p>
+    <%= form.text_field :contact_name, id: :labor_market_contact_name %>
+  </div>
+
+  <div class="field">
+    <p>Cargo do Contato</p>
+    <%= form.text_field :contact_office, id: :labor_market_contact_office %>
+  </div>
+
+  <div class="field">
+    <p>Email do Contato</p>
+    <%= form.text_field :contact_email, id: :labor_market_contact_email %>
+  </div>
+
+  <div class="field">
+    <p>Telefone da Empresa</p>
+    <%= form.text_field :company_phone_number, id: :labor_market_company_phone_number %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Salvar' %>
+  </div>
+<% end %>

@@ -1,0 +1,28 @@
+
+<h1>Monitoramento do aluno</h2>
+<div class="flex-painel">
+    <a id="back-page" class="edit-button ">Voltar</a>    
+        <div class="card-painel card-center">
+            <div>      
+            <div class="students-icone-panel icon"></div>
+            <p>Relatório por Gênero e Faxa Etária</p>
+            </div>
+        </div>
+    <% end %>
+    <%= link_to student_individual_monitoring_path({},format: :xlsx) do %>
+        <div class="card-painel card-center">
+            <div>      
+            <div class="students-icone-panel icon"></div>
+            <p>Relatório por Tempo de Permanência</p>
+            </div>
+        </div>
+    <% end %>
+    <%= link_to student_places_path({},format: :xlsx) do %>
+        <div class="card-painel card-center">
+            <div>      
+            <div class="students-icone-panel icon"></div>
+            <p>Relátorio de Taxa de Ocupação</p>
+            </div>
+        </div>
+    <% end %>
+</div>

@@ -1,0 +1,228 @@
+@import "utilities/variables";
+@import "utilities/fonts";
+
+// Place all the styles related to the StaticPage controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.tmp {
+  text-align: center;
+}
+
+// Place all the styles related to the PaginasEstaticas controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.page-align {
+  padding: 0;
+  margin: 0;
+  padding-top: 20px;
+  padding-left: 80px;
+  text-align: center;
+}
+
+.icone-panel {
+  display: inline-block;
+  margin-bottom: 4ch;
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+  position: relative;
+  transition: 0.3s;
+  overflow: hidden;
+}
+
+.icone-panel:hover {
+  background-color: $blue;
+  transition: 0.3s;
+  color: $white;
+}
+
+.icone-panel a {
+  height: 100%;
+  min-height: 100%;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+@media (max-width: 1000px) {
+  .page-align {
+    margin: 0 auto;
+    padding-left: 0;
+  }
+}
+
+.icon {
+  display: block;
+  margin: 0 auto;
+  background-color: $black;
+  width: 5em;
+  height: 5em;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+}
+
+.page-align p {
+  color: $black;
+  font-size: 1.25em;
+  margin: auto 0;
+  text-align: center;
+}
+
+.page-align h1 {
+  margin-bottom: 0.6em;
+}
+
+.icone-panel a:hover > div {
+  background-color: $white;
+}
+
+.icone-panel a:hover > p {
+  color: $white;
+}
+
+.flex-painel {
+  display: flex;
+  margin: 0 auto;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 70%;
+  min-height: 400px;
+}
+
+
+
+/*PAINEL FINANCEIRO*/
+
+.bank-index {
+  -webkit-mask-image: image-url("bank.svg");
+  mask-image: image-url("bank.svg");
+}
+
+.projects-index {
+  -webkit-mask-image: image-url("projects.svg");
+  mask-image: image-url("projects.svg");
+}
+
+.report-index {
+  -webkit-mask-image: image-url("report.svg");
+  mask-image: image-url("report.svg");
+}
+
+.cash-book-index {
+  -webkit-mask-image: image-url("cash-book.svg");
+  mask-image: image-url("cash-book.svg");
+}
+
+/*PAINEL ADMINISTRADOR*/
+
+.financial-icone-panel {
+  -webkit-mask-image: image-url("financeiro.svg");
+  mask-image: image-url("financeiro.svg");
+}
+
+.academic-icone-panel {
+  -webkit-mask-image: image-url("academico.svg");
+  mask-image: image-url("academico.svg");
+}
+
+.secretary-icone-panel {
+  -webkit-mask-image: image-url("secretaria.svg");
+  mask-image: image-url("secretaria.svg");
+}
+
+.users-icone-panel {
+  -webkit-mask-image: image-url("users.svg");
+  mask-image: image-url("users.svg");
+}
+.monitoring-icone-panel {
+  -webkit-mask-image: image-url("research.svg");
+  mask-image: image-url("research.svg");
+}
+
+.social-services-panel {
+  -webkit-mask-image: image-url("social_services.svg");
+  mask-image: image-url("social_services.svg");
+}
+
+/*PAINEL SECRETARIA*/
+
+.students-icone-panel {
+  -webkit-mask-image: image-url("student.svg");
+  mask-image: image-url("student.svg");
+}
+
+.schools-icone-panel {
+  -webkit-mask-image: image-url("school.svg");
+  mask-image: image-url("school.svg");
+}
+
+.states-icone-panel {
+  -webkit-mask-image: image-url("state.svg");
+  mask-image: image-url("state.svg");
+}
+
+.cities-icone-panel {
+  -webkit-mask-image: image-url("city.svg");
+  mask-image: image-url("city.svg");
+}
+
+.neighborhoods-icone-panel {
+  -webkit-mask-image: image-url("houses.svg");
+  mask-image: image-url("houses.svg");
+}
+
+/*PAINEL LIVRO CAIXA*/
+
+.transactions-icone-panel {
+  -webkit-mask-image: image-url("transaction.svg");
+  mask-image: image-url("transaction.svg");
+}
+
+.transaction-types-icone-panel {
+  -webkit-mask-image: image-url("transaction_type.svg");
+  mask-image: image-url("transaction_type.svg");
+}
+
+.companies-icone-panel {
+  -webkit-mask-image: image-url("company.svg");
+  mask-image: image-url("company.svg");
+}
+
+.transaction-classes-icone-panel {
+  -webkit-mask-image: image-url("transaction_class.svg");
+  mask-image: image-url("transaction_class.svg");
+}
+
+/*PAINEL ACADEMICO*/
+
+.school-year-icone-panel {
+  -webkit-mask-image: image-url("calendar.svg");
+  mask-image: image-url("calendar.svg");
+}
+
+.teacher-icone-panel {
+  -webkit-mask-image: image-url("women-teacher.svg");
+  mask-image: image-url("women-teacher.svg");
+}
+
+.discipline-icone-panel {
+  -webkit-mask-image: image-url("discipline.svg");
+  mask-image: image-url("discipline.svg");
+}
+
+.classes-icone-panel {
+  -webkit-mask-image: image-url("classes.svg");
+  mask-image: image-url("classes.svg");
+}
+
+.myclasses-icone-panel {
+  -webkit-mask-image: image-url("myclasses.svg");
+  mask-image: image-url("myclasses.svg");
+}

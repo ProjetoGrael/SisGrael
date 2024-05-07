@@ -1,0 +1,2 @@
+class RegistrationNumber < ApplicationRecord
+end

@@ -1,0 +1,450 @@
+<%= form_with(model: student, local: true, id: 'student-form', class: 'container-85') do |form| %>
+  <script>
+    $(document).ready(function(){
+      $('#student_family_income').inputmask("numeric", {
+          radixPoint: ",",
+          groupSeparator: ".",
+          digits: 2,
+          autoGroup: true,
+          prefix: 'R$ ', //Space after $, this will not truncate the first character.
+          rightAlign: false,
+          oncleared: function () { self.Value(''); }
+      });
+    });
+  </script>
+
+  <% if student.errors.any? %>
+    <div id="error_explanation">
+      <h2>Alguns erros impediram este aluno de ser salvo:</h2>
+        <ul>
+          <% student.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+    </div>
+  <% end %>
+
+  <!-- INICIO DO FORM -->
+  <div class="card">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>1</span> Informações Pessoais</p>
+      <div class="grid-1-column grid" style="margin-bottom: 20px;">
+        <div id="image_field">
+          <%= form.file_field :photo, id: "image_label" %>
+          <label for="image_label">Escolher Foto</label>
+          <%= form.hidden_field :photo_cache %>
+        </div>
+
+        <script>
+          $("[type=file]").on("change", function(){
+            // Name of file and placeholder
+            let file = this.files[0].name;
+            let dflt = $(this).attr("placeholder");
+            if($(this).val()!="") $(this).next().text(file);
+            else $(this).next().text(dflt);
+          });
+        </script>
+      </div>
+
+      <div class="grid-2-columns grid">
+        <div class="field-info">
+          <p>Nome:</p>
+          <%= form.text_field :name, id: :student_name %>
+        </div>
+        
+        <div class="field-info">
+          <p>Data de Nascimento:</p>
+          <%= form.date_field :birthdate, id: :student_birthdate %>
+        </div>
+        <%= form.hidden_field :year, value: Date.today.year, id: :currentYear %>
+        <%= form.hidden_field :month, value: Date.today.month, id: :currentMonth %>
+        <div class="field-info">
+          <p>Sexo:</p>
+          <%= form.select :sex, sex_options, id: :student_sex %>
+        </div>
+        
+        <div class="field-info">
+          <p>Cor/Etnia</p>
+          <%= form.select :ethnicity, ethnicity_options, id: :student_ethnicity %>
+        </div>
+        
+        <div class="field-info">
+          <p>Nacionalidade:</p>
+          <%= form.text_field :nationality, value: nationality_value(@student), id: :student_nationality %>
+        </div>
+        
+        <div class="field-info">
+          <p>Naturalidade:</p>
+          <%= form.text_field :naturalness, id: :student_naturalness %>
+        </div>
+        
+        <div class="field-info">
+          <p>RG:</p>
+          <%= form.text_field :rg, id: :student_rg %>
+        </div>
+        
+        <div class="field-info">
+          <p>Órgão Expedidor:</p>
+          <%= form.text_field :issuing_agency, id: :student_issuing_agency %>
+        </div>
+        
+        <div class="field-info">
+          <p>Data de Emissão:</p>
+          <%= form.date_field :issuing_date, id: :student_issuing_date %>
+        </div>
+        
+        <div class="field-info">
+          <p>CPF:</p>
+          <%= form.text_field :cpf, id: :student_cpf %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>2</span> Endereço</p>
+      <div class="grid-2-columns grid">
+        <div class="field-info">
+        <p>Endereço</p>
+        <%= form.text_field :address, id: :student_address %>
+      </div>
+      
+      <div class="field-info">
+        <p>CEP:</p>
+        <%= form.text_field :cep, id: :student_cep %>
+      </div>
+      
+      <div class="field-info">
+        <p>Estado:</p>
+        <%= form.select :state_id, state_options, {include_blank: "Escolha um estado"}, id: :student_state_id %>
+      </div>
+      
+      <div class="field-info" >
+        <p>Cidade</p>
+        <div class="field-with-add">
+        <% if student.city_id.nil?%>
+          <%= form.select :city_id, [], {include_blank: "Escolha uma cidade"}, id: :student_city_id %>
+        <% else %>
+          <%= form.select :city_id, city_options(student.state),{include_blank: "Escolha uma cidade"}, id: :student_city_id %>
+        <% end %>
+        <% if current_user.secretary? %>
+          <button id="myBtn-city" type="button" class="button-new">+</button>
+        <% end %>
+        </div>     
+      </div>
+      
+      <div class="field-info">
+        <p>Bairro:</p>
+        <% if student.neighborhood_id.nil?%>
+          <%= form.select :neighborhood_id, [], {include_blank: "Escolha um bairro"}, id: :student_neighborhood_id %>
+        <% else %>
+          <%= form.select :neighborhood_id, neighborhood_options(student.city), {include_blank: "Escolha um bairro"}, id: :student_neighborhood_id %>
+        <% end %>
+        <% if current_user.secretary? %>
+          <button id="myBtn-neighborhood" type="button" class="button-new">+</button>
+        <% end %>
+      </div>
+      
+      <div class="field-info">
+        <p>Sub-Bairro (não obrigatório):</p>
+        <%= form.text_field :sub_neighborhood, id: :student_sub_neighborhood %>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div class="card">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>3</span> Contato</p>
+      <div class="grid-3-columns grid">
+        <div class="field-info">
+          <p>Email:</p>
+          <%= form.text_field :email, id: :student_email %>
+        </div>
+        
+        <div class="field-info">
+          <p>Telefone Fixo:</p>
+          <%= form.text_field :phone, id: :student_phone %>
+        </div>
+        
+        <div class="field-info">
+          <p>Telefone Móvel:</p>
+          <%= form.text_field :mobile_phone, id: :student_mobile_phone %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>4</span> Situação Escolar</p>
+      <div class="grid-2-columns grid">
+      
+        <div class="field-info" id="school-field">
+          <p>Escola:</p>
+          <%= form.autocomplete_field :school_name, autocomplete_school_name_students_path, id: 'autocomplete_student_school', id_element: '#student_school_id', school_name: student_school_name(student), 'data-noMatchesLabel' => 'Não Encontrado', placeholder: "Digite o nome da escola para filtrar" %>
+          <%= form.hidden_field :school_id, id: :student_school_id %>
+          <% if current_user.secretary? %>
+            <button id="myBtn-school" type="button" class="button-new">+</button>
+          <% end %>
+        </div>
+        <div class="field-info">
+          <p>Turno:</p>
+          <%= form.select :school_shift, school_shift_options, id: :student_school_shift %>
+        </div>
+      </div>
+
+      <div class="grid-2-columns grid">
+        <div class="field-info status">
+          <p class="status">Status no Projeto:</p>
+          <span id="status-exclamation">!</span>
+          <%= form.select :status, student_status_options, {include_blank: '--- Selecione ---'}, { id: :student_status } %>
+        </div>
+
+        <div class="field-info">
+          <p>Ano de Ingresso no Projeto:<p>
+          <%= student.year%>
+        </div>
+          
+        <div class="field-info">
+          <p>Semestre:</p>
+          <%= form.select :semester, semester_options, id: :student_semester %>
+        </div>
+
+        <div class="field-info">
+          <p>Escolaridade:</p>
+          <%= form.select :grade, grade_options, id: :student_grade %>
+        </div>
+
+        <div class="field-info">
+          <p>Estado da Escolaridade:</p>
+          <%= form.select :completed, completed_options, id: :student_completed %>
+        </div>
+
+        <div class="field-info">
+          <p>Nivel:</p>
+          <%= form.select :specific_school_level, 1...10, id: :student_specific_school_level %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>5</span> Responsáveis</p>
+      <div class="grid-2-columns grid" id="grid-responsible-form-students">
+        <div>
+          <div class="field-info">
+            <p>Nome da Mãe:</p>
+            <%= form.text_field :mother_name, id: :student_mother_name %>
+          </div>
+          
+          <div class="field-info">
+            <p>CPF da Mãe:</p>
+            <%= form.text_field :mother_cpf, id: :student_mother_cpf %>
+          </div>
+          
+          <div class="field-info">
+            <p>Email da Mãe:<p>
+            <%= form.text_field :mother_email, id: :student_mother_email %>
+          </div>
+          
+          <div class="field-info">
+            <p>Telefone da Mãe</p>
+            <%= form.text_field :mother_phone, id: :student_mother_phone %>
+          </div>
+        </div>
+        
+        <div>
+          <div class="field-info">
+            <p>Nome do Pai:</p>
+            <%= form.text_field :father_name, id: :student_father_name %>
+          </div>
+          
+          <div class="field-info">
+            <p>CPF do Pai:</p>
+            <%= form.text_field :father_cpf, id: :student_father_cpf %>
+          </div>
+          
+          <div class="field-info">
+            <p>Email do Pai:</p>
+            <%= form.text_field :father_email, id: :student_father_email %>
+          </div>
+          
+          <div class="field-info">
+            <p>Telefone do Pai:</p>
+            <%= form.text_field :father_phone, id: :student_father_phone %>
+          </div>
+        </div>
+
+        
+      </div>
+    
+      <p>Escolha uma das opções abaixo</p>
+      <div class="grid-check grid-checkbox" >
+        <%= form.check_box :mother_responsible, id: :mother_responsible,:class => "checkbox_responsible"%>
+        <p>Mãe é responsável?</p>
+        <%= form.check_box :father_responsible, id: :father_responsible,:class => "checkbox_responsible"%>
+        <p>Pai é responsável</p>
+        <%= form.check_box :student_responsible, id: :sudent_is_responsible, :class => "student_responsible checkbox_responsible"%>
+        <p class="student_responsible">Aluno é responsável</p>
+        <%= form.check_box :other_relative_responsible, id: :other_relative_responsible, :class => "checkbox_responsible"%>
+        <p>Outro responsável</p>
+      </div>
+      <div id="info_responsible">
+        <div class="field-info">
+          <p>Nome do Responsável:</p>
+          <%= form.text_field :responsible_name, id: :student_responsible_name %>
+        </div>
+        <div class="field-info">
+          <p>Relação com o aluno:</p>
+          <%= form.text_field :kinship, id: :student_responsible_kinship %>
+        </div>
+
+        <div class="field-info">
+          <p>CPF do Responsável:<p>
+          <%= form.text_field :responsible_cpf, id: :student_responsible_cpf %>
+        </div>
+        
+        <div class="field-info">
+          <p>Email do Responsável</p>
+          <%= form.text_field :responsible_email, id: :student_responsible_email %>
+        </div>
+        
+        <div class="field-info">
+          <p>Telefone do Responsável:</p>
+          <%= form.text_field :responsible_phone, id: :student_responsible_phone %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>6</span> Documentação</p>
+      <p>Marque o que falta:</p>
+      <div class="grid-check grid-checkbox">
+          <%= form.check_box :cpf_missing, id: :student_cpf_missing %>
+          <p>CPF do Aluno</p>
+        
+          <%= form.check_box :rg_missing, id: :student_rg_missing %>
+          <p>RG do Aluno</p>
+        
+          <%= form.check_box :responsible_cpf_missing, id: :student_responsible_cpf_missing %>
+          <p>CPF do Responsável</p>
+        
+          <%= form.check_box :responsible_rg_missing, id: :student_responsible_rg_missing %>
+          <p>RG do Responsável</p>
+        
+          <%= form.check_box :address_proof_missing, id: :student_address_proof_missing %>
+          <p>Comprovante de Residência</p>
+        
+          <%= form.check_box :term_signed_missing, id: :student_term_signed_missing %>
+          <p>Termo de Imagem e Som</p>
+        
+          <%= form.check_box :school_declaration_missing, id: :student_school_declaration_missing %>
+          <p>Declaração Escolar<p>
+        
+          <%= form.check_box :school_declaration_missing, id: :student_school_declaration_missing %>
+          <p>Atestado Médico</p>
+        
+          <%= form.check_box :birth_certificate_missing, id: :student_birth_certificate_missing %>
+          <p>Certidão de Nascimento</p>
+        
+          <%= form.check_box :historic_missing, id: :student_historic_missing %>
+          <p>Histórico Escolar</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>7</span> Situação Familiar</p>
+      <div class="grid-3-columns grid">
+        <div class="field-info">
+          <p>Número de Residentes:</p>
+          <%= form.number_field :number_residents, id: :student_number_residents %>
+        </div>
+        
+        <div class="field-info">
+          <p>Renda Familiar:</p>
+          <%= form.text_field :family_income, id: :student_family_income %>
+        </div>
+        
+        <div class="field-info">
+          <p>NIS/PIS/NIT:</p>
+          <%= form.text_field :nis, id: :student_nis %>
+        </div>
+
+        <div class="field-info">
+          <div class="grid-check grid-checkbox-2-columns" style="font-size: 1em;">
+            <%= form.check_box :working, id: :student_working %>
+            <p>Trabalhando?</p>
+          </div>
+        </div>
+
+        <div class="field-info">
+          <p>Nome da Empresa (não obrigatório):</p>
+          <%= form.text_field :company, id: :student_company %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-show-container">
+        <p class="title-card-show-container"><span>8</span> Outros</p>
+      <div class="grid-2-columns grid">
+        <div class="field-info">
+          <p>Medicação:</p>
+          <%= form.text_area :medication, id: :student_medication %>
+        </div>
+        
+        <div class="field-info">
+          <p>Como foi indicado ao projeto?</p>
+          <%= form.select :project_indication, project_indication_options, id: :student_project_indication %>
+        </div>
+
+        <div class="field-info">
+          <p>Descrição de indicação:</p>
+          <%= form.text_area :project_indication_description, id: :student_project_indication_description %>
+        </div> 
+
+        <div class="field-info">
+          <p>Observações:</p>
+          <%= form.text_area :annotations, id: :student_annotations %>
+        </div>
+        
+        <div class="field-info">
+          <p>Laudo Médico:</p>
+          <%= form.text_area :medical_report, id: :student_project_indication_description %>
+        </div> 
+
+        <div class="field-info">
+          <p>Observações Gerais:</p>
+          <%= form.text_area :behavior, id: :student_annotations %>
+        </div>
+
+        <div class="field-info">
+          <p>Permite Fotos e Filmagens do aluno:</p>
+          <div class="grid-check grid-checkbox-2-columns">
+            <%= form.check_box :photo_and_video_permited, id: :vocational_interview_repetition, class: "yes-checkbox" %>  
+            <p>Sim</p>
+            <%= form.check_box :photo_and_video_permited_no, id: :vocational_interview_repetition_no, class: "no-checkbox" %>
+            <p>Não</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FIM DO FORM -->
+
+  <div class="line-buttons" style="display: block;">
+    <%= link_to 'Voltar', students_path, class: 'generate-button' %>
+    <%= form.submit 'Salvar', class: 'generate-button', id: 'submit_student_form',style: 'display: inline;' %>
+  </div>
+<% end %>
+
+<%= render 'modal_remote' %>

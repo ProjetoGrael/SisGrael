@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  day: 2019-03-04
+  school_year: one
+
+two:
+  name: MyString
+  day: 2019-03-04
+  school_year: two

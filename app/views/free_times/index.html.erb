@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Free Times</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Day</th>
+      <th>Start at</th>
+      <th>Finish at</th>
+      <th>User</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @free_times.each do |free_time| %>
+      <tr>
+        <td><%= free_time.day %></td>
+        <td><%= free_time.start_at %></td>
+        <td><%= free_time.finish_at %></td>
+        <td><%= free_time.user %></td>
+        <td><%= link_to 'Show', free_time %></td>
+        <td><%= link_to 'Edit', edit_free_time_path(free_time) %></td>
+        <td><%= link_to 'Destroy', free_time, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Free Time', new_free_time_path %>

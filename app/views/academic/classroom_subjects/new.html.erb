@@ -1,0 +1,73 @@
+<h1>Novo Curso em Turma</h1>
+
+<%= form_with(model: @classroom_subject, local: true, class: 'container-85') do |form| %>
+  <% if @classroom_subject.errors.any? %>
+    <div id="error_explanation">
+      <h2>Alguns erros impediram este Curso de ser salvo:</h2>
+
+      <ul>
+      <% @classroom_subject.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="card">
+    <div class="card-show-container">
+      <div class="grid-2-columns grid">
+        <div class="field-info">
+          <p>Disciplina:</p>
+          <%= form.select :subject_id, subject_options(@classroom_subject), { selected: subject_selected(@classroom_subject) }, id: :classroom_subjects_subject_id %>
+        </div>
+
+        <div class="field-info">
+          <p>Educador:</p>
+          <%= form.select :teacher_id, [[]], {}, id: :classroom_subjects_subject_id %>
+        </div>
+
+        <div class="field-info">
+          <p>Hora de Início:</p>
+          <%= form.time_field :start_time %>
+        </div>
+
+        <div class="field-info">
+          <p>Hora de Término:</p>
+          <%= form.time_field :finish_time %>
+        </div>
+      </div>
+      
+      <div class="grid">
+        <div class="field-info">
+          <p style="margin-bottom: 10px;">Dias de aula:</p>
+        </div>
+      </div>
+
+      <div class="grid-check grid-checkbox">
+        <%= form.check_box :lesson_on_monday %>
+        <p>Segunda-feira</p>
+
+        <%= form.check_box :lesson_on_thursday %>
+        <p>Quinta-feira</p>
+
+        <%= form.check_box :lesson_on_tuesday %>
+        <p>Terça-feira</p>
+
+        <%= form.check_box :lesson_on_friday %>
+        <p>Sexta-feira</p>
+
+        <%= form.check_box :lesson_on_wednesday %>
+        <p>Quarta-feira</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= form.hidden_field :classroom_id, value: classroom_value(@classroom_subject) %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Salvar Curso', class: 'generate-button' %>
+    <%= link_to 'Voltar', @classroom, class: 'generate-button' %>
+  </div>
+<% end %>

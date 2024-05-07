@@ -1,0 +1,84 @@
+<h1>Curso de <%= @classroom_subject.subject.name %></h1>
+
+<div class="show-container">
+
+  <div class="card-show">
+    <div class="button-students">
+      <%= link_to 'Informações da Turma', classroom_path(@classroom_subject.classroom), class: 'edit-button' %>
+      <% if can? :read, Academic::Lesson %>
+        <%= link_to 'Pauta', classroom_subject_lessons_path(@classroom_subject, Date.current.year, Date.current.month), class: 'edit-button' %>
+      <% end %>
+      <% if can? :generate_schedule, Academic::ClassroomSubject %>
+        <%= link_to 'Gerar Pauta', generate_schedule_path(@classroom_subject.id, {}, format: :pdf), target: '_blank', :class => 'edit-button' %>
+      <% end %>
+      <% if can? :schedule_date, Academic::ClassroomSubject %>
+        <%= link_to 'Listar Alunos', schedule_date_path(@classroom_subject.id, {}, format: :pdf), target: '_blank', :class => 'edit-button' %>
+      <% end %>
+
+      <% if can? :edit, Academic::ClassroomSubject %>
+        <%= link_to 'Editar', edit_classroom_subject_path(@classroom_subject), class: 'edit-button' %>
+      <% end %> 
+    </div>
+
+    <div class="photo-profile action-photo">
+    </div>
+    
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>1</span> Informações Gerais</p>
+      <div class="grid-3-columns grid">
+        <div class="field-info">
+          <p>Período letivo:</p>
+          <%= @classroom_subject.classroom.school_year.name %>
+        </div>
+        
+        <div class="field-info">
+          <p>Turma:</p>
+          <%= @classroom_subject.classroom.fantasy_name %>
+        </div>
+        
+        <div class="field-info">
+          <p>Instrutor do Curso:</p>
+          <%= @classroom_subject.teacher.present? ? @classroom_subject.teacher.name : "N/A"%>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>2</span> Grade do curso</p>
+      <div class="grid-3-columns grid">
+        <div class="field-info">
+          <p>Horário:</p>
+          <%= @classroom_subject.start_time.to_s(:time) if @classroom_subject.start_time.present? %> ~ <%= @classroom_subject.finish_time.to_s(:time) if @classroom_subject.finish_time.present? %>
+        </div>
+
+        <div class="field-info">
+          <% if @classroom_subject.lesson_on_monday == true %>
+            <p>Segunda-feira</p>
+          <% end %>
+          <% if @classroom_subject.lesson_on_tuesday == true %>
+            <p>Terça-feira</p>
+          <% end %>
+          <% if @classroom_subject.lesson_on_wednesday == true %>
+            <p>Quarta-feira</p>
+          <% end %>
+          <% if @classroom_subject.lesson_on_thursday == true %>
+            <p>Quinta-feira</p>
+          <% end %>
+          <% if @classroom_subject.lesson_on_friday == true %>
+            <p>Sexta-feira</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>3</span> Ementa</p>
+      <div class="grid-1-column grid">
+        <div class="field-info">
+          <p><%= @classroom_subject.subject.planning %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<br>

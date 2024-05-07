@@ -1,0 +1,537 @@
+<%= form_with(model: [student, vocational_interview], local: true, url: url, id: "vocational-interview-form") do |form| %>
+  <% if vocational_interview.errors.any? %>
+    <div id="error_explanation">
+      <h1><%= pluralize(vocational_interview.errors.count, "erro") %> proibiu esta entrevista profissionalizante de ser salva:</h1>
+
+      <ul>
+      <% vocational_interview.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+  <%if @student.present? %>
+    <div class="card" style="box-shadow: none;">
+
+      <div class="card-action">
+          <div class="action-photo">
+              <% if @student.photo.present? %>
+                <%= image_tag @student.photo.small.url, :class => 'student-photo' %>
+              <% else %>
+                <div class="student-photo students-icone-panel icon"></div>
+              <% end %>
+          </div>
+      </div>
+
+      <div class="card-content">
+        <div class="titles">
+        <%= age(@student.birthdate) %>
+            <%= @student.name %>
+        </div>
+            
+        <div class="grid registration">
+            <div class="field-info">
+              <p>Data de Nascimento:</p>
+              <%= @student.birthdate.strftime("%d/%m/%Y") if @student.birthdate.present?%>
+            </div>
+
+            <div class="field-info">
+              <p>Sexo:</p>
+              <%= pretty_sex(@student.sex) if @student.sex.present?%>
+            </div>
+
+            <div class="field-info">
+              <p>Endereço:</p>
+              <%= @student.address %>
+            </div>
+
+            <div class="field-info">
+              <p>Cor/Raça/Etnia:</p>
+              <% if @student.ethnicity %>
+                <%= @student.ethnicity %>
+              <% else %>
+                <%= form.select :ethnicity, ethnicities_options, id: :ethnicity %>
+              <% end %>
+            </div>
+        </div>
+
+        <div class="grid discipline">
+            <div class="field-info">
+              <p>Instituição de Ensino:</p>
+              <%= @student.school.name %>
+            </div>
+
+            <div class="field-info">
+              <p>Nível:</p>
+              <%= @student.grade %>
+            </div>
+
+            <div class="field-info">
+              <p>Turno:</p>
+              <%= pretty_school_shift(@student.school_shift) if @student.school_shift.present?%>
+            </div>
+        </div>
+      </div>
+    </div>
+  <%end%>
+
+
+  <%if @student.present? %>
+    <%= form.hidden_field :student_id, value: @student.id %>
+  <%end%>
+  <%if @student.present? %>
+    <%= form.hidden_field :user_id, value: current_user.id %>
+  <%end%>
+  <%if @student.present? %>
+    <%= form.hidden_field :student_id, value: @student.id %>
+  <%end%>
+
+  <!-- INICIO DO FORM -->
+
+  <div class="card">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>1</span> Informações Iniciais</p>
+      <div class="grid-2-columns grid">
+        <div class="field-info">
+          <p>Qual oficina deseja cursar?</p>
+          <%= form.text_field :enrolled_in_the_course, id: :vocational_interview_enrolled_in_the_course %>
+        </div>
+
+        <div class="field-info">
+          <p>Nome Social:</p>
+          <%= form.text_field :social_name, id: :vocational_interview_social_name %>
+        </div>
+
+        <div class="field-info">
+          <p>Última Instituição de Ensino:</p>
+          <%= form.select :last_attended_educational_institution, institution_kind_options, id: :last_attended_educational_institution %>
+        </div>
+
+        <div class="field-info">
+          <p>Repetência Escolar:</p>
+          <div class="grid-check grid-checkbox-2-columns">
+            <%= form.check_box :repetition, id: :vocational_interview_repetition, class: "yes-checkbox" %>  
+            <p>Sim</p>
+            <%= form.check_box :repetition_no, id: :vocational_interview_repetition_no, class: "no-checkbox" %>
+            <p>Não</p>
+          </div>
+        </div>
+        <div class="openable">
+          <div class="field-info">
+            <p>Quantas?</p>
+            <%= form.number_field :amount_repetitions, id: :vocational_interview_amount_repetitions %>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-1-column grid">
+        <div class="field-info">
+          <p>Necessidades Especiais do Aluno:</p>
+          <%= form.text_area :special_needs, id: :vocational_interview_special_needs %>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>2</span> Moradia</p>
+      <div class="grid-2-columns grid">
+        <div class="field-info">
+          <p>Com quem você reside?</p>
+          <%= form.text_area :live_with, id: :live_with %>
+        </div>
+
+        <div class="field-info">
+          <p>Condição da sua moradia:</p>
+          <%= form.text_area :housing_condition, id: :housing_condition %>
+        </div>
+
+        <div class="field-info">
+          <p>Sua moradia conta com infraestrutura urbana?</p>
+          <%= form.select :urban_infrastructure, urban_infrastructure_options, id: :urban_infrastructure %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>3</span> Relação com Projeto Grael</p>
+      <div class="grid-2-columns grid">
+        <div>
+          <div class="field-info">
+            <p>Acesso ao Projeto:</p>
+            <%= form.select :project_access, project_access_options, id: :project_access %>
+          </div>
+
+          <div class="openable">
+
+            <div class=“field-info”>
+              <p>Como você se deslocaria até o projeto?</p>
+              <%= form.text_area :project_access_text, id: :vocational_interview_project_access_text %>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div>
+          <div class="field-info">
+            <p>Já frequentou o projeto Grael anteriormente?</p>
+            <div class="grid grid-checkbox-2-columns">
+              <%= form.check_box :already_attended, id: :vocational_interview_already_attended, class: "yes-checkbox"%> 
+              <p>Sim</p>
+              <%= form.check_box :already_attended_no, id: :vocational_interview_already_attended_no, onChange: "handleChangeNo(event)", class: "no-checkbox" %>
+              <p>Não</p>
+            </div>
+            
+          </div>
+          <div class="openable">
+
+            <div class="field-info">
+              <p>Quando?</p>
+              <%= form.text_area :already_attended_when, id: :vocational_interview_already_attended_when %>
+            </div>
+            <div class="field-info">
+              <p>Quais atividades? </p>
+            </div>
+
+            <div class="field-info">
+              
+              <div class="grid grid-checkbox-2-columns">
+                <%= form.check_box :swimming, id: :vocational_interview_already_attended %>
+                <p>Natação</p>
+              </div>
+            </div>
+            <div class="field-info">
+              
+              <div class="grid grid-checkbox-2-columns">
+                <%= form.check_box :sailing, id: :vocational_interview_already_attended %>
+                <p>Vela</p>
+              </div>
+            </div>
+            <div class="field-info">
+              
+              <div class="grid grid-checkbox-2-columns">
+                <%= form.check_box :canoeing, id: :vocational_interview_already_attended %>
+                <p>Canoagem</p>
+              </div>
+            </div>
+            <div class="field-info">
+              
+              <div class="grid grid-checkbox-2-columns">
+                <%= form.check_box :ambiental_programs, id: :vocational_interview_already_attended %>
+                <p>Programas Ambientais</p>
+              </div>
+            </div>
+
+            <div>
+              <div class="field-info">
+                
+                <div class="grid grid-checkbox-2-columns">
+                  <%= form.check_box :professional_courses, id: :vocational_interview_already_attended, class: "yes-checkbox" %>
+                  <p>Cursos Profissionais</p>
+                </div>
+              </div>
+              <div class="openable">
+                <div class="field-info">
+                  <p>Quais cursos profissionais?</p>
+                  <%= form.text_area :professional_courses_text, id: :vocational_interview_professional_courses_text %>
+                </div>
+              </div>
+              <div>
+                <div class="field-info">
+                  
+                  <div class="grid grid-checkbox-2-columns">
+                    <%= form.check_box :other_programs, id: :vocational_interview_already_attended, class: "yes-checkbox" %>
+                    <p>Outro(s) programas</p>
+                  </div>
+                  <div class="openable">
+                    <div class="field-info">
+                      <p>Qual ou quais outros programas?</p>
+                      <%= form.text_area :already_attended_which_other, id: :vocational_interview_already_attended_which_other %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field-info">
+                <p>No que o Projeto Grael fez diferença em sua vida?</p>
+              </div>
+              <div>
+                <div class="field-info">
+                  
+                  <div class="grid grid-checkbox-2-columns">
+                    <%= form.check_box :maide_difference_performance, id: :vocational_interview_already_attended %>
+                    <p>No desempenho escolar</p>
+                  </div>
+                </div>
+                <div class="field-info">
+                  
+                  <div class="grid grid-checkbox-2-columns">
+                    <%= form.check_box :maide_difference_relationships, id: :vocational_interview_already_attended %>
+                    <p>Nos relacionamentos</p>
+                  </div>
+                </div>
+                <div class="field-info">
+                  
+                  <div class="grid grid-checkbox-2-columns">
+                    <%= form.check_box :maide_difference_problem_solutions, id: :vocational_interview_already_attended %>
+                    <p>Na solução de problemas</p>
+                  </div>
+                </div>
+                <div class="field-info">
+                  
+                  <div class="grid grid-checkbox-2-columns">
+                    <%= form.check_box :maide_difference_comunity, id: :vocational_interview_already_attended %>
+                    <p>Na sua comunidade</p>
+                  </div>
+                </div>
+                <div>
+                  <div class="field-info">
+                    
+                    <div class="grid grid-checkbox-2-columns">
+                      <%= form.check_box :maide_difference_other_check, id: :vocational_interview_already_attended, class:"yes-checkbox" %>
+                      <p>Fez diferença em outras situações</p>                      
+                    </div>
+                    <div class="openable">
+                      <div class="field-info">
+                        <p>Em qual ou quais situações?</p>
+                        <%= form.text_area :already_attended_difference_other, id: :vocational_interview_already_attended_difference_other %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+      
+            </div>
+          </div>
+        </div>
+        
+        <div>
+          <div class="field-info">
+            <p>Já possui experiência náutica?</p>
+            <div class="grid grid-checkbox-2-columns">
+              <%= form.check_box :nautical_experience, id: :vocational_interview_nautical_experience, class: "yes-checkbox" %>
+              <p>Sim</p>
+              <%= form.check_box :nautical_experience_no, id: :vocational_interview_nautical_experience_no, class: "no-checkbox" %>
+              <p>Não</p> 
+            </div>
+          </div>
+          <div class="openable">
+            <div class="field-info">
+              <p>Conte-nos sobre sua experiênia náutica</p>
+              <%= form.text_area :nautical_experience_text, id: :vocational_interview_nautical_experience_text %>
+            </div>
+          </div>
+        </div>
+        
+        <div>
+          <div class="field-info">
+            <p>Participa ou já participou de cursos ou outros projetos sociais?</p>
+            <div class="grid grid-checkbox-2-columns">
+              <%= form.check_box :already_attended_to_other, id: :vocational_interview_already_attended_to_other, class: "yes-checkbox" %>
+              <p>Sim</p>
+              <%= form.check_box :already_attended_to_other_no, id: :vocational_interview_already_attended_to_other_no, class: "no-checkbox"%>
+              <p>Não</p> 
+            </div>            
+          </div>
+          <div class="openable">
+            <div class="field-info">
+              <p>Conte-nos sobre os projetos que você participou.</p>
+              <%= form.text_area :already_attended_to_other_text, id: :vocational_interview_already_attended_to_other_text %>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="grid-2-columns grid">
+        
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>4</span> Acesso ao Projeto</p>
+      <div class="grid-2-columns grid">
+        <div class="field-info">
+          <p>Qual foi a sua motivação ao escolher as atividades do projeto Grael?</p>
+          <%= form.select :motivation, motivation_options, id: :motivation %>
+        </div>
+        <div class="field-info">
+          <p>Quantos transportes você utiliza por dia para chegar até o Projeto Grael?</p>
+          <%= form.select :number_transport, number_transport_options, id: :number_transport %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>5</span> Acesso à renda</p>
+      <div class="grid-2-columns grid">
+        <div>
+          <div class="field-info">
+            <p>Possui alguma atividade remunerada ou renda?</p>
+            <div class="grid grid-checkbox-2-columns">
+              <%= form.check_box :have_income, id: :vocational_interview_have_income, class: "yes-checkbox" %>
+              <p>Sim</p>
+              <%= form.check_box :have_income_no, id: :vocational_interview_have_income_no, class: "no-checkbox" %>
+              <p>Não</p> 
+            </div>
+          </div>  
+        </div>  
+
+        <div>
+          <div class="field-info">
+            <p>Já trabalhou?</p>
+            <div class="grid grid-checkbox-2-columns">
+              <%= form.check_box :work, id: :vocational_interview_work, class: "yes-checkbox" %>
+              <p>Sim</p>
+              <%= form.check_box :work_no, id: :vocational_interview_work_no, class: "no-checkbox" %>
+              <p>Não</p> 
+            </div>
+          </div>
+          <div class="openable">
+            <div class="field-info">
+              <p>Como foi sua experiência de trabalho?</p>
+              <%= form.text_area :work_wich, id: :vocational_interview_work_wich %>
+            </div>
+
+            <div class="field-info">
+              <p>Caso ainda trabalhe, há quanto tempo você trabalha?</p>
+              <%= form.text_area :working_time, id: :vocational_interview_working_time %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2-columns grid">
+        <div class="field-info">
+          <p>Quem trabalha na sua família?</p>
+          <div class="grid-check grid-checkbox">
+            <%= form.check_box :father_works, id: :father_works %>
+            <p>Pai</p>
+
+            <%= form.check_box :mother_works, id: :mother_works %>
+            <p>Mãe</p>
+
+            <%= form.check_box :step_father_works, id: :step_father_works %>
+            <p>Padastro</p>
+
+            <%= form.check_box :step_mother_works, id: :step_mother_works %>
+            <p>Madrasta</p>
+
+            <%= form.check_box :brothers_works, id: :brothers_works %>
+            <p>Irmãos</p>
+
+            <%= form.check_box :grandparents_works, id: :grandparents_works %>
+            <p>Avós</p>
+
+            <%= form.check_box :other_works, id: :other_works %>
+            <p>Outros</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>6</span> Conhecimentos de informática</p>
+      <div class="grid-2-columns grid">
+        <div>
+          <div class="field-info">
+            <p>Conhece e utiliza o pacote office? (word, excel, powerpoint)</p>
+            <div class="grid grid-checkbox-2-columns">
+              <%= form.check_box :microsoft_office_knowledge, id: :vocational_interview_microsoft_office_knowledge, class: "yes-checkbox" %>
+              <p>Sim</p>
+              <%= form.check_box :microsoft_office_knowledge_no, id: :vocational_interview_microsoft_office_knowledge_no, class: "no-checkbox" %>
+              <p>Não</p> 
+            </div>
+          </div>  
+        </div>   
+
+        <div>
+          <div class="field-info">
+            <p>Acessa a internet?</p>
+            <div class="grid grid-checkbox-2-columns">
+              <%= form.check_box :internet_surfer, id: :vocational_interview_internet_surfer, class: "yes-checkbox" %>
+              <p>Sim</p>
+              <%= form.check_box :internet_surfer_no, id: :vocational_interview_internet_surfer_no, class: "no-checkbox" %>
+              <p>Não</p> 
+            </div>
+          </div>
+          <div class="openable">
+            <div class="field-info">
+              <p>Como costuma acessar a internet?</p>
+              <%= form.text_area :internet_surfer_text, id: :vocational_interview_internet_surfer %>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="field-info">
+            <p>Utiliza redes sociais?</p>
+            <div class="grid grid-checkbox-2-columns">
+              <%= form.check_box :social_networks, id: :vocational_interview_social_networks, class: "yes-checkbox" %>
+              <p>Sim</p>
+              <%= form.check_box :social_networks_no, id: :vocational_interview_social_networks_no, class: "no-checkbox" %>
+              <p>Não</p> 
+            </div>
+          </div>
+          <div class="openable">
+            <div class="field-info">
+              <p>Quais redes sociais você utiliza?</p>
+              <%= form.text_area :social_networks_text, id: :vocational_interview_social_networks_text %>
+            </div>    
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>7</span> Convívio familiar</p>
+      <div class="grid-2-columns grid">
+        <div class="field-info">
+          <p>Como é o seu convívio familiar?</p>
+          <%= form.select :family_life, family_life_options, id: :family_life %>
+        </div>
+
+        <div class="field-info">
+          <p>Quais suas pricipais atividades de lazer?</p>
+          <%= form.text_area :recreation_doing, id: :reveal_about_family_text %>
+        </div>
+        
+        <div class="field-info">   
+          <p>O que você gosta de fazer com a sua família?</p>
+          <%= form.text_area :reveal_about_family_text, id: :reveal_about_family_text %>
+        </div>  
+      </div>
+    </div>
+  </div>
+        
+  <div class="card">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>8</span> Observações finais</p>
+      <div class="grid-1-column grid">
+        <div class="field-info">
+          <p>Observações finais:</p>
+          <%= form.text_area :concluding_remarks, id: :vocational_interview_concluding_remarks %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FIM DO FORM -->
+
+    <%= link_to 'Voltar à Assistência', social_service_path(@student), class: 'generate-button' %>
+    <%= form.submit 'Salvar Entrevista', class: 'generate-button', style: 'display: inline;' %>
+
+<% end %>

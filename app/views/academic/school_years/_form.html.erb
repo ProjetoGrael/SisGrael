@@ -1,0 +1,79 @@
+<%= form_with(model: school_year, local: true, class: 'container-85') do |form| %>
+  <% if school_year.errors.any? %>
+    <div id="error_explanation">
+      <h2> Alguns erros impediram este período letivo de ser salvo:</h2>
+
+      <ul>
+      <% school_year.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="card">
+    <div class="card-show-container">
+      <div class="grid-2-columns grid">
+        <div class="field-info">
+          <p>Nome do Período:</p>
+          <%= form.text_field :name, id: :school_year_name %>
+        </div>
+
+        <div class="field-info">
+          <p>Capacidade de Alunos:</p>
+          <%= form.number_field :capacity, id: :school_year_capacity %>
+        </div>
+
+        <div class="field-info">
+          <p>Início:</p>
+          <%= form.date_field :start, id: :school_year_start %>
+        </div>
+
+        <div class="field-info">
+          <p>Status:</p>
+          <%= form.select :status, school_year_status_options, id: :school_year_status %>
+        </div>
+
+        <div class="field-info">
+          <p>Final:</p>
+          <%= form.date_field :final, id: :school_year_final %>
+        </div>
+      </div>
+
+      <div class="grid-1-column grid">
+        <div id="image_field">
+          <%= form.file_field :background_image, id: "background_image" %>
+          <label for="background_image">Inserir Fundo de Certificado</label>
+          <%= form.hidden_field :background_image_cache %>
+        </div>
+        <div class="restrictions">
+          <ul>
+            <li>A imagem deve ser do tipo .JPG, .JPEG, .PNG ou .GIF.</li>
+            <li>As dimensões sugeridas são 1900x1300.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="line-buttons" style="display: block;">
+    <%= link_to 'Voltar', school_years_path, class: 'generate-button', style: 'display: inline;' %>
+    <% if edit == "yes" %>
+      <%= form.submit 'Salvar Período Letivo', class: 'generate-button', style: 'display: inline;', data: { confirm: 'Alterar a data de início ou de final do período pode apagar ou acrescentar aulas e presenças ao sistema. Tem certeza disso?' } %>
+    <% else %>
+      <%= form.submit 'Salvar Período Letivo', class: 'generate-button', style: 'display: inline;' %>
+    <% end %>
+  </div>
+<% end %>
+<script>
+$("[type=file]").on("change", function(){
+  // Name of file and placeholder
+  var file = this.files[0].name;
+  var dflt = $(this).attr("placeholder");
+  if($(this).val()!=""){
+    $(this).next().text(file);
+  } else {
+    $(this).next().text(dflt);
+  }
+});
+</script>

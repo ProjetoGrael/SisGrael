@@ -1,0 +1,63 @@
+<% if (notice) %>
+  <script>
+      $(document).ready(function(){
+        swal("<%= notice if notice != "You are not authorized to access this page"%>","","");
+      });
+  </script>
+<% end %>
+
+<h1>Usuários</h1>
+
+  <div class="search-box">
+    <%= form_tag(users_path, method: :get, class: "search-form") do %>
+      <%= text_field_tag :term, params[:term], :placeholder => "Pesquisar por um usuário:", class: "search-input" %>
+      <%= submit_tag '', title: nil, class: 'search-button' %>
+    <% end %>
+    <%= link_to 'Novo', new_user_path, class:'button-new' %>
+  </div>
+
+<% if (@users.any?) %>
+  <div class="container-85">
+        
+    <% @users.each do |user| %>
+
+          <div class="card">
+            <div class="card-action">
+              <div class="action-buttons">
+                <%= link_to 'Editar', edit_user_path(user), class:"edit-button" %>
+                <%= link_to 'Excluir', user_path(user), method: :delete, data: { confirm: 'Excluir usuário?' }, class:"delete-button" %>
+              </div>
+            </div>
+            <%= link_to user, class: 'card-link' do %>
+            <div class="card-content">
+              <div class="titles">
+                <%= user.name %>
+              </div>
+
+              <div class="grid-1-column grid additional-infos">
+                <div>
+                  <p>Tipo:</p>
+                    <%= pretty_user_kinds(user.kind) %><%= '*' if user.instructor? && user.teacher.blank? %>
+                </div>
+              </div>
+
+              <div class="grid-1-columns grid descriptions-financial">
+                <div>
+                  <p>Email:</p>
+                  <%= user.email %>
+                </div>
+              </div>
+            </div>
+            <% end %>
+          </div>
+
+    <% end %>
+    
+    
+
+  </div>
+  <%= paginacao(@users) %>
+<% else %>
+  <p>Não há usuários a serem exibidos.</p>
+  <%= link_to 'Novo Usuário', new_user_path, class:'edit-button' %>
+<% end %>

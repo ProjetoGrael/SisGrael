@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <%= wicked_pdf_stylesheet_link_tag 'tables' %>
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+    </head>
+    <body class="frequency_pdf_body">        
+        <h1><%= @title %></h1>
+        
+        <% @classroom_subjects.each_with_index do |cs, index| %>
+            <% if index != @classroom_subjects.length - 1 %>
+                <div class="alwaysbreak">
+            <% else %>
+                <div class="alwaysbreak">
+            <% end %>
+                <h2>Disciplina: <%=cs.subject.name%></h2>
+                <table style="width:100%">
+                    <tr>
+                        <th>Alunos</th>
+                        <th>Frequência Real</th>
+                        <th>Frequência Máxima</th>
+                        <th>Faltas</th>
+                        <% cs.lessons.order(day: :asc).each do |lesson| %>
+                            <% if lesson.day.to_s[5..6] == @month %>
+                                <th>
+                                <%= translate_date_lesson(lesson.day) %>
+                                </th>
+                            <% end %>
+                        <% end %>
+                    </tr>
+                    <% @classroom.students.each do |student| %>
+                        <% if Academic::Inscription.find_by(student: student, classroom: cs.classroom).active? %>
+                            <tr>
+                                <% misses = count_misses_month(@month, student.presences.where(lesson: Academic::Lesson.where(classroom_subject: cs))) %>
+                                <td><%= student.name %></td>
+                                <td><%= calculate_percentage_frequency(@month, cs, misses) %></td>
+                                <td><%= calculate_percentage_max_frequency(cs, misses) %></td>
+                                <td><%= misses %></td>
+                                <% cs.lessons.order(day: :asc).each do |lesson| %>
+                                    <% if lesson.day.to_s[5..6] == @month %>
+                                        <td>
+                                            <%= Academic::ClassroomsHelper.translate_situation(Academic::Presence.find_by(lesson: lesson, student: student).situation) %>
+                                        </td>
+                                    <% end %>
+                                <% end %>
+                            </tr>
+                        <% end %>
+                    <% end %>
+                </table>
+                <table style="margin-top:50px;">
+                    <tr>
+                        <th colspan="2">Legenda</th>
+                    </tr>
+                    <tr>
+                        <td>Não Lançada</td>
+                        <td>NL</td>
+                    </tr>
+                    <tr>
+                        <td>Presente</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Atrasada</td>
+                        <td>AT</td>
+                    </tr>
+                    <tr>
+                        <td>Ausente</td>
+                        <td>AU</td>
+                    </tr>
+                    <tr>
+                        <td>Falta Justificada</td>
+                        <td>FJ</td>
+                    </tr>
+                </table>
+            </div>
+        <% end %>
+        
+    </body>
+</html>

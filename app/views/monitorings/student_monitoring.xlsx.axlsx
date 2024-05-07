@@ -1,0 +1,142 @@
+
+def student_age_row sheet, students
+    today = Date.today
+    if students.length == 0
+        sheet.push "N/A"
+        sheet.push "N/A"
+        sheet.push "N/A"
+        sheet.push "N/A"
+        sheet.push "N/A"
+        return
+    end
+    birth_9_year = today - 9.years
+    birth_12_year = today - 12.years
+    birth_17_year = today - 17.years
+    birth_29_year = today - 29.years
+    student_len = students.length
+    
+    sheet.push  students.where("birthdate > ?",birth_9_year).length * 100.to_f/student_len 
+    sheet.push  "#{students.where("birthdate <= ?",birth_9_year).where("birthdate >= ?",birth_12_year).length * 100.to_f/student_len }"
+    sheet.push  "#{students.where("birthdate < ?",birth_12_year).where("birthdate >= ?",birth_17_year).length * 100.to_f/student_len}"
+    sheet.push  "#{students.where("birthdate < ?",birth_17_year).where("birthdate >= ?",birth_29_year).length * 100.to_f/student_len}"
+    sheet.push  students.where('birthdate < ?', birth_29_year).length * 100.to_f/student_len
+end
+def student_exp the_student_exp
+    the_student_exp.length*100.to_f/@students.length
+end
+   def remove_repeat_student inscriptions
+        id = 0
+        array =[]
+         inscriptions.active.each do |inscription|
+           if inscription.student_id != id
+             array.push(inscription)
+             id = inscription.student_id
+           end
+         end
+        array
+    end
+
+
+wb = xlsx_package.workbook
+wb.styles do |s|
+    wb.add_worksheet(name: "school_year_info") do |sheet|
+        ##################################################
+        title = s.add_style fg_color: "3333ee" , b: true, sz: 15 , :alignment => {:horizontal => :center, :vertical => :center, :wrap_text => true}
+        sub_title = s.add_style fg_color: "3333ee" ,  sz: 15 , :alignment => {:horizontal => :center, :vertical => :center, :wrap_text => true}
+        yellow_line = s.add_style bg_color: "ffff00" ,:alignment => {:horizontal => :center, :vertical => :center, :wrap_text => true}
+        th = s.add_style bg_color: "2972a4", fg_color: "fafafa" , :alignment => {:horizontal => :center, :vertical => :center, :wrap_text => true}, b: true, sz: 12
+        
+        sheet.add_row ["","RELATÓRIO DE MONITORAMENTO",'','','','','',''], style: title
+        sheet.add_row ["", "Relatório por gênero e faixa etária",'','','','','',''], style: sub_title
+        sheet.add_row [''],  height: 5
+        ###################################  
+        sheet.add_row ["Matriculados","","","","","","Masculino","","","","","","Feminino","","","","","","Outros","","","","","","Etnia","","","","","",],  height: 35, style: th
+        sheet.add_row ["Total","Menores que 9 anos(%)", "Crianças(%)","Adolescentes(%)","Jovens(%)","Maiores que 29 anos(%)","Total","Menores que 9 anos(%)", "Crianças(%)","Adolescentes(%)","Jovens(%)","Maiores que 29 anos(%)","Total","Menores que 9 anos(%)", "Crianças(%)","Adolescentes(%)","Jovens(%)","Maiores que 29 anos(%)", "Total","Menores que 9 anos(%)", "Crianças(%)","Adolescentes(%)","Jovens(%)","Maiores que 29 anos(%)", "Pretos", "Pardo", "Branco", "Amarelo", "Indígena", "Não declarado"],  height: 35, style: th
+        current_line = []
+        
+        #sheet.add_row ["Quantidade de Estudantes Cadastrados",
+        current_line.push @students.length
+        student_age_row current_line, @students.all
+        
+        #sheet.add_row ["Alunos",
+        current_line.push @students.where(sex: "male").length
+        student_age_row current_line, @students.where(sex: "male")
+        
+        #sheet.add_row ["Alunas",
+        current_line.push @students.where(sex: "female").length
+        student_age_row current_line, @students.where(sex: "female")
+        
+        current_line.push @students.where(sex: "other").length
+        student_age_row current_line, @students.where(sex: "other")
+        current_line.push "#{student_exp(@students.where(ethnicity: "Preto"))}"
+        current_line.push "#{student_exp(@students.where(ethnicity: "Pardo"))}"
+        current_line.push "#{student_exp(@students.where(ethnicity: "Branco"))}"
+        current_line.push "#{student_exp(@students.where(ethnicity: "Amarelo"))}"
+        current_line.push "#{student_exp(@students.where(ethnicity: "Indígena"))}"
+        current_line.push "#{student_exp(@students.where(ethnicity: "Não declarado"))}"
+        sheet.add_row current_line
+        sheet.add_row []
+        sheet.add_row []
+        sheet.add_row ["Alunos por cidade"]
+        City.all.each do |city|
+            sheet.add_row [city.name, "#{student_exp @students.where(city_id: city.id)}"]
+        end
+        
+        sheet.add_row ["Alunos por Bairro"]
+        Neighborhood.all.each do |neighborhood|
+            sheet.add_row [neighborhood.name, "#{student_exp @students.where(neighborhood_id: neighborhood.id)}"]
+        end
+
+        
+        sheet.add_row ["Alunos por Escola"]
+        School.all.each do |school|
+            sheet.add_row [school.name, "#{student_exp @students.where(school_id: school.id)}"]
+        end
+        
+        sheet.add_row ["Alunos por escolaridade"]
+        sheet.add_row ["Fundamental I", "#{student_exp @students.where(grade: 'Fundamental I')}"]
+        sheet.add_row ["Fundamental II", "#{student_exp @students.where(grade: 'Fundamental II')}"]
+        sheet.add_row ["Ensino Médio", "#{student_exp @students.where(grade: 'Ensino Médio')}"]
+        sheet.add_row ["Educação de Jovens e Adultos", "#{student_exp @students.where(grade: 'Educação de Jovens e Adultos')}"]
+        sheet.add_row ["Curso Técnico", "#{student_exp @students.where(grade: 'Curso Técnico')}"]
+        sheet.add_row ["Ensino Superior", "#{student_exp @students.where(grade: 'Ensino Superior')}"]
+        sheet.add_row ["Pós Graduação", "#{student_exp @students.where(grade: 'Pós Graduação')}"]
+        
+        sheet.add_row ["Alunos por turno"]
+        sheet.add_row ["Manhã", "#{student_exp @students.where(school_shift: 'morning')}"]
+        sheet.add_row ["Tarde", "#{student_exp @students.where(school_shift: 'afternoon')}"]
+        sheet.add_row ["Noite", "#{student_exp @students.where(school_shift: 'night')}"]
+        sheet.add_row ["Integral", "#{student_exp @students.where(school_shift: 'integral')}"]
+
+        sheet.add_row [""]
+        sheet.add_row ["Alunos que não estudam", student_exp(@students.where.not(completed: 'studying'))]
+        sheet.add_row ["Alunos que não trabalham", student_exp(@students.where(working: false))]
+        sheet.add_row ["Alunos que não estudam e nem trabalham", student_exp( @students.where(completed: 'finished').where(working: false))]
+    
+        ##################################################################
+        img = File.expand_path(Rails.root+'app/assets/images/logo_planilha.png' )
+        sheet.add_image(:image_src => img, noMove: true) do |image|
+            image.width = 190
+            image.height = 120
+            image.start_at 0, 0
+        end
+        sheet.merge_cells sheet.rows.first.cells[(1..6)]
+        sheet.merge_cells sheet.rows.second.cells[(1..6)]
+        sheet.rows.first.height =  60
+        sheet.rows.second.height =  60
+        sheet.rows[2].height =  5
+        sheet.row_style 3, th
+        sheet.row_style 4, th
+        
+        
+
+        sheet.column_widths 20, 20, 20, 20, 20, 20,20, 20, 20, 20, 20, 20,20, 20, 20, 20, 20, 20,20, 20, 20, 20, 20, 20,20, 20, 20, 20, 20, 20
+        ##
+        sheet.merge_cells sheet.rows[3].cells[0..5]
+        sheet.merge_cells sheet.rows[3].cells[6..11]
+        sheet.merge_cells sheet.rows[3].cells[12..17]
+        sheet.merge_cells sheet.rows[3].cells[18..23]
+        sheet.merge_cells sheet.rows[3].cells[24..29]
+    
+    end
+end

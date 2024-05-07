@@ -1,0 +1,33 @@
+<h1>Adicionar Bairro</h1>
+
+
+<%= form_with({:id => 'add-neighborhood-form'}) do |f| %>
+
+  <div class="card">
+    <div class="card-show-container">
+      <div class="grid-2-columns grid">
+        <div class="field-info">
+          <p>Estado:</p>
+          <%= f.select :state_id, state_options, { include_blank: true }, {:id => "add-neighborhood-state"} %>
+        </div>
+
+        <div class="field-info">
+          <p>Cidade:</p>
+          <%= f.select :city_id, ["Escolha uma Cidade"], {}, {:id => "add-neighborhood-city"} %>
+        </div>
+
+        <div class="field-info">
+          <p>Nome:</p>
+          <%= f.text_field :name, id: "add-neighborhood-name" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="line-buttons" style="display: block;">
+    <%= link_to 'Voltar', cities_path, class: 'generate-button', style: 'display: inline;' %>
+    <%= f.submit 'Salvar Bairro', class: 'generate-button', style: 'display: inline;', id: 'add-neighborhood-button' %>
+  </div>
+
+<% end %>
+

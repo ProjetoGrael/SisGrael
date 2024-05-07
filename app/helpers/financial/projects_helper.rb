@@ -1,0 +1,2 @@
+module Financial::ProjectsHelper
+end

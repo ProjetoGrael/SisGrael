@@ -1,0 +1,50 @@
+def age(birth)
+    now = Time.now.utc.to_date
+    now.year - birth.year - ((now.month > birth.month || (now.month == birth.month && now.day >= birth.day)) ? 0 : 1)
+end
+
+def period(student)
+    student.inscriptions.where("situation =  1 or situation = 2").active.length
+end
+
+wb = xlsx_package.workbook
+wb.styles do |s|
+    
+    wb.add_worksheet(name: "student_monitoring") do |sheet|
+        title = s.add_style fg_color: "3333ee" , b: true, sz: 15 , :alignment => {:horizontal => :center, :vertical => :center, :wrap_text => true}
+        sub_title = s.add_style fg_color: "3333ee" ,  sz: 15 , :alignment => {:horizontal => :center, :vertical => :center, :wrap_text => true}
+        yellow_line = s.add_style bg_color: "ffff00" ,:alignment => {:horizontal => :center, :vertical => :center, :wrap_text => true}
+        th = s.add_style bg_color: "2972a4", fg_color: "fafafa" , :alignment => {:horizontal => :center, :vertical => :center, :wrap_text => true}, b: true, sz: 12
+        
+        sheet.add_row ["","RELATÓRIO DE MONITORAMENTO",'','','','','',''], style: title
+        sheet.add_row ["", "Relatório por Tempo de Permanência",'','','','','',''], style: sub_title, height: 30
+        sheet.add_row [''],  height: 5
+        ###################################  
+        
+        sheet.add_row ["Nome", "Idade", "CPF", "Permanencia no\n projeto"], style: th
+        @students.each do |student|
+
+            sheet.add_row [student.name, age(student.birthdate), student.cpf, period(student)]
+        end
+        ##################################################################
+        img = File.expand_path(Rails.root+'app/assets/images/logo_planilha.png' )
+        sheet.add_image(:image_src => img, noMove: true) do |image|
+            image.width = 190
+            image.height = 120
+            image.start_at 0, 0
+        end
+        sheet.merge_cells sheet.rows.first.cells[(1..5)]
+        sheet.merge_cells sheet.rows.second.cells[(1..5)]
+        sheet.rows.first.height =  60
+        sheet.rows.second.height =  60
+        sheet.rows[2].height =  5
+        sheet.row_style 3, th
+        sheet.row_style 4, th
+        
+        
+
+        sheet.column_widths 35, 20, 20, 20, 20, 20,20, 20, 20, 20, 20, 20,20, 20, 20, 20, 20, 20,20, 20, 20, 20, 20, 20,20, 20, 20, 20, 20, 20
+        ####################################################################
+        sheet.rows[3].height = 35
+    end
+end

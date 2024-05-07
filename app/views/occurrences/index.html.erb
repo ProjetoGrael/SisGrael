@@ -1,0 +1,43 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Ocorrências</h1>
+
+<div style="width:68%;display:flex;margin:0 auto 20px auto;justify-content:flex-end">
+  <% if can? :create, Occurrence %>
+    <%= link_to 'Novo', new_occurrence_path, :class =>'button-new', style: 'margin-right:40px'%>
+  <% end %>
+</div>
+<div class="box-ocorrence">
+  <%= form_tag(occurrences_path, method: :get, class: "search-form") do %>
+  <div>
+    <%= select_tag :school_year_id, options_for_select(@school_years.all.collect{ |school_year| [school_year.name, school_year.id] }), { include_blank: "Escolha o Período Letivo..."}  %>
+  </div>
+    <%= select_tag :student_id, options_for_select(@students.collect{ |student| [student.name, student.id] }), { include_blank: "Escolha o Aluno..."}  %>
+    <%= submit_tag '', name: nil, class: 'search-button' %>
+  <% end %>
+</div>
+
+<% @occurrences.each do |occurrence| %>
+  <%= link_to occurrence do %>
+
+    <p>Aluno: </p>
+    <p><%= occurrence.student.name %></p>
+
+    <p>Descrição: </p>
+    <p><%= occurrence.description %></p>
+
+    <p>Autor: </p>
+    <p><%= occurrence.user.name %></p>
+
+    <p>Período Letivo: </p>
+    <p><%= occurrence.school_year.name %></p>
+
+    <% if can? :update, Occurrence %>
+      <%= link_to 'Editar', edit_occurrence_path(occurrence) %>
+    <% end %>
+
+    <% if can? :destroy, Occurrence %>
+      <%= link_to 'Excluir', occurrence, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <% end %>
+  <% end %>
+<% end %>

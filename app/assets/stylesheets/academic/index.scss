@@ -1,0 +1,21 @@
+.classrooms .search-form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+
+  .button-new, .select-box, .search-button, select {
+    margin: 0;
+  }
+
+  .search-input {
+    width: 100%;
+  }
+
+  .select-box {
+    width: auto;
+
+    &>* {
+      margin-right: 1rem;
+    }
+  }
+}

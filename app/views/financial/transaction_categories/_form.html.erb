@@ -1,0 +1,23 @@
+<%= form_with(model: transaction_category, local: true) do |form| %>
+  <% if @transaction_category.errors.any? %>
+    <script>
+        $(document).ready(function(){
+          swal("<h2>"+"<%= pluralize(@state.errors.count, "erro") %> proibiu de salvar esta instituição:"
+          +"</h2><ul>"+"<% @state.errors.full_messages.each do |message| %>"
+          +"<li>"+"<%= message %>"+"</li>"+"<% end %>"+"</ul>","","");
+        });
+    </script>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :description, 'Nome' %>
+    <%= form.text_field :description %>
+  </div>
+
+  <div class="actions">
+    <%= link_to transaction_categories_path, class:'button-back' do %>
+      <div class='icon-back'></div>
+    <% end %>
+
+  <%= form.submit "Salvar Natureza", class: "button-edit" %>
+<% end %>

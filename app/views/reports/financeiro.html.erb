@@ -1,0 +1,33 @@
+<h1>Relatório Financeiro</h1>
+
+<%= form_with(url: generate_financial_report_path(format: :xlsx), method: :get, id: 'financial_report_form', local: true) do |form| %>
+  <div class='field'>
+    <%= form.label :report_kind, 'Tipo de Relatório' %>
+    <%= form.select :report_kind, report_options, {include_blank: true}, id: 'financial_report_kind' %>
+  </div>
+
+  <div class='field'>
+    <%= form.label :id, 'Elemento' %>
+    <%= form.select :id, ["Escolha o Tipo de Relatório"], {}, id: "financial_report_element" %>
+  </div>
+
+  <div class='field'>
+    <%= form.label :beggining, 'Data de Início' %>
+    <%= form.date_field :beggining %>
+  </div>
+
+  <div class='field'>
+    <%= form.label :final, 'Data de Fim' %>
+    <%= form.date_field :final %>
+  </div>
+
+  <div class='action'>
+    <%= link_to financial_index_path, class:'button-back' do %>
+      <div class='icon-back'></div>
+    <% end %>
+
+    <%= form.submit "Gerar Relatório", disable_with: "Gerando Relatório...", class: 'button-edit' %>
+  </div>
+<% end %>
+
+<div id='financial_report_answer'></div>

@@ -1,0 +1,392 @@
+@import "utilities/variables";
+@import "utilities/fonts";
+
+/*
+##     ## ######## ##    ## ##     ##         ##       ######## ######## ######## 
+###   ### ##       ###   ## ##     ##         ##       ##       ##          ##    
+#### #### ##       ####  ## ##     ##         ##       ##       ##          ##    
+## ### ## ######   ## ## ## ##     ## ####### ##       ######   ######      ##    
+##     ## ##       ##  #### ##     ##         ##       ##       ##          ##    
+##     ## ##       ##   ### ##     ##         ##       ##       ##          ##    
+##     ## ######## ##    ##  #######          ######## ######## ##          ##    
+*/
+
+ul,
+li {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-left {
+  height: 100%;
+  width: 5vw;
+  min-width: 80px;
+  position: fixed;
+  display: block;
+  top: 0;
+  left: 0;
+  background-color: $black;
+  overflow-x: hidden;
+  transition: 0.5s;
+  overflow: hidden;
+  -moz-box-shadow: inset -10px 0 20px -5px #000000;
+  -webkit-box-shadow: inset -10px 0 20px -5px #000000;
+  box-shadow: inset -10px 0 20px -5px #000000;
+}
+
+.menu-left ul li a {
+  position: relative;
+  margin: 0 auto;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1em;
+  display: block;
+  transition: 0.2s;
+}
+
+.menu-left ul li a span {
+  font-size: 0.75em;
+}
+
+.menu-left ul li:not(:first-child) a {
+  height: 5vw;
+  min-height: 80px;
+}
+
+.menu-left ul li:first-child,
+.menu-left ul li:first-child a {
+  min-height: 50px;
+  max-height: 50px;
+}
+
+.menu-left ul li:first-child a {
+  background-color: $gray;
+  border: 1px solid #dadada;
+  box-sizing: border-box;
+}
+
+.menu-left ul li:first-child a div {
+  top: 50%;
+  left: 50%;
+}
+
+.menu-left ul li:not(:first-child) a div {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.menu-left span {
+  display: none;
+  margin: 0;
+  position: absolute;
+  bottom: 15%;
+  left: 50%;
+  -ms-transform: translate(-50%);
+  transform: translate(-50%);
+
+  color: $white;
+  margin: 0 auto;
+}
+
+.menu-left a:hover span {
+  display: inherit;
+}
+
+.icon-menu {
+  background-color: $white;
+  width: 2.125em;
+  height: 2.125em;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  background-size: contain;
+}
+
+.logo-menu {
+  margin: 0;
+  position: absolute;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  background-color: $black;
+  width: 2.5em;
+  height: 2.5em;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-image: image-url("logo_amarela.svg");
+  mask-image: image-url("logo_amarela.svg");
+}
+
+.menu-left ul,
+.menu-left {
+  min-height: calc(100vh - 5vw);
+}
+
+.menu-left a:hover {
+  background-color: $white;
+}
+.menu-left a:hover > div {
+  background-color: $black;
+}
+.menu-left a:hover > span {
+  color: $black;
+}
+
+.menu-left ul li:first-child a:hover > div {
+  background-color: $yellow;
+}
+
+/* Responsivo menu-left */
+
+@media (max-width: 1000px) {
+  .menu-left {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    top: unset;
+    left: unset;
+    background-color: $black;
+    overflow-x: hidden;
+    transition: 0.5s;
+    overflow: hidden;
+    box-shadow: none;
+    min-height: unset;
+    height: unset;
+    box-shadow: 0px -2px 5px #bbbbbb;
+    z-index: 1;
+  }
+
+  .menu-left ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: unset;
+  }
+
+  .menu-left ul li {
+    font-size: 1.125em;
+  }
+
+  .menu-left ul li a {
+    position: relative;
+    margin: 0 auto;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1em;
+    display: block;
+    transition: 0.2s;
+    padding: 5px 10px;
+  }
+
+  .menu-left ul li:not(:first-child) a {
+    height: unset;
+    min-height: unset;
+  }
+
+  .menu-left a:hover > span {
+    display: none;
+  }
+
+  .li-logo {
+    background-color: $gray;
+  }
+
+  .logo-menu {
+    position: unset;
+    transform: unset;
+    background-color: $black;
+    width: 2.5em;
+    height: 2.5em;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-image: image-url("logo_amarela.svg");
+    mask-image: image-url("logo_amarela.svg");
+  }
+
+  .menu-left ul li:not(:first-child) a div {
+    position: unset;
+    transform: unset;
+  }
+}
+
+/*
+######## #### ##    ##    ###    ##    ##  ######  ######## #### ########   #######  
+##        ##  ###   ##   ## ##   ###   ## ##    ## ##        ##  ##     ## ##     ## 
+##        ##  ####  ##  ##   ##  ####  ## ##       ##        ##  ##     ## ##     ## 
+######    ##  ## ## ## ##     ## ## ## ## ##       ######    ##  ########  ##     ## 
+##        ##  ##  #### ######### ##  #### ##       ##        ##  ##   ##   ##     ## 
+##        ##  ##   ### ##     ## ##   ### ##    ## ##        ##  ##    ##  ##     ## 
+##       #### ##    ## ##     ## ##    ##  ######  ######## #### ##     ##  #######  
+*/
+
+.bank-menu {
+  -webkit-mask-image: image-url("bank.svg");
+  mask-image: image-url("bank.svg");
+}
+
+.projects-menu {
+  -webkit-mask-image: image-url("projects.svg");
+  mask-image: image-url("projects.svg");
+}
+
+.report-menu {
+  -webkit-mask-image: image-url("report.svg");
+  mask-image: image-url("report.svg");
+}
+
+.cash-book-menu {
+  -webkit-mask-image: image-url("cash-book.svg");
+  mask-image: image-url("cash-book.svg");
+}
+
+/*
+########  ########  ########  #######    ########  ########      ###        #######    ##        ###
+##        ##        ##    ##  ##    ##   ##           ##        ## ##       ##    ##   ##       ## ##
+##        ##        ##        ##     ##  ##           ##       ##   ##      ##     ##  ##      ##   ##
+########  ########  ##        ##    ##   ########     ##      ##     ##     ##    ##   ##     ##     ##
+      ##  ##        ##        ## ####    ##           ##     ###########    #######    ##    ###########
+      ##  ##        ##    ##  ##    ##   ##           ##    ##         ##   ##    ##   ##   ##         ##
+########  ########  ########  ##     ##  ########     ##   ##           ##  ##     ##  ##  ##           ##
+*/
+
+.students-icone-menu {
+  -webkit-mask-image: image-url("student.svg");
+  mask-image: image-url("student.svg");
+}
+
+.pdf-icone {
+  -webkit-mask-image: image-url("grampo.svg");
+  mask-image: image-url("grampo.svg");
+  display: block;
+  margin: 0 auto;
+  background-size: cover;
+  background-color: $black;
+  width: 2.5em;
+  height: 2.5em;
+  mask-size: cover;
+  -webkit-mask-size: cover;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  position: relative;
+  top: -20%;
+  
+}
+
+.classes-icone-menu {
+  -webkit-mask-image: image-url("classes.svg");
+  mask-image: image-url("classes.svg");
+  mask-size: contain;
+  -webkit-mask-size: contain;
+}
+
+.school-year-icone-menu {
+  -webkit-mask-image: image-url("calendar.svg");
+  mask-image: image-url("calendar.svg");
+}
+.school-year-icone-menu-save {
+  -webkit-mask-image: image-url("calendar.svg");
+  mask-image: image-url("calendar.svg");
+  mask-size: 30px;
+  -webkit-mask-size: 30px;
+}
+
+.teacher-icone-menu {
+  -webkit-mask-image: image-url("women-teacher.svg");
+  mask-image: image-url("women-teacher.svg");
+}
+
+.discipline-icone-menu {
+  -webkit-mask-image: image-url("discipline.svg");
+  mask-image: image-url("discipline.svg");
+}
+
+.reports-icone-menu {
+  -webkit-mask-image: image-url("report.svg");
+  mask-image: image-url("report.svg");
+  mask-size: contain;
+  -webkit-mask-size: contain;
+}
+
+.assist-icone-menu {
+  -webkit-mask-image: image-url("interview.svg");
+  mask-image: image-url("interview.svg");
+  mask-size: contain;
+  -webkit-mask-size: contain;
+}
+
+/*
+#### ##    ##  ######  ######## ########  ##     ## ########  #######  ########  
+ ##  ###   ## ##    ##    ##    ##     ## ##     ##    ##    ##     ## ##     ## 
+ ##  ####  ## ##          ##    ##     ## ##     ##    ##    ##     ## ##     ## 
+ ##  ## ## ##  ######     ##    ########  ##     ##    ##    ##     ## ########  
+ ##  ##  ####       ##    ##    ##   ##   ##     ##    ##    ##     ## ##   ##   
+ ##  ##   ### ##    ##    ##    ##    ##  ##     ##    ##    ##     ## ##    ##  
+#### ##    ##  ######     ##    ##     ##  #######     ##     #######  ##     ## 
+*/
+
+.courses-icone-menu {
+  -webkit-mask-image: image-url("online-course.svg");
+  mask-image: image-url("online-course.svg");
+  mask-size: contain;
+  -webkit-mask-size: contain;
+}
+
+.courses-book-icone-menu {
+  -webkit-mask-image: image-url("courses.svg");
+  mask-image: image-url("courses.svg");
+  mask-size: contain;
+  -webkit-mask-size: contain;
+}
+
+.report-white-icone-menu {
+  -webkit-mask-image: image-url("report_1.svg");
+  mask-image: image-url("report_1.svg");
+  mask-size: contain;
+  -webkit-mask-size: contain;
+}
+
+.prancheta-icone-menu {
+  -webkit-mask-image: image-url("prancheta.svg");
+  mask-image: image-url("prancheta.svg");
+  mask-size: contain;
+  -webkit-mask-size: contain;
+}
+
+.books-icone-menu {
+  -webkit-mask-image: image-url("books.svg");
+  mask-image: image-url("books.svg");
+  mask-size: contain;
+  -webkit-mask-size: contain;
+}
+
+.calendar1-icone-menu {
+  -webkit-mask-image: image-url("calendar1.svg");
+  mask-image: image-url("calendar1.svg");
+  mask-size: contain;
+  -webkit-mask-size: contain;
+}
+
+//SERVIÇO SOCIAL
+
+.file-icone-menu {
+  -webkit-mask-image: image-url("file.svg");
+  mask-image: image-url("file.svg");
+  mask-size: contain;
+  -webkit-mask-size: contain;
+}
+
+.calendar-icone-menu {
+  -webkit-mask-image: image-url("calendar.svg");
+  mask-image: image-url("calendar.svg");
+  mask-size: contain;
+  -webkit-mask-size: contain;
+}
+
+.menu-left ul li a .big_span {
+  bottom: -2%;
+  font-size: 0.7em;
+}
+
+

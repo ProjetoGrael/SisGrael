@@ -1,0 +1,33 @@
+// Place all the styles related to the Lessons controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+// css apenas para testes no back end com relação ao feedback
+// pro usuario do sucesso da requisição AJAX
+// Código do AJAX encontra-se na lessons.coffee
+
+@import "utilities/variables";
+@import "utilities/fonts";
+
+tr.presence-select::after {
+  color: green;
+  content: "✓";
+  vertical-align: middle;
+  position: relative;
+  top: 10px;
+  left: 10px;
+  font-weight: bold;
+}
+
+.select-hidden {
+  visibility: hidden;
+}
+
+.select-show {
+  visibility: visible;
+}
+
+.alert {
+  color: #EB797B;
+}

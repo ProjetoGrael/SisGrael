@@ -1,0 +1,5 @@
+<h1>Editar Ficha de Atendimento</h1>
+
+<%= render 'form', service_sheet: @service_sheet, student: @student %>
+
+<%= link_to 'Show', student_service_sheet_path(student_id: @student.id, id: @service_sheet.id) %>

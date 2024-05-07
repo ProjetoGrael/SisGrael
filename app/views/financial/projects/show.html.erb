@@ -1,0 +1,207 @@
+<% #Hardcoding de emergencia. Necessário melhorar o script %>
+<script>
+  
+  function toggleRub()
+  {
+    btn_rub = document.getElementById("btn-rubrica"); 
+    if (btn_rub.getAttribute("class") == null) 
+    {
+      btn_cap = document.getElementById("btn-captacao"); 
+
+      btn_rub.setAttribute("class", "active");
+      btn_cap.removeAttribute("class");
+
+      changeContent(btn_rub, btn_cap)
+    }
+  }
+
+  function toggleCap()
+  {
+    btn_cap = document.getElementById("btn-captacao"); 
+    if (btn_cap.getAttribute("class") == null) 
+    {
+      btn_rub = document.getElementById("btn-rubrica"); 
+
+      btn_cap.setAttribute("class", "active");
+      btn_rub.removeAttribute("class");
+
+      changeContent(btn_cap, btn_rub)
+    }
+  }
+
+  function changeContent(btn_enabled, btn_unenabled)
+  {
+    new_tab_content = btn_enabled.getAttribute("href");
+    document.querySelector(new_tab_content).setAttribute("class", "active");
+    old_tab_content = btn_unenabled.getAttribute("href");
+    document.querySelector(old_tab_content).removeAttribute("class");
+  }
+
+</script>
+
+
+<% if (notice) %>
+  <script>
+      $(document).ready(function(){
+        swal("<%= notice if notice != "You are not authorized to access this page"%>","","");
+      });
+  </script>
+<% end %>
+
+<% messages = [] %>
+<% [:notice, :info, :warning, :error].each do |type| %>
+  <% if flash[type] %>
+    <% messages.push({type: type, message: flash[type]}) %>
+  <% end %> 
+<% end %>
+<% messages.each do |object| %>
+  <p class="<%=object[:type]%>"><%= object[:message] %></p>
+<% end %>
+
+<div class="card-view">
+  <div class="card-action">
+    <div class="action-buttons">
+      <%= link_to 'Voltar', projects_path, class: 'generate-button' %>
+    </div>
+  </div>
+
+  <div class="card-content">
+    <div class="titles">
+      <%= @project.title %>
+    </div>
+
+    <div class="grid-3-columns grid additional-infos">
+      <div>
+        <p><%= @project.created_at.strftime("%d/%m/%Y") %> -
+        <%= @project.updated_at.strftime("%d/%m/%Y") %></p>
+      </div>
+
+      <div>
+        <p>Valor:</p>
+        <%= number_to_currency @project.total_value, unit: "R$", separator: ",", delimiter: "." %>
+      </div>
+
+      <div>
+        <p>Saldo:</p>
+        <%= number_to_currency @project.current_value, unit: "R$", separator: ",", delimiter: "." %>
+      </div>
+    </div>
+
+    <div class="descriptions-financial">
+      <%= @project.description %>
+    </div>
+  </div>
+</div>
+
+
+<div class="tabs" id="tab" >
+		<a id="btn-rubrica" onclick="toggleRub()" class="active" href="#rubrica-tab-content">Rubricas</a>
+		<a id="btn-captacao" onclick="toggleCap()" href="#captacao-tab-content">Captações</a>
+</div><!--.tabs-->
+
+<div class="container-85 search-box">
+  <%= form_tag(@project, method: :get, class: "search-form") do %>
+    <%= text_field_tag :term, params[:term], :placeholder => "Digite a Descrição:", class: "search-input" %>
+    <%= submit_tag '', description: nil, class: 'search-button' %>
+  <% end %>   
+</div>
+
+<div class="tabs-content">
+  
+  <div id="rubrica-tab-content" class="active">
+
+    <% if @project.rubrics.any? %>
+      <% for rubric in @rubrics do %>
+        <div class="card">
+          <div class="card-action">
+            <%= link_to rubric, :class => 'card-link' do %>
+              <div class="action-buttons">
+                <%= rubric.numeration %>
+              </div>
+            <% end %>
+          </div>
+          
+          <div class="card-content">
+            <div class="titles" id="action-buttons-rubrics">
+              <%= link_to 'Editar', edit_rubric_path(rubric), class:"edit-button" %>
+              <%= link_to 'Excluir', rubric, method: :delete, class:"delete-button" %>
+            </div>
+
+            <%= link_to rubric, :class => 'card-link' do %>
+              <div class="grid grid-1-column registration">
+                <div class="field-info">
+                  <p><%= rubric.description %></p>
+                </div>
+              </div>
+          
+              <div class="grid grid-1-column discipline">
+                <div class="field-info">
+                  <p>Valor:</p>
+                  <%= number_to_currency rubric.value, unit: "R$", separator: ",", delimiter: "." %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="line-buttons">
+        <!-- TODO: Provavelmente esses links deveriam ir para indexes específicos de cada um.-->
+        <%= link_to 'Nova Rubrica', new_project_rubric_path(@project), class: "button-new" %>
+      </div>
+
+      <%= paginacao(@rubrics) %>
+    <% else %>
+      <p>Não há rubricas a serem exibidas.</p>
+      <div class="show-container">
+        <%= link_to 'Nova Rubrica', new_project_rubric_path(@project), class: "button-new" %>
+      </div>
+    <% end %>
+
+  </div>
+
+  <div id="captacao-tab-content" >
+
+    <% if @project.captations.any? %>
+      <% for captation in @captations do %>
+        <div class="card">
+          <div class="card-action">
+            <div class="action-buttons">
+            </div>
+          </div>
+        
+          <div class="card-content">
+            <div class="titles" id="action-buttons-rubrics">
+              <%= link_to 'Editar', edit_captation_path(captation), class:"edit-button" %>
+              <%= link_to 'Excluir', captation, method: :delete, class:"delete-button" %>
+            </div>
+        
+            <div class="grid-1-column grid additional-infos">
+              <div class="field-info">
+                <p><%= captation.source %></p>
+              </div>
+            </div>
+        
+            <div class="grid-1-column grid descriptions-financial">
+              <div class="field-info">
+                <p>Valor:</p><%= number_to_currency captation.value, unit: "R$", separator: ",", delimiter: "." %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="line-buttons">
+        <!-- TODO: Provavelmente esses links deveriam ir para indexes específicos de cada um.-->
+        <%= link_to 'Nova Captação', new_project_captation_path(@project), class: "button-new" %>
+      </div>
+    <% else %>
+      <p>Não há captações a serem exibidas.</p>
+      <div class="show-container">
+          <%= link_to 'Nova Captação', new_project_captation_path(@project), class: "button-new" %>
+      </div>
+      
+    <% end %>
+    
+  </div>
+</div>

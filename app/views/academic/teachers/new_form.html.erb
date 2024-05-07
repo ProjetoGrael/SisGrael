@@ -1,0 +1,142 @@
+<h1>Novo Educador</h1>
+
+<%= link_to 'Voltar', teachers_path, class:'generate-button' %>
+
+<%teacher = @teacher%>
+<%= form_with url: post_new_form_path, class: 'container-85', local: true do |form|%>
+      <div class="card">
+    <div class="card-show-container">
+      <div class="grid-1-column grid">
+        <div id="image_field">
+          <%= form.file_field :picture, id: "image_label" %>
+          <label for="image_label">Escolher Imagem</label>
+          <%= form.hidden_field :picture_cache %>
+        </div>
+      </div>
+
+      <div class="grid-2-columns grid">
+        <div class="field-info">
+          <p>Nome:</p>
+          <%= form.text_field :name, id: :user_name %>
+        </div>
+
+        <div class="field-info">
+          <p>Email:</p>
+          <%= form.email_field :email, id: :user_email %>
+        </div>
+
+
+        <div class="field-info">
+          <p>Senha:</p>
+          <%= form.password_field :password, id: :user_password %>
+        </div>
+      </div>
+       <div class="grid-1-column grid">
+        <div id="image_field">
+          <%= form.file_field :signature, id: "signature_label" %>
+          <label for="signature_label">Escolher Assinatura</label>
+          <%= form.hidden_field :signature_cache %>
+        </div>
+      </div>
+    </div>
+  </div>
+    <div class="card">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>1</span> Informações Pessoais</p>
+      <div class="grid-2-columns grid">
+        <div class="field-info">
+          <p>Status:</p>
+          <%= form.select :active, options_for_select(active_options, selected: teacher.active), id: :teacher_active %>
+        </div>
+        
+        <div class="field-info">
+          <p>Data de nascimento:</p>
+          <%= form.date_field :birth, id: :teacher_birth %>
+        </div>
+        
+        <div class="field-info">
+          <p>Sexo:</p>
+          <%= form.select :sex, sex_options, id: :teacher_sex %>
+        </div>
+
+        <div class="field-info">
+          <p>Etnia:</p>
+          <%= form.select :ethnicity, ethnicity_options, id: :teacher_ethnicity %>
+        </div>
+
+        <div class="field-info">
+          <p>Nacionalidade:</p>
+          <%= form.text_field :nationality, id: :teacher_nationality %>
+        </div>
+
+        <div class="field-info">
+          <p>Naturalidade:</p>
+          <%= form.text_field :naturalness, id: :teacher_naturalness %>
+        </div>
+
+        <div class="field-info">
+          <p>RG:</p>
+          <%= form.text_field :rg, id: :teacher_rg %>
+        </div>
+
+        <div class="field-info">
+          <p>Órgão Expedidor:</p>
+          <%= form.text_field :issuing_agency, id: :teacher_issuing_agency %>
+        </div>
+
+        <div class="field-info">
+          <p>Data de Emissão:</p>
+          <%= form.date_field :issuing_date, id: :teacher_issuing_date %>
+        </div>
+
+        <div class="field-info">
+          <p>CPF:</p>
+          <%= form.text_field :cpf, id: :teacher_cpf %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>2</span> Endereço</p>
+      <div class="grid-2-columns grid">
+        <div class="field-info">
+          <p>Endereço:</p>
+          <%= form.text_field :address, id: :teacher_address %>
+        </div>
+      
+        <div class="field-info">
+          <p>CEP:</p>
+          <%= form.text_field :cep, id: :teacher_cep %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>3</span> Contato</p>
+      <div class="grid-2-columns grid">
+        <div class="field-info">
+          <p>Telefone:</p>
+          <%= form.text_field :phone, id: :teacher_phone %>
+        </div>
+
+        <div class="field-info">
+          <p>Celular:</p>
+          <%= form.text_field :mobile_phone, id: :teacher_mobile_phone %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%= form.hidden_field :user_id, value: teacher_user_value(teacher) %>
+
+  <div class="line-buttons" style="display: block;">
+    <%= form.submit 'Salvar Educador', class: 'generate-button', style: 'display: inline;' %>
+  </div>
+
+
+
+<% end %>

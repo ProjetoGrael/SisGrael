@@ -1,0 +1,744 @@
+<p id="notice"><%= notice if notice != "You are not authorized to access this page"%></p> 
+
+<div class="show-container">
+  <div class="card-show">
+    <div class="button-students">
+      <a class='edit-button' id ='back-page'>Voltar</a>
+      <% if can? :social_service, :student %>
+        <%= link_to 'Assistente Social', social_service_path(@student), class:'edit-button' %>
+      <% end %>
+      <% if can? :new, Academic::Inscription %>
+        <%= link_to 'Adicionar em Turma', new_student_inscription_path(@student.id), class:'edit-button' %>
+      <% end %>
+      <% if can? :available_certificates, :certification  %>
+        <%= link_to 'Certificados disponíveis', student_certificados_disponiveis_path(@student.id), class:'edit-button' %>
+      <% end %>
+      <% if can? :update, @student %>
+        <%= link_to 'Editar', edit_student_path(@student.id), class:'edit-button' %>
+      <% end %>
+      <% if can? :create, Occurrence %>
+        <%= link_to "Criar Ocorrência", new_occurrence_path(student_id: @student.id), class: "edit-button" %>
+      <% end %>
+    </div>
+
+    <div class="photo-profile action-photo">
+      <div class="registration-number">
+        <% if @student.photo.present? %>
+          <%= image_tag @student.photo.small.url, :class => 'student-photo' %>
+        <% else %>
+          <div class="student-photo students-icone-panel icon"></div>
+        <% end %>
+        <p><%= @student.registration_number %></p>
+      </div>
+      <p class="name-student"><%= @student.name %></p>
+    </div>
+
+    <% if current_user.secretary? or 
+          current_user.pedagogue? or 
+          current_user.admin? or 
+          current_user.social_service?
+    %> 
+
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>1</span> Informações Pessoais</p>
+      <div class="grid">
+        <div class="field-info">
+          <p>Data de Nascimento:</p>
+          <%= pretty_date(@student.birthdate) %>
+        </div>
+
+
+        <div class="field-info">
+          <p>Sexo:</p>
+          <%= pretty_sex(@student.sex) if !@student.sex.nil? %>
+        </div>
+
+        <div class="field-info">
+          <p>Etnia:</p>
+          <%= @student.ethnicity %>
+        </div>
+
+        <div class="field-info">
+          <p>Nacionalidade:</p>
+          <%= @student.nationality %>
+        </div>
+
+        <div class="field-info">
+          <p>Naturalidade:</p>
+          <%= @student.naturalness %>
+        </div>
+
+        <div class="field-info">
+          <p>RG:</p>
+          <%= @student.rg %>
+        </div>
+
+        <div class="field-info">
+          <p>Órgão Expedidor:</p>
+          <%= @student.issuing_agency %>
+        </div>
+
+        <div class="field-info">
+          <p>Data de Emissão:</p>
+          <%= pretty_date(@student.issuing_date) %>
+        </div>
+
+        <div class="field-info">
+          <p>CPF:</p>
+          <%= @student.cpf %>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>2</span> Endereço</p>
+      <div class="grid">
+        <div class="field-info">
+          <p>Endereço:</p>
+          <%= @student.address %>
+        </div>
+
+        <div class="field-info">
+          <p>CEP:</p>
+          <%= @student.cep %>
+        </div>
+
+        <div class="field-info">
+          <p>Estado:</p>
+          <%= @student.state.name %>
+        </div>
+
+        <div class="field-info">
+          <p>Cidade:</p>
+          <%= @student.city.name %>
+        </div>
+
+        <div class="field-info">
+          <p>Bairro:</p>
+          <%= @student.neighborhood.name %>
+        </div>
+
+        <div class="field-info">
+          <p>Sub-Bairro:</p>
+          <% if @student.sub_neighborhood == "" %>
+            <p>N/A</p>
+          <% else %>
+            <%= @student.sub_neighborhood %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>3</span> Contato</p>
+      <div class="grid-3-columns grid">
+        <div class="field-info">
+          <p>Email:</p>
+          <% if @student.email == "" %>
+            <p>N/A</p>
+          <% else %>
+            <%= @student.email %>
+          <% end %>
+        </div>
+
+        <div class="field-info">
+          <p>Telefone:</p>
+          <% if @student.phone == "" %>
+            <p>N/A</p>
+          <% else %>
+            <%= @student.phone %>
+          <% end %>
+        </div>
+
+        <div class="field-info">
+          <p>Telefone móvel:</p>
+          <% if @student.mobile_phone == "" %>
+            <p>N/A</p>
+          <% else %>
+            <%= @student.mobile_phone %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>4</span> Situação Escolar</p>
+      <div class="grid">
+        <div class="field-info">
+          <p>Escola:</p>
+          <%= @student.school.name %>
+        </div>
+
+        <div class="field-info">
+          <p>Turno:</p>
+          <% unless @student.school_shift.nil? %>
+            <%= pretty_school_shift(@student.school_shift) %>
+          <% end %>
+        </div>
+
+        <div class="field-info">
+          <p>Status no Projeto:</p>
+          <%= pretty_student_status(@student.status) %>
+        </div>
+
+        <div class="field-info">
+          <p>Ano de Ingresso no Projeto:</p>
+          <%= @student.year %>
+        </div>
+
+        <div class="field-info">
+          <p>Semestre:</p>
+          <%= @student.semester %>
+        </div>
+
+        <div class="field-info">
+          <p>Escolaridade:</p>
+          <%= @student.grade %>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>5</span> Responsáveis</p>
+      <div class="grid-3-columns grid">
+        <div>
+          <div class="field-info">
+            <p>Mãe:</p>
+            <%= @student.mother_name %>
+          </div>
+
+          <div class="field-info">
+            <p>CPF da Mãe:</p>
+            <%= @student.mother_cpf %>
+          </div>
+
+          <div class="field-info">
+            <p>Email da Mãe:</p>
+            <% if @student.mother_email == "" %>
+              <p>N/A</p>
+            <% else %>  
+              <%= @student.mother_email %>
+            <% end %>
+          </div>
+
+          <div class="field-info">
+            <p>Telefone da Mãe:</p>
+            <% if @student.mother_phone == "" %>
+              <p>N/A</p>
+            <% else %>
+              <%= @student.mother_phone %>
+            <% end %>
+          </div>
+        </div>
+
+        <div>
+          <div class="field-info">
+            <p>Pai:</p>
+            <%= @student.father_name %>
+          </div>
+
+          <div class="field-info">
+            <p>CPF do Pai:</p>
+            <%= @student.father_cpf %>
+          </div>
+
+          <div class="field-info">
+            <p>Email do Pai:</p>
+            <% if @student.father_email == "" %>
+              <p>N/A</p>
+            <% else %>
+              <%= @student.father_email %>
+            <% end %>
+          </div>
+
+          <div class="field-info">
+            <p>Telefone do Pai:</p>
+            <% if @student.father_phone == "" %>
+              <p>N/A</p>
+            <% else %>
+              <%= @student.father_phone %>
+            <% end %>
+          </div>
+        </div>
+
+        <div>
+          <div class="field-info">
+            <p>Responsável:</p>
+            <%= @student.responsible_name %>
+          </div>
+
+          <div class="field-info">
+            <p>CPF do Responsável:</p>
+            <%= @student.responsible_cpf %>
+          </div>
+
+          <div class="field-info">
+            <p>Email do Responsável:</p>
+            <% if @student.responsible_email == "" %>
+              <p>N/A</p>
+            <% else %>
+              <%= @student.responsible_email %>
+            <% end %>
+          </div>
+
+          <div class="field-info">
+            <p>Telefone do Responsável:</p>
+            <% if @student.responsible_phone == "" %>
+              <p>N/A</p>
+            <% else %>
+              <%= @student.responsible_phone %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>6</span> Documentação</p>
+      <div class="grid-check grid-checkbox">
+        <input type=hidden id="authenticity_token" value="<%= form_authenticity_token %>">
+        <input type = hidden id= "student_id" value = "<%= @student.id %>">
+
+        <div>
+          <% unless @student.rg_missing%>
+            <span class="chk" unchecked></span>
+            <input type="checkbox" class="student_show_checkbox">
+          <% else %>
+            <span class="chk" checked></span>
+            <input type="checkbox" class="student_show_checkbox" checked>
+          <% end %>
+        </div>
+        <p>RG:</p>
+
+        <div>
+          <% unless @student.cpf_missing%>
+            <span class="chk" unchecked></span>
+            <input type="checkbox" class="student_show_checkbox">
+          <% else %>
+            <span class="chk" checked></span>
+            <input type="checkbox" class="student_show_checkbox" checked>
+          <% end %>
+        </div>
+        <p>CPF:</p>
+
+        <div>
+          <% unless @student.responsible_rg_missing%>
+            <span class="chk" unchecked></span>
+            <input type="checkbox" class="student_show_checkbox">
+          <% else %>
+            <span class="chk" checked></span>
+            <input type="checkbox" class="student_show_checkbox" checked>
+          <% end %>
+        </div>
+        <p>RG do Responsável:</p>
+        
+
+        <div>
+          <% unless @student.responsible_cpf_missing%>
+            <span class="chk" unchecked></span>
+            <input type="checkbox" class="student_show_checkbox">
+          <% else %>
+            <span class="chk" checked></span>
+            <input type="checkbox" class="student_show_checkbox" checked>
+          <% end %>
+        </div>
+        <p>CPF do Responsável:</p>
+
+        <div>
+          <% unless @student.address_proof_missing%>
+            <span class="chk" unchecked></span>
+            <input type="checkbox" class="student_show_checkbox">
+          <% else %>
+            <span class="chk" checked></span>
+            <input type="checkbox" class="student_show_checkbox" checked>
+          <% end %>
+        </div>
+        <p>Comprovante de Residência:</p>
+
+
+        <div>
+          <% unless @student.term_signed_missing%>
+            <span class="chk" unchecked></span>
+            <input type="checkbox" class="student_show_checkbox">
+          <% else %>
+            <span class="chk" checked></span>
+            <input type="checkbox" class="student_show_checkbox" checked>
+          <% end %>
+        </div>
+        <p>Termo de Imagem e Som Assinado:</p>
+
+
+        <div>
+          <% unless @student.school_declaration_missing%>
+            <span class="chk" unchecked></span>
+            <input type="checkbox" class="student_show_checkbox">
+          <% else %>
+            <span class="chk" checked></span>
+            <input type="checkbox" class="student_show_checkbox" checked>
+          <% end %>
+        </div>
+        <p>Declaração Escolar:</p>
+
+
+        <div>
+          <% unless @student.medical_certificate_missing%>
+            <span class="chk" unchecked></span>
+            <input type="checkbox" class="student_show_checkbox">
+          <% else %>
+            <span class="chk" checked></span>
+            <input type="checkbox" class="student_show_checkbox" checked>
+          <% end %>
+        </div>
+        <p>Atestado Médico:</p>
+
+        <div>
+          <% unless @student.birth_certificate_missing%>
+            <span class="chk" unchecked></span>
+            <input type="checkbox" class="student_show_checkbox">
+          <% else %>
+          <span class="chk" checked></span>
+            <input type="checkbox" class="student_show_checkbox" checked>
+          <% end %>
+        </div>
+        <p>Certidão de Nascimento:</p>
+
+
+        <div>
+          <% unless @student.historic_missing%>
+            <span class="chk" unchecked></span>
+            <input type="checkbox" class="student_show_checkbox">
+          <% else %>
+            <span class="chk" checked></span>
+            <input type="checkbox" class="student_show_checkbox" checked>
+          <% end %>
+        </div>
+        <p>Histórico Escolar:</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>7</span> Situação Familiar</p>
+      <div class="grid">
+        <div class="field-info">
+          <p>Número de Residentes:</p>
+          <%= @student.number_residents %>
+        </div>
+
+        <div class="field-info">
+          <p>Renda Familiar:</p>
+          <%= @student.family_income %>
+        </div>
+
+        <div class="field-info">
+          <p>NIS:</p>
+          <%= @student.nis %>
+        </div>
+
+        <div class="field-info">
+          <p>Trabalhando:</p>
+          <%= pretty_bool(@student.working) %>
+        </div>
+
+        <div class="field-info">
+          <p>Empresa:</p>
+          <% if @student.company == "" %>
+            <p>N/A</p>
+          <% else %>
+            <%= @student.company %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>8</span> Outros</p>
+      <div class="grid">
+        <div class="field-info">
+          <p>Medicação:</p>
+          <% if @student.medication == "" %>
+            <p>N/A</p>
+          <% else %>
+            <%= @student.medication %>
+          <% end %>
+        </div>
+
+        <div class="field-info">
+          <p>Como foi Indicado ao Projeto:</p>
+          <%= @student.project_indication %>
+        </div>
+
+        <div class="field-info">
+          <p>Descrição de Indicação:</p>
+          <% if @student.project_indication_description == "" %>
+            <p>N/A</p>
+          <% else %>
+            <%= @student.project_indication_description %>
+          <% end %>
+        </div>
+
+        <div class="field-info">
+          <p>Observações:</p>
+          <% if @student.annotations == "" %>
+            <p>N/A</p>
+          <% else %>
+            <%= @student.annotations %>
+          <% end %>
+        </div>
+
+        <div class="field-info">
+          <p>Laudo Médico:</p>
+          <% if @student.medical_report == "" %>
+            <p>N/A</p>
+          <% else %>
+            <%= @student.medical_report %>
+          <% end %>
+        </div>
+
+
+        <div class="field-info">
+          <p>Observações Gerais:</p>
+          <% if @student.behavior == "" %>
+            <p>N/A</p>
+          <% else %>
+            <%= @student.behavior %>
+          <% end %>
+        </div>
+
+        <div>
+          <p>Permite Fotos e Filmagens do aluno:</p>
+          <% if @student.photo_and_video_permited == "" || @student.photo_and_video_permited == nil %>
+            <p>N/A</p>
+          <% else %>
+            <%= pretty_bool(@student.photo_and_video_permited) %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <% elsif current_user.instructor? %>
+
+    <div class="card-show-container">
+      <div class="grid grid-3-columns">
+        <div class="field-info">
+          <p>Observações Gerais:</p>
+            <% if @student.behavior == "" %>
+              N/A
+            <% else %>
+              <%= @student.behavior %>
+            <% end %>
+        </div>
+        <div class="field-info">
+          <p>Observações:</p>
+          <% if @student.annotations == "" %>
+            <p>N/A</p>
+          <% else %>
+            <%= @student.annotations %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <% else %>
+
+    <div class="card-show-container">
+      <div class="grid grid-3-columns">
+        <% student = @student%>
+        <div class="field-info">
+          <p>Matrícula:</p>
+          <%= student.registration_number %>
+        </div>
+
+        <div class="field-info">
+          <p>Sexo:</p>
+          <%= pretty_sex(student.sex) %>
+        </div>
+
+
+        <div class="field-info">
+          <p>Idade:</p>
+          <%= age(student.birthdate) %> ano(s) e <%= months_of_age(student.birthdate)%> mes(es)
+        </div>
+      </div>
+
+      <div class="grid grid-3-columns">
+        <div class="field-info">
+          <p>Observações Gerais:</p>
+            <% if @student.behavior == "" %>
+              N/A
+            <% else %>
+              <%= @student.behavior %>
+            <% end %>
+        </div>
+
+        <div class="field-info">
+          <p>Medicação:</p>
+          <% if @student.medication == "" %>
+            N/A
+          <% else %>
+            <%= @student.medication %>
+          <% end %>
+        </div>
+
+        <div class="field-info">
+          <p>Laudo Médico:</p>
+          <% if @student.medical_report == "" %>
+            N/A
+          <% else %>
+            <%= @student.medical_report %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <% end %>
+    <% if can? :generate_term, Student %>
+      <%= link_to 'Gerar Termo', generate_term_path(@student.id, {}, format: :pdf), target: '_blank', :class => 'generate-button' %>
+    <% end %>
+  </div>
+  <h2>Turma atual</h2>
+  <div class="card-show">
+    <div class="card-content">
+    
+      <% @current_inscriptions.each do |inscription| %>
+        <% fantasy_name = inscription.classroom.fantasy_name %> 
+        <%= link_to "Turma: #{fantasy_name}", inscription.classroom, class: 'label-class'%>
+        <% inscription.subject_histories.each do |sh|%>
+          <% next unless sh.is_valid?%>
+          <div class= "grid grid-2-columns">
+            <p>Curso: <%= sh.full_name%></p>
+            <p>Professor Responsável: <%=sh.classroom_subject.teacher.present? ? sh.classroom_subject.teacher.user.name : "N/A"%></p>
+          </div>
+          <p>Aulas</p>
+          <% if sh.classroom_subject.lesson_on_monday%>
+            <p>Segunda Feira: <%=sh.classroom_subject.start_time.to_s(:time)%> - <%=sh.classroom_subject.finish_time.to_s(:time)%></p>
+          <% end %>
+          <% if sh.classroom_subject.lesson_on_tuesday%>
+            <p>Terça Feira: <%=sh.classroom_subject.start_time.to_s(:time)%> - <%=sh.classroom_subject.finish_time.to_s(:time)%></p>
+          <% end %>
+          <% if sh.classroom_subject.lesson_on_wednesday%>
+            <p>Quarta Feira: <%=sh.classroom_subject.start_time.to_s(:time)%> - <%=sh.classroom_subject.finish_time.to_s(:time)%></p>
+          <% end %>
+          <% if sh.classroom_subject.lesson_on_thursday%>
+            <p>Quinta Feira: <%=sh.classroom_subject.start_time.to_s(:time)%> - <%=sh.classroom_subject.finish_time.to_s(:time)%></p>
+          <% end %>
+          <% if sh.classroom_subject.lesson_on_friday%>
+            <p>Sexta Feira: <%=sh.classroom_subject.start_time.to_s(:time)%> - <%=sh.classroom_subject.finish_time.to_s(:time)%></p>
+          <% end %> 
+
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <% unless current_user.instructor? %>
+    <% if @previous_inscriptions.any?%>
+      <h2>Turmas Passadas</h2>
+      <button type="button" class="collapsible generate-button">exibir/ocultar</button>
+      <div class="card-show collapse">
+        <div class="card-content">
+          <% @previous_inscriptions.each do |inscription| %>
+            <div class="titles " >
+              <%= inscription.classroom.fantasy_name %> - <%= inscription.classroom.school_year.name%>
+            </div>
+            <% inscription.subject_histories.each do |sh| %>
+
+              <div class= "grid-3-columns grid">
+                <div class='field-info'>
+                  <p>Curso: <%= sh.full_name %></p>
+                </div>
+                <div class="field-info">
+                  <p>Conselho Parcial: <%= consel_evaluate sh.partial_counsel%></p>
+                </div>
+                <div class="field-info">
+                  <p>Conselho Final: <%= consel_evaluate sh.final_counsel%></p>
+                </div>
+              </div>
+
+              <div class='title-card-show-container'>
+                <p>Conceito diários</p>
+              </div>
+
+              <% presence = @student.presences.joins(:lesson).where('lessons.classroom_subject_id = ?', sh.classroom_subject_id) %>
+              <div class= "grid-3-columns grid">
+                <div class="field-info">  
+                  <p>A: <%= (presence.where(participation: 1).length * 100.0 / presence.length).round(2) %>%</p>
+                </div>
+                <div class="field-info">  
+                  <p>B: <%= (presence.where(participation: 2).length * 100.0 / presence.length).round(2) %>%</p>
+                </div>
+              </div>
+
+              <div class= "grid-3-columns grid">
+                <div class="field-info">  
+                  <p>C: <%= (presence.where(participation: 3).length * 100.0 / presence.length).round(2) %>%</p>
+                </div>
+                <div class="field-info">  
+                  <p>D: <%= (presence.where(participation: 4).length * 100.0 / presence.length).round(2) %>%</p>
+                </div>
+              </div>
+
+              <div class= "grid-3-columns grid">
+                <div class="field-info">  
+                  <p>Atrasado: <%= (presence.where(situation: "later").length * 100.0 / presence.length).round(2) %>%</p>
+                </div>
+                <div class="field-info">  
+                  <p>Falta: <%= (presence.where(situation: "absent").length * 100.0 / presence.length).round(2) %>%</p>
+                </div>
+              </div>
+              
+              <div class="divider"></div>
+            <% end %>  
+
+            <div class= "grid-3-columns grid">
+              <div class="field-info">
+                <p>Situação do aluno: <%=translate_situation inscription.situation%></p>
+              </div>
+              <div class="field-info">
+                <p>Proximo curso: 
+                  <% if inscription.subject_id.present?%>
+                    <%= Academic::Subject.find(inscription.subject_id).name%>
+
+                  <%# if inscription.subject_level_id.present?%>
+                    <%#= Academic::SubjectLevel.find(inscription.subject_level_id).full_name%>
+                  <% else %>
+                    N/A
+                  <% end %>
+                </p>
+              </div>
+            </div>
+          <% end %>
+        </div>
+        <% if can? :manage, VocationalInterview %>
+          <%= link_to 'Buscar Histórico', list_history_path(@student), remote: true, :class => 'generate-button', student_id: @student.id %>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+
+<script type="text/javascript">
+  const collapsibles = document.getElementsByClassName("collapsible");
+
+  for (let i = 0; i < collapsibles.length; i++) {
+    collapsibles[i].addEventListener("click", function() {
+      this.classList.toggle("active");
+      const content = this.nextElementSibling;
+      if (content.style.maxHeight) content.style.maxHeight = null;
+      else content.style.maxHeight = content.scrollHeight + "px";
+    });
+  }
+</script>
+

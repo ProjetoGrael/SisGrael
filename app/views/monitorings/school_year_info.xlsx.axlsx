@@ -1,0 +1,25 @@
+
+wb = xlsx_package.workbook
+wb.styles do |s|
+  wb.add_worksheet(name: "school_year_info") do |sheet|
+    
+    #Estilo do xlsx
+    sheet.column_widths 90, 20, 20
+    global_style = s.add_style({:alignment => {:horizontal => :center, :vertical => :center, :wrap_text => false}}  )
+    classroom_style = s.add_style({:alignment => {:horizontal => :center, :vertical => :center, :wrap_text => false}, :bg_color => "dddddd" })
+    inscription_style = s.add_style({:alignment => {:horizontal => :center, :vertical => :center, :wrap_text => false}, :bg_color => "bbbbff" })
+    
+    @classrooms.each do |classroom|
+      sheet.add_row [classroom.fantasy_name, "Concelho Final", "Porcentagem de Faltas"], :style => classroom_style
+      
+      classroom.inscriptions.active.each do |inscription|
+        sheet.add_row [inscription.student.name,'',''],  :style => inscription_style
+        inscription.subject_histories.each do |subject_history|
+          next unless subject_history.is_valid?
+          sheet.add_row [subject_history.full_name,mean_hash(subject_history.final_counsel) , "#{subject_history.presence}%"], :style => global_style
+        end
+      end
+      
+    end
+  end
+end

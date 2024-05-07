@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <%= wicked_pdf_stylesheet_link_tag 'certification' %>
+        <%= wicked_pdf_stylesheet_link_tag 'reset' %>
+        <title>Document</title>
+    </head>
+    <body class="body-pdf">
+        <%= render 'certificate.html.erb', student: @student %>
+    </body>
+</html>

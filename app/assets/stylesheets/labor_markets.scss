@@ -1,0 +1,41 @@
+// Place all the styles related to the LaborMarkets controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.labor_markets {
+  width: max-content;
+  margin: 0 auto;
+  display: grid;
+  gap: 1rem;
+
+  .button-new {
+    justify-self: end;
+    margin: 0;
+  }
+
+  .session-a, .session-b {
+    padding: 10px 20px;
+    border: 1px solid #e0e0e0;
+    margin-top: -1px;
+  }
+
+  .session-a {
+    grid-template-columns: unset;
+    grid-auto-flow: column;
+  }
+
+  .session-b {
+    grid-template-columns: repeat(3, auto);
+    gap: 1em;
+    border-radius: 0 0 5px 0;
+  }
+
+  .field-info:nth-child(3) {
+    grid-column: 1;
+  }
+
+  .card {
+    max-width: none;
+    width: 50rem;
+  }
+}

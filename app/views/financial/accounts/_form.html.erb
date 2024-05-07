@@ -1,0 +1,61 @@
+<%= form_with(model: account, local: true, class: 'container-85') do |form| %>
+  <script>
+    $(document).ready(function(){
+      $('#account_current_value').inputmask("numeric", {
+          radixPoint: ",",
+          groupSeparator: ".",
+          digits: 2,
+          autoGroup: true,
+          prefix: 'R$ ', //Space after $, this will not truncate the first character.
+          rightAlign: false,
+          oncleared: function () { self.Value(''); }
+      });
+    });
+      
+    
+  </script>
+
+  <% if account.errors.any? %>
+    <script>
+        $(document).ready(function(){
+          swal("<h2>"+
+          "<%= pluralize(account.errors.count, "erro") %> proibiu de salvar esta conta:"
+          +"</h2><ul>"+"<% account.errors.full_messages.each do |message| %>"
+          +"<li>"+"<%= message %>"+"</li>"+"<% end %>"+"</ul>","","");
+        });
+    </script>
+  <% end %>
+
+  <div class="card">
+    <div class="card-show-container">
+      <div class="grid-2-columns grid">
+        <div class="field-info">
+          <p>Banco:</p>
+          <%= form.text_field :bank, id: :account_bank %>
+        </div>
+
+        <div class="field-info">
+          <p>Agência:</p>
+          <%= form.text_field :agency, id: :account_agency %>
+        </div>
+
+        <div class="field-info">
+          <p>Conta:</p>
+          <%= form.text_field :number, id: :account_number %>
+        </div>
+
+        <div class="field-info">
+          <p>Saldo:</p>
+          <%= form.text_field :current_value, id: :account_current_value %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="line-buttons" style="display: block;">
+    <%= link_to 'Voltar', accounts_path, class: 'generate-button', style: 'display: inline;' %>
+    <%= form.submit 'Salvar Conta', class: 'generate-button', style: 'display: inline;' %>
+  </div>
+</div>
+<% end %>
+  

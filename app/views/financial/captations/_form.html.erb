@@ -1,0 +1,69 @@
+<%= form_with(model: captation, local: true, class: 'container-85') do |form| %>
+  <script>
+    $(document).ready(() => {
+      $('#captation_value').inputmask("numeric", {
+        radixPoint: ",",
+        groupSeparator: ".",
+        digits: 2,
+        autoGroup: true,
+        prefix: 'R$ ', //Space after $, this will not truncate the first character.
+        rightAlign: false,
+        oncleared: function() { self.Value(''); }
+      });
+    });
+  </script>
+
+  <% if captation.errors.any? %>
+    <script>
+      $(document).ready(function(){
+        swal(
+          "<h2>"+
+            "<%= pluralize(captation.errors.count, "erro") %> proibiu de salvar esta captação:"+
+          "</h2>"+
+          "<ul>"+
+            "<% captation.errors.full_messages.each do |message| %>"+
+              "<li>"+"<%= message %>"+"</li>"+
+            "<% end %>"+
+          "</ul>",
+        "","");
+      });
+    </script>
+  <% end %>
+
+  <div class="card">
+    <div class="card-show-container">
+      <div class="grid-1-column grid">
+        <div class="field-info">
+          <p>Fonte:</p>
+          <%= form.text_field :source, id: :captation_source %>
+        </div>
+
+        <div class="field-info">
+          <p>Valor:</p>
+          <%= form.text_field :value, id: :captation_value %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <% if @captation.project.nil? %>
+    <div class="field">
+      <%= form.hidden_field :project_id, id: :captation_project_id, value: params[:project_id] %>
+    </div>
+  <% else %>
+    <div class="field">
+      <%= form.hidden_field :project_id, id: :captation_project_id, value: @captation.project.id %>
+    </div>
+  <% end %>
+
+  <div class="line-buttons" style="display: block;">
+    <% if params[:project_id].present? %>
+      <%= link_to 'Voltar', project_path(params[:project_id]), class: 'generate-button', style: 'display: inline;' %>
+    <% else %>
+      <%= link_to 'Voltar', @captation.project, class: 'generate-button', style: 'display: inline;' %>
+    <% end %>
+    <%= form.submit 'Salvar Captação', class: 'generate-button', style: 'display: inline;' %>
+  </div>
+
+<% end %>

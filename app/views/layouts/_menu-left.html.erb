@@ -1,0 +1,28 @@
+<nav class="menu-left">
+  <ul>
+    <li class="li-logo">
+      <%= link_to my_index do%>
+        <div class="logo-menu"></div>
+      <% end %>
+    </li>
+
+    <% if current_user.financial? %>
+      <%= render 'side_menus/financial' %>
+    <% elsif current_user.admin? %>
+      <%= render 'side_menus/admin' %>
+    <% elsif current_user.secretary? %>
+      <%= render 'side_menus/secretary' %>
+    <% elsif current_user.instructor? %>
+      <%= render 'side_menus/instructor' %>
+    <% elsif current_user.social_service? %>
+      <%= render 'side_menus/social_service' %>
+    <% elsif current_user.pedagogue?%>
+      <%= render 'side_menus/pedagogue'%>
+    <% elsif current_user.coordination? %>
+      <%= render 'side_menus/coordination'%>
+    <% elsif current_user.administration? %>
+      <%= render 'side_menus/administration'%>
+    <% end %>
+
+  </ul>
+</nav>

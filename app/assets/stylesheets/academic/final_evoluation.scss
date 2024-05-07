@@ -1,0 +1,10 @@
+.opinion-council {
+  .grid {
+    row-gap: 1em;
+
+    &>div:first-child {
+      grid-row: 2;
+      grid-column: 1 / -1;
+    }
+  }
+}

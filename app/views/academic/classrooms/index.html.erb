@@ -1,0 +1,200 @@
+<p id="notice"><%= notice if notice != "You are not authorized to access this page"%></p>
+<h1>Turmas de <%= @school_year.name %></h1>
+<div class="container-85">
+  <div class='flex-end'>
+    <% if !current_user.social_service? && !current_user.instructor? %>
+      <%= link_to 'Informação sobre o Período Letivo', pdf_of_concel_path(@school_year.id, {}, format: :pdf), target: '_blank', :class => 'generate-button', style: "margin-right: 5px" %>
+    <% end %>
+    <a id="back-page" class="generate-button" style="margin-left: 5px">Voltar</a>
+  </div>
+</div>
+
+<div class="search-box classrooms">
+  <%= form_tag(school_year_classrooms_path(@school_year), method: :get, class: "search-form") do %>
+    <%= text_field_tag :term, params[:term], :placeholder => "Digite o nome da turma", class: "search-input" %>
+    <% if can? :create, Academic::Classroom %>
+      <%= link_to 'Novo', new_school_year_classroom_path(params[:school_year_id]), class: 'button-new' %>
+    <% end %>
+    <div class="select-box class_subject_select">
+      <%= select_tag :teacher_id, options_for_select(@teachers.collect{ |teacher| [teacher.name, teacher.id] }), { include_blank: "Escolha o Professor..."} %>
+      <%= select_tag :subject_id, options_for_select([]), { include_blank: "Escolha a Disciplina..."} %>
+      <input type=hidden id="authenticity_token" value="<%= form_authenticity_token %>">
+      <%= submit_tag '', title: nil, class: 'search-button' %>
+    </div>
+  <% end %>
+</div>
+
+<% @classrooms.each do |classroom| %>
+  <div class="card">
+    <div class="card-action">
+      <div class="action-buttons">
+        <% if (can? :update, classroom or can? :destroy, classroom or can? :show, classroom) %>
+          <% if can? :show, classroom %>
+            <%= link_to 'Exibir' , classroom, class: 'generate-button' %>
+          <% end %>
+          <% if can? :update, classroom %>
+            <%= link_to 'Renomear', edit_classroom_path(classroom), class:"edit-button edit-button-renomear" %>
+          <% end %>
+          <% if can? :destroy, classroom %>
+            <%= link_to 'Excluir', classroom, method: :delete, class:"delete-button" %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <div class="card-content">
+      <div class="titles">
+        <%= classroom.fantasy_name %>
+      </div>
+      <div class="grid registration">
+        <div class="field-info">
+          <p>Alunos nessa turma:</p>
+          <%= classroom.inscriptions.active.length%>
+        </div>
+      </div>
+      <div class="grid-2-columns grid discipline">
+        <%if classroom.classroom_subjects.where(lesson_on_monday: true).length > 0%>
+          <div class="field-info">
+            <p>Segunda:</p>
+            <%mon = 0%>
+            <% classroom.classroom_subjects.where(lesson_on_monday: true).order(:start_time).each do |classroom_subject| %>
+              <%if mon !=0%>
+                <div class="divider"></div>
+              <%end%>
+              <div class="discipline-name">
+                <p class="classroom-p">Aula:</p>
+                <%=classroom_subject.subject.name%>
+              </div>
+              <div class="discipline-time">
+                <p class="classroom-p">Horário:</p>
+                <%=put_zero_if_there_isnt classroom_subject.start_time.hour %>:<%= put_zero_if_there_isnt classroom_subject.start_time.min%>
+              </div>
+              <div class="discipline-teacher">
+                <p class="classroom-p">Educador Responsável:</p>
+                <% if classroom_subject.teacher.present?%>
+                  <%= classroom_subject.teacher.user.name%>
+                <% else%>
+                  N/A
+                <% end %>
+
+              </div>
+              <%mon += 1%>
+            <% end %>
+          </div>
+        <%end%>
+        <%if classroom.classroom_subjects.where(lesson_on_tuesday: true).length > 0%>
+          <div class="field-info">
+            <p>Terça:</p>
+            <%tue = 0%>
+            <% classroom.classroom_subjects.where(lesson_on_tuesday: true).order(:start_time).each do |classroom_subject| %>
+              <%if tue !=0%>
+                <div class="divider"></div>
+              <%end%>
+              <div class="discipline-name">
+                <p class="classroom-p">Aula:</p>
+                <%=classroom_subject.subject.name%>
+              </div>
+              <div class="discipline-time">
+                <p class="classroom-p">Horário:</p>
+                <%=put_zero_if_there_isnt classroom_subject.start_time.hour %>:<%= put_zero_if_there_isnt classroom_subject.start_time.min%>
+              </div>
+              <div class="discipline-teacher">
+                <p class="classroom-p">Educador Responsável:</p>
+                <% if classroom_subject.teacher.present?%>
+                  <%= classroom_subject.teacher.user.name%>
+                <% else%>
+                  N/A
+                <% end %>
+              </div>
+              <%tue += 1%>
+            <% end %>
+          </div>
+        <%end%>
+        <%if classroom.classroom_subjects.where(lesson_on_wednesday: true).length > 0%>
+          <div class="field-info">
+            <p>Quarta:</p>
+            <%wed = 0%>
+            <% classroom.classroom_subjects.where(lesson_on_wednesday: true).order(:start_time).each do |classroom_subject| %>
+              <%if wed !=0%>
+                <div class="divider"></div>
+              <%end%>
+              <div class="discipline-name">
+                <p class="classroom-p">Aula:</p>
+                <%=classroom_subject.subject.name%>
+              </div>
+              <div class="discipline-time">
+                <p class="classroom-p">Horário:</p>
+                <%=put_zero_if_there_isnt classroom_subject.start_time.hour %>:<%= put_zero_if_there_isnt classroom_subject.start_time.min%>
+              </div>
+              <div class="discipline-teacher">
+                <p class="classroom-p">Educador Responsável:</p>
+                <% if classroom_subject.teacher.present?%>
+                  <%= classroom_subject.teacher.user.name%>
+                <% else%>
+                  N/A
+                <% end %>
+              </div>
+              <%wed += 1%>
+            <% end %>
+          </div>
+        <%end%>
+        <%if classroom.classroom_subjects.where(lesson_on_thursday: true).length > 0%>
+          <div class="field-info">
+            <p>Quinta:</p>
+            <%thu = 0%>
+            <% classroom.classroom_subjects.where(lesson_on_thursday: true).order(:start_time).each do |classroom_subject| %>
+              <%if thu !=0%>
+                <div class="divider"></div>
+              <%end%>
+              <div class="discipline-name">
+                <p class="classroom-p">Aula:</p>
+                <%=classroom_subject.subject.name%>
+              </div>
+              <div class="discipline-time">
+                <p class="classroom-p">Horário:</p>
+                <%=put_zero_if_there_isnt classroom_subject.start_time.hour %>:<%= put_zero_if_there_isnt classroom_subject.start_time.min%>
+              </div>
+              <div class="discipline-teacher">
+                <p class="classroom-p">Educador Responsável:</p>
+                <% if classroom_subject.teacher.present?%>
+                  <%= classroom_subject.teacher.user.name%>
+                <% else%>
+                  N/A
+                <% end %>
+              </div>
+              <%thu += 1%>
+            <% end %>
+          </div>
+        <%end%>
+        <%if classroom.classroom_subjects.where(lesson_on_friday: true).length > 0%>
+          <div class="field-info">
+            <p>Sexta:</p>
+            <%fri = 0%>
+            <% classroom.classroom_subjects.where(lesson_on_friday: true).order(:start_time).each do |classroom_subject| %>
+              <%if fri !=0%>
+                <div class="divider"></div>
+              <%end%>
+              <div class="discipline-name">
+                <p class="classroom-p">Aula:</p>
+                <%=classroom_subject.subject.name%>
+              </div>
+              <div class="discipline-time">
+                <p class="classroom-p">Horário:</p>
+                <%=put_zero_if_there_isnt classroom_subject.start_time.hour %>:<%= put_zero_if_there_isnt classroom_subject.start_time.min%>
+              </div>
+              <div class="discipline-teacher">
+                <p class="classroom-p">Educador Responsável:</p>
+                <% if classroom_subject.teacher != nil %>
+                  <%= classroom_subject.teacher.user.name%>
+                <% else %>
+                  -
+                <% end %>
+              </div>
+              <%fri += 1%>
+            <% end %>
+          </div>
+        <%end%>
+      </div>
+    </div>
+  </div>
+<% end %>
+<%= link_to 'Voltar', school_years_path, class: 'edit-button' %>

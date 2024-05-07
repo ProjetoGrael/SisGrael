@@ -1,0 +1,48 @@
+<%= form_with(model: lesson, local: true, class: 'container-85') do |form| %>
+  <% if lesson.errors.any? %>
+    <div id="error_explanation">
+      <h2>Alguns erros impediram esta Aula de ser salva:</h2>
+
+      <ul>
+      <% lesson.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+<div class="card">
+    <div class="card-show-container">
+      <div class="grid-2-columns grid">
+      <div class="field-info">
+        <p>Notas de Aula:</p>
+        <%= form.text_area :notes, id: :lesson_notes %>
+      </div>
+
+      <div class="field-info">
+        <p>Observações:</p>
+        <%= form.text_area :observations, id: :lesson_observations %>
+      </div>
+
+      <div class="field-info">
+        <p>Dia da Aula:</p>
+        <!-- A variavel locals[:edit] é passada pela função render dos edit e do new para saber de onde ela está vindo -->
+        <!-- Trecho de código que faz com que não deixe o instrutor modificar a data na hora de editar a aula -->
+        <% if current_user.admin? && locals[:edit] == "yes" %>
+          <%= lesson.day %>
+        <% else %>
+          <%= form.date_field :day, id: :lesson_day %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= form.hidden_field :classroom_subject_id, value: lesson_classroom_subject_value(lesson), id: :lesson_classroom_subject_id %>
+
+  <div class="line-buttons" style="display: block;">
+    <%= link_to 'Voltar', classroom_subject_lessons_path(lesson_classroom_subject_value(@lesson), Date.current.year, Date.current.month), class: 'generate-button', style: 'display: inline;' %>
+    <%= form.submit 'Salvar Aula', class: 'generate-button', style: 'display: inline;' %>
+  </div>
+<% end %>

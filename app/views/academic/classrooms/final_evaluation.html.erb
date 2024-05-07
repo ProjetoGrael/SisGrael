@@ -1,0 +1,591 @@
+<h1><%= @classroom.fantasy_name %></h1>
+
+<input type=hidden id="authenticity_token" value = "<%= form_authenticity_token %>">
+<p type= "hidden" class="classroom-id" value = <%= " #{@classroom.id}" %>></p>
+<input type = "hidden" id="how_many_inscription" value ="<%=@inscriptions.length%>">
+
+<% if !current_user.secretary? && !current_user.social_service? %>
+  <div id="final-evaluation">
+
+    <div class="container-council">
+      <p>Observações da turma:</p>
+      <textarea id="classroom_opinion" style="margin-bottom: 30px; width: 100%;"><%= @classroom.opinion %></textarea>
+    </div>
+
+    <div class="container-council">
+      <% @inscriptions.each do |inscription| %>                      
+        <div class="card-inscription">
+
+          <div class="row-name-inscription">
+            <p class="inscription-name"><%= inscription.student.name %></p>
+            <input class="inscription_id" type="hidden" value="<%= inscription.id %>">
+            <input id="inscription_length" type="hidden" value="<%= @inscriptions.length %>">
+          </div>
+                
+          <div class="collapse-field">
+            <div class="row-inscription">
+              <div class="col-inscription"> 
+
+                <!-- FOTO E NOME DO ALUNO -->
+                <div class="field-student-photo">
+                  <% if inscription.student.photo.present? %>
+                    <%= image_tag inscription.student.photo.small.url, :class => 'student-photo' %>
+                  <% else %>
+                    <div class="student-photo students-icone-panel icon"></div>
+                  <% end %>
+                </div>
+
+                <div class="grid grid-1-column">
+                  <div class="field-info" style="text-align: center !important; margin: 10px auto !important;">
+                    <p style="text-align: center !important;">Idade:</p>
+                    <%= age(inscription.student.birthdate) %> ano(s) e <%= months_of_age(inscription.student.birthdate)%> mes(es)
+                  </div>
+                </div>
+
+                <%= link_to 'Perfil', inscription.student, class:'edit-button' %>
+              </div>
+
+              <div class="col-inscription" style="width: 100%;"> 
+                <!-- DISCIPLINAS E NOTA DO CONSELHO -->
+                <div class="inscription-content">    
+
+                  <% if @main_classroom_subject%>
+                    <h2>Disciplinas primarias</h2>
+
+                    <div> 
+                      <!-- DISCIPLINA PRINCIPAL-->
+                      <div class="grid grid-6-columns">
+
+                        <div class="field-info">
+                          <p>Disciplina:</p>
+                          <p style="font-weight: normal;">
+                            <%= @main_classroom_subject.subject.name %>
+                          </p>
+                          <% if @main_classroom_subject.start_time.present? && @main_classroom_subject.finish_time.present? %>
+                            <p style="font-weight: normal;">
+                              De <%= @main_classroom_subject.start_time.to_s(:time) %> às <%= @main_classroom_subject.finish_time.to_s(:time) %>
+                            </p>
+                          <% else %>
+                            <p style="font-weight: normal;">
+                              Sem horário
+                            </p>
+                          <% end %>
+                          <input class="subject_history_id" type="hidden" value="<%= get_subject_history(inscription, @main_classroom_subject).id %>">
+                        </div>
+
+                        <div class="field-info">
+                          <p>Nível:</p>
+                          <% subject_level = get_subject_history(inscription, @main_classroom_subject).subject_level %>
+                          <% if subject_level %>
+                            <p class='subject_level' style="font-weight: normal;"><%= subject_level.name %></p>
+                          <% else %>
+                            <p class='subject_level' style="font-weight: normal;"><p style="font-weight: normal;">N/A</p></p>
+                          <% end %>        
+                        </div>
+
+                        <div class="field-info">
+                          <p>Faltas:</p>
+                          <p class="presence" style="font-weight: normal;"><%= get_presence_percentage(inscription.student, @main_classroom_subject) %> %</p>
+                        </div>  
+
+                        <div class="field-info">
+                          <p>Faltas justificadas:</p>
+                          <p class='justified-absence' style="font-weight: normal;"><%= get_number_of_justified_absence(inscription.student, @main_classroom_subject) %></p>
+                        </div>
+
+                        <div class="field-info">
+                          <p>Conselho parcial:</p>
+                          <% partial_counsel = get_subject_history(inscription, @main_classroom_subject).partial_counsel %>
+                          <% if inscription.evaded_or_desisted? %>
+                            <% if partial_counsel == nil %>
+                              <p class="partial-council evaded" style="font-weight: normal;">N/A</p>
+                            <% else %>
+                              <p class="partial-council evaded" style="font-weight: normal;">
+                                <%= council_options[partial_counsel] %>
+                              </p>
+                            <% end %>
+                          <% else %>
+                            <select class="partial-council">
+                              <option value=""></option>
+                              <% 4.times do |i| %>
+                                <% if i + 1 == partial_counsel %>
+                                  <option value = "<%= i+1 %>" selected><%= council_options[i] %></option>
+                                <% else %>
+                                  <option value = "<%= i+1 %>"><%= council_options[i] %></option>
+                                <% end %>
+                              <% end %>
+                            </select>
+                          <% end %>
+                        </div>
+
+                        <div class="field-info">
+                          <p>Conselho final:</p>
+                          <% final_counsel = get_subject_history(inscription, @main_classroom_subject).final_counsel %>
+                          <% if inscription.evaded_or_desisted? %>
+                            <% if final_counsel == nil %>
+                              <p class="final-council evaded" style="font-weight: normal;">N/A</p>
+                            <% else %>
+                              <p class="final-council evaded" style="font-weight: normal;">
+                                <%= council_options[final_counsel]%>
+                              </p>
+                            <% end %>
+                          <% else %>
+                            <select class="final-council">
+                              <option value=""></option>
+                              <% 4.times do |i| %>
+                                <% if i + 1 == final_counsel %>
+                                  <option value = "<%= i+1 %>" selected><%= council_options[i] %></option>
+                                <% else %>
+                                  <option value = "<%= i+1 %>"><%= council_options[i] %></option>
+                                <% end %>
+                              <% end %>
+                            </select>
+                          <% end %>
+                        </div>
+                      </div>
+
+                      <div class="divider"></div>
+                    </div>
+                  <% end %>
+
+                  <% if @classroom_subjects.length > 0 %>
+                    <% if @classroom_subjects.length > 1 || (@classroom_subjects.length == 1 && @classroom.main_id.nil?) %>
+                      <h2>Disciplinas complementares</h2>
+                    <% end %>
+                  <% end %>
+
+                  <% @classroom_subjects.joins(:subject).order('name').each do |classroom_subject| %>
+                    <% next if classroom_subject.id == @classroom.main_id %>
+                    <% if Academic::StudentClassroomSubject.get_student_classroom_subject(inscription, classroom_subject).show? %>
+                      <div> 
+                        <!-- DISCIPLINA COMPLEMENTAR -->                                   
+                        <div class="grid grid-6-columns">
+                        
+                          <div class="field-info">
+                            <p>Disciplina:</p>
+                            <p style="font-weight: normal;">
+                              <%= classroom_subject.subject.name %>
+                            </p>
+                            <% if classroom_subject.start_time.present? && classroom_subject.finish_time.present? %>
+                              <p style="font-weight: normal;">
+                                De <%= classroom_subject.start_time.to_s(:time) %> às <%= classroom_subject.finish_time.to_s(:time) %>
+                              </p>
+                            <% else %>
+                              <p style="font-weight: normal;">
+                                Sem horário
+                              </p>
+                            <% end %>
+                            <input class="subject_history_id" type="hidden" value="<%= get_subject_history(inscription, classroom_subject).id %>">
+                          </div>
+
+                          <div class="field-info">
+                            <p>Nível:</p>
+                            <% subject_level = get_subject_history(inscription, classroom_subject).subject_level %>
+                            <% if subject_level %>
+                              <p class='subject_level' style="font-weight: normal;"><%= subject_level.name %></p>
+                            <% else %>
+                              <p class='subject_level' style="font-weight: normal;">N/A</p>
+                            <% end %>        
+                          </div>
+
+                          <div class="field-info">
+                            <p>Faltas:</p>
+                            <p class="presence" style="font-weight: normal;"><%= get_presence_percentage(inscription.student, classroom_subject) %> %</p>
+                          </div>
+
+                          <div class="field-info">
+                            <p>Faltas justificadas:</p>
+                            <p class='justified-absence' style="font-weight: normal;"><%= get_number_of_justified_absence(inscription.student, classroom_subject) %></p>
+                          </div>
+
+                          <div class="field-info">
+                            <p>Conselho parcial:</p>
+                            <% partial_counsel = get_subject_history(inscription, classroom_subject).partial_counsel %>
+                            <% if inscription.evaded_or_desisted? %>
+                              <% if partial_counsel == nil %>
+                                <p class="partial-council evaded" style="font-weight: normal;">N/A</p>
+                              <% else %>
+                                <p class="partial-council evaded" style="font-weight: normal;">
+                                  <%= council_options[partial_counsel] %>
+                                </p>
+                              <% end %>
+                            <% else %>
+                              <select class="partial-council">
+                                <option value=""></option>
+                                <% 4.times do |i| %>
+                                  <% if i + 1 == partial_counsel %>
+                                    <option value = "<%= i + 1 %>" selected><%= council_options[i] %></option>
+                                  <% else %>
+                                    <option value = "<%= i + 1 %>"><%= council_options[i] %></option>
+                                  <% end %>
+                                <% end %>
+                              </select>
+                            <% end %>
+                          </div>
+
+                          <div class="field-info">
+                            <p>Conselho final:</p>
+                            <% final_counsel = get_subject_history(inscription, classroom_subject).final_counsel %>
+                            <% if inscription.evaded_or_desisted? %>
+                              <% if final_counsel == nil %>
+                                <p class="final-council evaded" style="font-weight: normal;">N/A</p>
+                              <% else %>
+                                <p class="final-council evaded" style="font-weight: normal;">
+                                  <%= council_options[final_counsel]%>
+                                </p>
+                              <% end %>
+                            <% else %>
+                              <select class="final-council">
+                                <option value=""></option>
+                                <% 4.times do |i| %>
+                                  <% if i + 1 == final_counsel %>
+                                    <option value = "<%= i + 1 %>" selected><%= council_options[i] %></option>
+                                  <% else %>
+                                    <option value = "<%= i + 1 %>"><%= council_options[i] %></option>
+                                  <% end %>
+                                <% end %>
+                              </select>
+                            <% end %>
+                          </div>
+                        </div>
+                        
+                        <div class="divider"></div>
+                      </div>
+                    <% end %>  
+                  <% end %>
+
+                  <div class="opinion-council"> 
+                    <!-- NOTA DO CONSELHO -->
+                    <div class="grid grid-3-columns">
+
+                      <div class="field-info">
+                        <p>Opinião do Conselho:</p>
+                        <% if inscription.evaded_or_desisted? %>
+                          <% if inscription.counsel_opinion == nil  %>
+                            <p class="council-opinion" style="font-weight: normal;">N/A</p>
+                          <% else %>
+                            <p class="council-opinion" style="font-weight: normal;"><%= inscription.counsel_opinion %></p>
+                          <% end %>
+                        <% else %>
+                          <textarea class="council-opinion"><%= inscription.counsel_opinion %></textarea>
+                        <% end %>
+                      </div>
+
+                      <div class="field-info">
+                        <p>Situação:</p>
+                        <% if inscription.evaded_or_desisted? %>
+                          <p class="situation evaded" style="font-weight: normal;">
+                            <%= pretty_inscription_situation(inscription.student_status) %>
+                          </p>
+                        <% else %>                                            
+                          <select class="situation">
+                            <% situation_options.each do |key, value| %>
+                              <% if value.to_s.downcase == inscription.situation %>
+                                <option value = "<%= value %>" selected> <%= key %> </option>
+                              <% else %>
+                                <option value = "<%= value %>"> <%= key %> </option>
+                              <% end %>
+                            <% end %>
+                          </select>
+                        <% end %>
+                      </div>
+
+                      <div class="field-info">
+                        <p>Próximo Curso:</p>
+                        <% if inscription.evaded_or_desisted? %>
+                          <% if inscription.subject_id.present? %>
+                            <% if inscription.subject_level_id.present? %>
+                              <p class="next_level evaded" subject_id = "<%= subject.id %>" subject_level_id = "<% subject_level.id %>" style="font-weight: normal; font-style: italic;">
+                                <%= Academic::Subject.find(inscription.subject_id).name %> - <%= Academic::SubjectLevel.find(inscription.subject_level_id).name %>
+                              </p> 
+                            <% else %>
+                              <p class="next_level evaded" subject_id = "<%= subject.id %>" subject_level_id = "" style="font-weight: normal; font-style: italic;">
+                                <%= Academic::Subject.find(inscription.subject_id).name %>
+                              </p> 
+                            <% end %>                                                       
+                          <% else %>
+                            <p class="next_level evaded" subject_id = "" subject_level_id = "" style="font-weight: normal; font-style: italic;">
+                              Não pode ser alterado
+                            </p>
+                          <% end %>
+                        <% else %>
+                          <select class="next_level">
+                            <option value=""></option>
+                            <% @subjects.each do |subject|  %>
+                              <% if !subject.leveled %>
+                                <% if inscription.subject_id == subject.id%>
+                                  <option subject_id = "<%= subject.id %>" subject_level_id = '' selected>
+                                    <%= subject.name %>
+                                  </option>
+                                <% else %>
+                                  <option subject_id = "<%= subject.id %>" subject_level_id = ''>
+                                    <%= subject.name %>
+                                  </option>
+                                <% end %>
+                              <% else %>
+                                <%subject.subject_levels.each do |subject_level|%>
+                                  <% if inscription.subject_level_id == subject_level.id%>
+                                    <option subject_id = "<%= subject.id %>" subject_level_id = '<%= subject_level.id %>' selected>
+                                      <%= subject.name %> - <%=subject_level.name%>
+                                    </option>
+                                  <% else %>
+                                    <option subject_id = "<%= subject.id %>" subject_level_id = '<%= subject_level.id %>'>
+                                      <%= subject.name %> - <%= subject_level.name %>
+                                    </option>
+                                  <% end %>
+                                <% end %>
+                              <% end %>
+                            <% end %>
+                          </select>
+                        <% end %>
+                      </div>
+                    </div>                            
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% else %>
+  <div id="final-evaluation">
+
+    <div class="container-council">
+      <p>Observações da turma:</p>
+      <textarea disabled id="classroom_opinion" style="margin-bottom: 30px; width: 100%;"><%= @classroom.opinion %></textarea>
+    </div>
+
+    <div class="container-council">
+      <% @inscriptions.each do |inscription| %>            
+        <div class="card-inscription">
+          <div class="row-name-inscription">
+            <p class="inscription-name"><%= inscription.student.name %></p>  
+          </div>
+                
+          <div class="collapse-field">
+            <div class="row-inscription">
+              <div class="col-inscription"> 
+
+                <!-- FOTO E NOME DO ALUNO -->
+                <div class="field-student-photo">
+                  <% if inscription.student.photo.present? %>
+                    <%= image_tag inscription.student.photo.small.url, :class => 'student-photo' %>
+                  <% else %>
+                    <div class="student-photo students-icone-panel icon"></div>
+                  <% end %>
+                </div>
+
+                <div class="grid grid-1-column">
+                  <div class="field-info" style="text-align: center !important; margin: 10px auto !important;">
+                    <p style="text-align: center !important;">Idade:</p>
+                    <%= age(inscription.student.birthdate) %> ano(s) e <%= months_of_age(inscription.student.birthdate)%> mes(es)
+                  </div>
+                </div>
+
+                <%= link_to 'Perfil', inscription.student, class:'edit-button' %>
+              </div>
+
+              <div class="col-inscription" style="width: 100%;"> 
+                <!-- DISCIPLINAS E NOTA DO CONSELHO -->
+                <div class="inscription-content"> 
+
+                  <% if @main_classroom_subject %>
+                    <h2>Disciplinas primarias</h2>
+
+                    <div> 
+                      <!-- DISCIPLINA PRINCIPAL-->
+                      <div class="grid grid-6-columns">
+
+                        <div class="field-info">
+                          <p>Disciplina:</p>
+                          <p style="font-weight: normal;">
+                            <%= @main_classroom_subject.subject.name %>
+                          </p>
+                          <% if @main_classroom_subject.start_time.present? && @main_classroom_subject.finish_time.present? %>
+                            <p style="font-weight: normal;">
+                              De <%= @main_classroom_subject.start_time.to_s(:time) %> às <%= @main_classroom_subject.finish_time.to_s(:time) %>
+                            </p>
+                          <% else %>
+                            <p style="font-weight: normal;">
+                              Sem horário
+                            </p>
+                          <% end %>
+                          <input class="subject_history_id" type="hidden" value="<%= get_subject_history(inscription, @main_classroom_subject).id %>">
+                        </div>
+
+                        <div class="field-info">
+                          <p>Nível:</p>
+                          <% subject_level = get_subject_history(inscription, @main_classroom_subject).subject_level %>
+                          <% if subject_level %>
+                            <p class='subject_level' style="font-weight: normal;"><%= subject_level.name %></p>
+                          <% else %>
+                            <p class='subject_level' style="font-weight: normal;"><p style="font-weight: normal;">N/A</p></p>
+                          <% end %>        
+                        </div>
+
+                        <div class="field-info">
+                          <p>Faltas:</p>
+                          <p class="presence" style="font-weight: normal;"><%= get_presence_percentage(inscription.student, @main_classroom_subject) %> %</p>
+                        </div>  
+
+                        <div class="field-info">
+                          <p>Faltas justificadas:</p>
+                          <p class='justified-absence' style="font-weight: normal;"><%= get_number_of_justified_absence(inscription.student, @main_classroom_subject) %></p>
+                        </div>
+
+                        <div class="field-info">
+                          <p>Conselho parcial:</p>
+                          <% partial_counsel = get_subject_history(inscription, @main_classroom_subject).partial_counsel %>
+                          <% if partial_counsel == nil %>
+                            <p style="font-weight: normal;">N/A</p>
+                          <% else %>
+                            <p style="font-weight: normal;"><%= council_options[partial_counsel] %></p>
+                          <% end %>
+                        </div>
+
+                        <div class="field-info">
+                          <p>Conselho final:</p>
+                          <% final_counsel = get_subject_history(inscription, @main_classroom_subject).final_counsel %>
+                          <% if final_counsel == nil %>
+                            <p style="font-weight: normal;">N/A</p>
+                          <% else %>
+                            <p style="font-weight: normal;"><%= council_options[final_counsel]%></p>
+                          <% end %>
+                        </div>
+                      </div>
+
+                      <div class="divider"></div>
+                    </div>
+                  <% end %>
+
+                  <% if @classroom_subjects.length > 0 %>
+                    <% if @classroom_subjects.length > 1 || (@classroom_subjects.length == 1 && @classroom_subjects.first.classroom.main_id == nil) %>
+                      <h2>Disciplinas complementares</h2>
+                    <% end %>
+                  <% end %>
+
+                  <% @classroom_subjects.joins(:subject).order('name').each do |classroom_subject| %>
+                    <% next if classroom_subject.id == @classroom.main_id %>
+                    <% if Academic::StudentClassroomSubject.get_student_classroom_subject(inscription, classroom_subject).show? %>
+                      <div> 
+                        <!-- DISCIPLINA COMPLEMENTARES -->     
+                        <div class="grid grid-6-columns">
+
+                          <div class="field-info">
+                            <p>Disciplina:</p>
+                            <p style="font-weight: normal;">
+                              <%= classroom_subject.subject.name %>
+                            </p>
+                            <% if classroom_subject.start_time.present? && classroom_subject.finish_time.present? %>
+                              <p style="font-weight: normal;">
+                                De <%= classroom_subject.start_time.to_s(:time) %> às <%= classroom_subject.finish_time.to_s(:time) %>
+                              </p>
+                            <% else %>
+                              <p style="font-weight: normal;">
+                                Sem horário
+                              </p>
+                            <% end %>
+                            <input class="subject_history_id" type="hidden" value="<%= get_subject_history(inscription, classroom_subject).id %>">
+                          </div>
+
+                          <div class="field-info">
+                            <p>Nível:</p>
+                            <% subject_level = get_subject_history(inscription, classroom_subject).subject_level %>
+                            <% if subject_level %>
+                              <p class='subject_level' style="font-weight: normal;"><%= subject_level.name %></p>
+                            <% else %>
+                              <p class='subject_level' style="font-weight: normal;"><p style="font-weight: normal;">N/A</p></p>
+                            <% end %>        
+                          </div>
+
+                          <div class="field-info">
+                            <p>Faltas:</p>
+                            <p class="presence" style="font-weight: normal;"><%= get_presence_percentage(inscription.student, classroom_subject) %> %</p>
+                          </div>
+                          
+                          <div class="field-info">
+                            <p>Faltas justificadas:</p>
+                            <p class='justified-absence' style="font-weight: normal;"><%= get_number_of_justified_absence(inscription.student, classroom_subject) %></p>
+                          </div>
+
+                          <div class="field-info">
+                            <p>Conselho parcial:</p>
+                            <% partial_counsel = get_subject_history(inscription, classroom_subject).partial_counsel %>
+                            <% if partial_counsel == nil %>
+                              <p style="font-weight: normal;">N/A</p>
+                            <% else %>
+                              <p style="font-weight: normal;"><%= council_options[partial_counsel] %></p>
+                            <% end %>
+                          </div>
+
+                          <div class="field-info">
+                            <p>Conselho final:</p>
+                            <% final_counsel = get_subject_history(inscription, classroom_subject).final_counsel %>
+                            <% if final_counsel == nil %>
+                              <p style="font-weight: normal;">N/A</p>
+                            <% else %>
+                              <p style="font-weight: normal;"><%= council_options[final_counsel] %></p>
+                            <% end %>
+                          </div>
+                        </div>
+
+                        <div class="divider"></div>
+                      </div>
+                    <% end %>      
+                  <% end %>
+
+                  <div class="opinion-council"> 
+                    <!-- NOTA DO CONSELHO -->
+                    <div class="grid grid-3-columns">
+
+                      <div class="field-info">
+                        <p>Opinião do Conselho:</p>
+                        <% if inscription.counsel_opinion == nil  %>
+                          <p class="council-opinion" style="font-weight: normal;">N/A</p>
+                        <% else %>
+                          <p class="council-opinion" style="font-weight: normal;"><%= inscription.counsel_opinion %></p>
+                        <% end %>   
+                      </div>
+
+                      <div class="field-info">
+                        <p>Situação:</p>
+                        <p class="situation evaded" style="font-weight: normal;">
+                          <%= pretty_inscription_situation(inscription.student_status) %>
+                        </p>    
+                      </div>
+
+                      <div class="field-info">
+                        <p>Próximo Curso:</p>
+                        <% if inscription.subject_id.present? %>
+                          <% if inscription.subject_level_id.present? %>
+                            <p class="next_level evaded"  subject_id = "<%= subject.id %>" subject_level_id = "<% subject_level.id %>" style="font-weight: normal; font-style: italic;">
+                              <%= Academic::Subject.find(inscription.subject_id).name %> - <%= Academic::SubjectLevel.find(inscription.subject_level_id).name %>
+                            </p> 
+                          <% else %>
+                            <p class="next_level evaded" subject_id = "<%= subject.id %>" subject_level_id = "" style="font-weight: normal; font-style: italic;">
+                              <%= Academic::Subject.find(inscription.subject_id).name %>
+                            </p> 
+                          <% end %>                                                       
+                        <% else %>
+                          <p class="next_level evaded" subject_id = "" subject_level_id = "" style="font-weight: normal; font-style: italic;">
+                            Não pode ser alterado
+                          </p>
+                        <% end %>
+                      </div>
+                    </div>                            
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<% if not current_user.secretary? and can? :update_counsel, Academic::Classroom %>
+  <button class="edit-button" id ="save_all_counsel">Salvar</button>
+<% end %>

@@ -1,0 +1,63 @@
+<%= form_with(model: rubric_item, local: true, class: 'container-85') do |form| %>
+  <script>
+    $(document).ready(() => {
+      $('#rubric_item_value').inputmask("numeric", {
+        radixPoint: ",",
+        groupSeparator: ".",
+        digits: 2,
+        autoGroup: true,
+        prefix: 'R$ ', //Space after $, this will not truncate the first character.
+        rightAlign: false,
+        oncleared: function() { self.Value(''); }
+      });
+    });
+  </script>
+  <% if rubric_item.errors.any? %>
+    <script>
+      $(document).ready(function() {
+        swal(
+          "<h2>"+
+            "<%= pluralize(rubric_item.errors.count, "erro") %> proibiu de salvar este item de rubrica:"+
+          "</h2>"+
+          "<ul>"+
+            "<% rubric_item.errors.full_messages.each do |message| %>"+
+              "<li>"+"<%= message %>"+"</li>"+
+            "<% end %>"+
+          "</ul>",
+        "","");
+      });
+    </script>
+  <% end %>
+
+  <div class="card">
+    <div class="card-show-container">
+      <div class="grid-1-column grid">
+        <div class="field-info">
+          <p>Descrição:</p>
+          <%= form.text_area :description, id: :rubric_item_description, rows:10, cols:50 %>
+        </div>
+
+        <div class="field-info">
+          <p>Valor:</p>
+          <%= form.text_field :value, id: :rubric_item_value %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="field">
+    <% if params[:rubric_id].present? %>
+      <%= form.hidden_field :rubric_id, id: :rubric_item_rubric_id, value: params[:rubric_id] %>
+    <% end %>
+  </div>
+
+  <div class="line-buttons" style="display: block;">
+    <% if params[:rubric_id].present? %>
+      <%= link_to 'Voltar', rubric_path(params[:rubric_id]), class: 'generate-button', style: 'display: inline;' %>
+    <% else %>
+      <%= link_to 'Voltar', @rubric_item.rubric, class: 'generate-button', style: 'display: inline;' %>
+    <% end %>
+    <%= form.submit 'Salvar Item', class: 'generate-button', style: 'display: inline;' %>
+  </div>
+
+<% end %>

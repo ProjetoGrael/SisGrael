@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  value: 9.99
+  enterprise: one
+  institution: one
+  account: one
+  captation: one
+  rubric: one
+
+two:
+  value: 9.99
+  enterprise: two
+  institution: two
+  account: two
+  captation: two
+  rubric: two

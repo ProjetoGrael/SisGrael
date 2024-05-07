@@ -1,0 +1,79 @@
+wb = xlsx_package.workbook
+
+#Retorna os números ou número de telefone do estudante
+def show_student_phone_numbers(student)
+    if (student.phone && student.phone != "") || (student.mobile_phone && student.mobile_phone != "")
+        if (student.phone && student.phone != "") && (student.mobile_phone && student.mobile_phone != "")
+            return student.phone + " / " + student.mobile_phone
+        elsif (student.phone && student.phone != "")
+            return student.phone
+        elsif (student.mobile_phone && student.mobile_phone != "")
+            return student.mobile_phone
+        end
+    else
+        return "-"
+    end
+end
+
+#Retorna a data, baseada no mês e no ano por extenso
+def print_date(date)
+    if date == nil
+        return "-"
+    end
+    string_date = date.to_s
+    month = date.month
+    string_month = ""
+    case month
+    when 1
+        string_month = "Jan"
+    when 2
+        string_month = "Fev"
+    when 3
+        string_month = "Mar"
+    when 4
+        string_month = "Abr"
+    when 5
+        string_month = "Mai"
+    when 6
+        string_month = "Jun"
+    when 7
+        string_month = "Jul"
+    when 8
+        string_month = "Ago"
+    when 9
+        string_month = "Set"
+    when 10
+        string_month = "Out"
+    when 11
+        string_month = "Nov"
+    when 12
+        string_month = "Dez"
+    end
+    return string_month+"-"+string_date[0..3]
+end
+
+#Retorna a data com padrão 01/01/2000
+def print_date_with_day(date)
+    if date == nil
+        return "-"
+    end
+    string_date = date.to_s
+    day = string_date[8..9]
+    month = string_date[5..6]
+    year = string_date[0..3]
+    return day+"/"+month+"/"+year
+end
+
+wb.styles do |s|
+    wb.add_worksheet(name: "Monitoramento Inserção Mercado") do |sheet|
+    
+        sheet.column_widths 55
+        @years.each do |year|
+            sheet.add_row [year, "Nome Aluno", "Mês/Ano de Fechamento", "Mês/Ano Início", "Mês/Ano Saída", "Empresa", "Endereço", "Telefone Aluno", "Email Aluno", "Área de Atuação", "Tipo de Contratação", "Cargo", "Contato", "Cargo do Contato", "E-mail do Contato", "Telefone Empresa"]
+            @labor_markets.where(year: year).each do |lm|
+                sheet.add_row [lm.id, lm.student.name, print_date_with_day(lm.date_closure), print_date_with_day(lm.date_start), print_date_with_day(lm.date_exit), lm.company, lm.company_address, show_student_phone_numbers(lm.student), lm.student.email, lm.student_occupation_area, lm.hiring_kind, lm.student_office, lm.contact_name, lm.contact_office, lm.contact_email, lm.company_phone_number]
+            end
+        end
+
+    end
+end

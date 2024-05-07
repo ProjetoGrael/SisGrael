@@ -1,0 +1,21 @@
+// Place all the styles related to the SocialService controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.sheet-search-box form{
+    display: block;
+}
+.sheet-search-box div{
+    margin-bottom: 20px;
+}
+.sheet-search-box select{
+    margin: 0;
+    max-width: 79vw;
+    overflow: hidden;
+}
+
+@media (max-width: 1000px) {
+    .sheet-button-students{
+        display: block ruby;
+    }
+}

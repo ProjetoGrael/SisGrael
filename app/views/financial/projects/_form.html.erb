@@ -1,0 +1,33 @@
+<%= form_with(model: project, local: true, class: 'container-85') do |form| %>
+  <% if project.errors.any? %>
+    <script>
+        $(document).ready(function(){
+          swal("<h2>"+"<%= pluralize(project.errors.count, "erro") %> proibiu de salvar este projeto:"
+          +"</h2><ul>"+"<% project.errors.full_messages.each do |message| %>"
+          +"<li>"+"<%= message %>"+"</li>"+"<% end %>"+"</ul>","","");
+        });
+    </script>
+  <% end %>
+
+  <div class="card">
+    <div class="card-show-container">
+      <div class="grid-1-column grid">
+        <div class="field-info">
+          <p>Título:</p>
+          <%= form.text_field :title, id: :project_title %>
+        </div>
+
+        <div class="field-info">
+          <p>Descrição:</p>
+          <%= form.text_area :description, id: :project_description, rows:10, cols:50 %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="line-buttons" style="display: block;">
+    <%= link_to 'Voltar', projects_path, class: 'generate-button', style: 'display: inline;' %>
+    <%= form.submit 'Salvar Projeto', class: 'generate-button', style: 'display: inline;' %>
+  </div>
+</div>
+<% end %>

@@ -1,0 +1,530 @@
+<%= form_with(model: [student, service_sheet], local: true, id: "service-sheet-form") do |form| %>
+  <% if service_sheet.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(service_sheet.errors.count, "error") %> prohibited this service_sheet from being saved:</h2>
+      <ul>
+        <% service_sheet.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%= form.hidden_field :student_id, id: :service_sheet_student_id %>
+  <strong> Ficha de atendimento número: </strong> <%= get_position(service_sheet) %>
+  <%if @student.present? %>
+    <div class="card">
+      <div class="card-action">
+        <div class="action-photo">
+          <% if @student.photo.present? %>
+            <%= image_tag @student.photo.small.url, :class => 'student-photo' %>
+          <% else %>
+            <div class="student-photo students-icone-panel icon"></div>
+          <% end %>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="titles">
+          <%= age(@student.birthdate) %>
+          <%= @student.name %>
+        </div>
+        <div class="grid registration">
+          <div class="field-info">
+            <p>Data de Nascimento:</p>
+            <%= @student.birthdate.strftime("%d/%m/%Y") if @student.birthdate.present?%>
+          </div>
+          <div class="field-info">
+            <p>Sexo:</p>
+            <%= pretty_sex(@student.sex) if @student.sex.present?%>
+          </div>
+          <div class="field-info">
+            <p>Endereço:</p>
+            <%= @student.address %>
+          </div>
+        </div>
+        <div class="grid discipline">
+          <div class="field-info">
+            <p>Instituição que frequenta:</p>
+            <%= @student.school.name %>
+          </div>
+          <div class="field-info">
+            <p>Nível:</p>
+            <%= @student.grade %>
+          </div>
+          <div class="field-info">
+            <p>Turno:</p>
+            <%= pretty_school_shift(@student.school_shift) if @student.school_shift.present?%>
+          </div>
+        </div>
+      </div>
+    </div>
+  <%end%>
+  <%
+ # ###                                                                          
+  #  #####  ###### #    # ##### # ###### #  ####    ##    ####    ##    ####  
+  #  #    # #      ##   #   #   # #      # #    #  #  #  #    #  #  #  #    # 
+  #  #    # #####  # #  #   #   # #####  # #      #    # #      #    # #    # 
+  #  #    # #      #  # #   #   # #      # #      ###### #      ###### #    # 
+  #  #    # #      #   ##   #   # #      # #    # #    # #    # #    # #    # 
+ ### #####  ###### #    #   #   # #      #  ####  #    #  ####  #    #  ####   
+%>
+  <div class="card">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>1</span> Identificação</p>
+      <div class="grid-2-columns grid">
+        <div class="field-info">
+          <p>Tempo de Permanência neste endereço:</p>
+          <%= form.text_field :dwell_time_address, id: :service_sheet_dwell_time_address %>
+        </div>
+        <div class="field-info">
+          <p>Estado Civil:</p>
+          <%= form.select :marital_status,  marital_status_options, id: :marital_status, :include_blank => true %>
+        </div>
+        <div>
+          <div class="field-info">
+            <p>Possui Deficiência?</p>
+            <div class="grid grid-checkbox-2-columns">
+              <%= form.check_box :disabled_person, id: :service_sheet_disabled_person, class: "yes-checkbox" %>
+              <p>Sim</p>
+              <%= form.check_box :disabled_person_no, id: :service_sheet_disabled_person_no, class: "no-checkbox" %>
+              <p>Não</p>
+            </div>
+            <div class="openable">
+              <div class="field-info">
+                <p>Explique sua deficiência</p>
+                <%= form.text_area :disabled_person_text, id: :disabled_person_text %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="field-info">
+            <p>Possui Documentação?</p>
+            <div class="grid grid-checkbox-2-columns">
+              <%= form.check_box :has_documentation, id: :service_sheet_has_documentation, class: "yes-checkbox" %>
+              <p>Sim</p>
+              <%= form.check_box :has_documentation_no, id: :service_sheet_has_documentation_no, class: "no-checkbox" %>
+              <p>Não</p>
+            </div>
+            <div class="openable">
+              <div class="field-info">
+                <p>Quais documentações possui?</p>
+                <%= form.text_area :has_documentation_text, id: :has_documentation_text %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%  #######                                        
+    #       # #      #   ##    ####    ##    ####  
+    #       # #      #  #  #  #    #  #  #  #    # 
+    #####   # #      # #    # #      #    # #    # 
+    #       # #      # ###### #      ###### #    # 
+    #       # #      # #    # #    # #    # #    # 
+    #       # ###### # #    #  ####  #    #  ####  
+%>
+  <div class="card">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>2</span> Filiação</p>
+      <div class="grid-2-columns grid">
+        <div class="field-info">
+          <p>Pai:</p>
+          <%= form.text_field :father, id: :service_sheet_father %>
+        </div>
+        <div class="field-info">
+          <p>Mãe:</p>
+          <%= form.text_field :mother, id: :service_sheet_mother %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%
+                                                                                                                   
+  ####   ####  #    # #####   ####   ####  #  ####    ##    ####     ######   ##   #    # # #      #   ##   #####  
+ #    # #    # ##  ## #    # #    # #      # #    #  #  #  #    #    #       #  #  ##  ## # #      #  #  #  #    # 
+ #      #    # # ## # #    # #    #  ####  # #      #    # #    #    #####  #    # # ## # # #      # #    # #    # 
+ #      #    # #    # #####  #    #      # # #      ###### #    #    #      ###### #    # # #      # ###### #####  
+ #    # #    # #    # #      #    # #    # # #    # #    # #    #    #      #    # #    # # #      # #    # #   #  
+  ####   ####  #    # #       ####   ####  #  ####  #    #  ####     #      #    # #    # # ###### # #    # #    # 
+                                                                                                                   
+%>
+  <div class="card">
+    <div class="card-show-container" id="composicao">
+      <p class="title-card-show-container"><span>3</span> Composição Familiar</p>
+      <div class="grid-2-columns grid">
+        <div class="field-info">
+          <p>Quantidade de familiares:</p>
+          <span id="number-of-relatives"></span>
+        </div>
+        <div class="field-info">
+          <p>Renda familiar total:</p>
+          <span id="total-income"></span>
+        </div>
+        <div class="field-info">
+          <p>Renda familiar média:</p>
+          <span id="average-income"></span>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <button id="myBtn-family" class="generate-button">Adicionar familiar</button>
+      <div id="familiares">
+      </div>
+    </div>
+  </div>
+  <%
+                                                                                                          
+ #####  #####   ####   ####  #####    ##   #    #   ##    ####      ####   ####   ####  #   ##   #  ####  
+ #    # #    # #    # #    # #    #  #  #  ##  ##  #  #  #         #      #    # #    # #  #  #  # #      
+ #    # #    # #    # #      #    # #    # # ## # #    #  ####      ####  #    # #      # #    # #  ####  
+ #####  #####  #    # #  ### #####  ###### #    # ######      #         # #    # #      # ###### #      # 
+ #      #   #  #    # #    # #   #  #    # #    # #    # #    #    #    # #    # #    # # #    # # #    # 
+ #      #    #  ####   ####  #    # #    # #    # #    #  ####      ####   ####   ####  # #    # #  ####  
+                                                                                                          
+%>
+  <div class="card programas-sociais">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>4</span> Programas Assistenciais do Aluno</p>
+      <div class="grid-2-columns grid">
+        <div>
+          <div class="field-info">
+            <p>Trabalha atualmente?</p>
+            <div class="grid grid-checkbox-2-columns">
+              <%= form.check_box :current_working, id: :current_working, class: "yes-checkbox" %>
+              <p>Sim</p>
+              <%= form.check_box :current_working_no, id: :current_working_no, class: "no-checkbox" %>
+              <p>Não</p>
+            </div>
+          </div>
+          <div class="openable">
+            <div>
+              <div class="field-info">
+                <p>Quanto ganha?</p>
+                <%= form.number_field :salary, id: :salary, step: :any %>
+              </div>
+              <div class="field-info">
+                <p>Qual sua situação de trabalho?</p>
+                <%= form.select :working_situation, working_situation_options, {}, {:class => "control-openable-select"} %>
+              </div>
+              <div class="openable">
+                <div class="field-info">
+                  <p>Outra situação de trabalho.</p>
+                  <%= form.text_area :working_situation_other, id: :service_sheet_working_situation_other %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="field-info">
+            <p>Recebe algum tipo de benefício?</p>
+            <div class="grid grid-checkbox-2-columns">
+              <%= form.check_box :receives_benefit, id: :service_sheet_receives_benefit, class: "yes-checkbox" %>
+              <p>Sim</p>
+              <%= form.check_box :receives_benefit_no, id: :service_sheet_receives_benefit_no, class: "no-checkbox" %>
+              <p>Não</p>
+            </div>
+          </div>
+          <div class="openable">
+            <div class="field-info">
+              <p>Qual tipo de benefício?</p>
+              <%= form.text_area :receives_benefit_wich, id: :service_sheet_receives_benefit_wich %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="grid-2-columns grid">
+        <div class="field-info">
+          <p>Quantidade de programas:</p>
+          <span id="number-of-programs"></span>
+        </div>
+        <div class="field-info">
+          <p>Valor total:</p>
+          <span id="total-program"></span>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <button id="myBtn-assistance-program" class="generate-button">Adicionar programa ao aluno</button>
+      <div id="assistance-programs">
+      </div>
+    </div>
+  </div>
+  <%
+ #####  ######  ####  #####  ######  ####    ##    ####  
+ #    # #      #      #    # #      #       #  #  #      
+ #    # #####   ####  #    # #####   ####  #    #  ####  
+ #    # #           # #####  #           # ######      # 
+ #    # #      #    # #      #      #    # #    # #    # 
+ #####  ######  ####  #      ######  ####  #    #  ####  
+ %>
+  <div class="card despesas">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>5</span> Despesas</p>
+      <div class="grid-2-columns grid">
+        <div class="field-info">
+          <p>Renda total:</p>
+          <span id="final-total-income-span"></span>
+          <%= form.hidden_field :total_income, id: "final-total-income-input" %>
+        </div>
+        <div class="field-info">
+          <p>Total de despesas:</p>
+          <span id="total-expense"></span>
+        </div>
+        <div class="field-info">
+          <p>Renda per capta:</p>
+          <span id="per-capta-income-span"></span>
+          <%= form.hidden_field :per_capta_income, id: "per-capta-income-input" %>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <button id="myBtn-expense" class="generate-button">Adicionar despesa</button>
+      <div id="expenses">
+      </div>
+    </div>
+  </div>
+  <%                                                                                                                              
+  ####  # ##### #    #   ##    ####    ##    ####     #    #   ##   #####  # #####   ##    ####  #  ####  #    #   ##   #      
+ #      #   #   #    #  #  #  #    #  #  #  #    #    #    #  #  #  #    # #   #    #  #  #    # # #    # ##   #  #  #  #      
+  ####  #   #   #    # #    # #      #    # #    #    ###### #    # #####  #   #   #    # #      # #    # # #  # #    # #      
+      # #   #   #    # ###### #      ###### #    #    #    # ###### #    # #   #   ###### #      # #    # #  # # ###### #      
+ #    # #   #   #    # #    # #    # #    # #    #    #    # #    # #    # #   #   #    # #    # # #    # #   ## #    # #      
+  ####  #   #    ####  #    #  ####  #    #  ####     #    # #    # #####  #   #   #    #  ####  #  ####  #    # #    # ###### 
+  %>
+  <div class="card">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>6</span> Situação Habitacional</p>
+      <div class="grid-2-columns grid">
+        <div class="field-info">
+          <p>Há quanto tempo reside nesta cidade?</p>
+          <%= form.text_field :dwell_time_city, id: :service_sheet_dwell_time_city %>
+        </div>
+        <div>
+          <div class="field-info">
+            <p>Estado da Residência:</p>
+            <%= form.select :residence_status, residence_status_options, {:include_blank => true}, {:class => "control-openable-select"}  %>
+          </div>
+          <div class="openable">
+            <div class="field-info">
+              <p>Explique sobre o estado de sua residência:</p>
+              <%= form.text_area :residence_status_text, id: :service_sheet_residence_status_text %>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="field-info">
+            <p>Tipo de Residência</p>
+            <%= form.select :kind_of_residence, kind_of_residence_options, {:include_blank => true}, {:class => "control-openable-select"}  %>
+          </div>
+          <div class="openable">
+            <div class="field-info">
+              <p>Explique sobre o tipo de residência:</p>
+              <%= form.text_area :kind_of_residence_text, id: :service_sheet_kind_of_residence_text %>
+            </div>
+          </div>
+        </div>
+        <div class="field-info">
+          <p>Número de comôdos da casa:</p>
+          <%= form.number_field :room_number, id: :service_sheet_room_number %>
+        </div>
+      </div>
+      <div class="grid-1-column grid">
+        <div class="field-info">
+          <p>Cidade anterior:</p>
+          <%= form.text_area :previously_resided_city, id: :service_sheet_previously_resided_city %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%                                   
+  ####    ##   #    # #####  ###### 
+ #       #  #  #    # #    # #      
+  ####  #    # #    # #    # #####  
+      # ###### #    # #    # #      
+ #    # #    # #    # #    # #      
+  ####  #    #  ####  #####  ###### 
+  %>
+  <div class="card">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>7</span> Saúde</p>
+      <div class="grid-2-columns grid">
+        <div>
+          <div class="field-info">
+            <p>Medicação?</p>
+            <div class="grid grid-checkbox-2-columns">
+              <%= form.check_box :medication, id: :service_sheet_medication, class:'yes-checkbox' %>
+              <p>Sim</p>
+              <%= form.check_box :medication_no, id: :service_sheet_medication_no, class:'no-checkbox' %>
+              <p>Não</p>
+            </div>
+          </div>
+          <div class="openable">
+            <div class="field-info">
+              <p>Qual medicação?</p>
+              <%= form.text_area :medication_text, id: :service_sheet_medication_text %>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="field-info">
+            <p>Tratamento psiquiátrico?</p>
+            <div class="grid grid-checkbox-2-columns">
+              <%= form.check_box :psychiatric_treatment, id: :service_sheet_psychiatric_treatment, class:'yes-checkbox' %>
+              <p>Sim</p>
+              <%= form.check_box :psychiatric_treatment_no, id: :service_sheet_psychiatric_treatment_no, class:'no-checkbox' %>
+              <p>Não</p>
+            </div>
+          </div>
+          <div class="openable">
+            <div class="field-info">
+              <p>Aonde foi feito o tratamento psiquiátrico?</p>
+              <%= form.text_area :psychiatric_treatment_where, id: :service_sheet_psychiatric_treatment_where %>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="field-info">
+            <p>Acompanhamento psicológico?</p>
+            <div class="grid grid-checkbox-2-columns">
+              <%= form.check_box :psychological_support , id: :service_sheet_psychological_support, class:'yes-checkbox' %>
+              <p>Sim</p>
+              <%= form.check_box :psychological_support_no, id: :service_sheet_psychological_support_no, class:'no-checkbox' %>
+              <p>Não</p>
+            </div>
+          </div>
+          <div class="openable">
+            <div class="field-info">
+              <p>Texto</p>
+              <%= form.text_area :psychological_support_info, id: :service_sheet_psychological_support_info %>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="field-info">
+            <p>Deficiência na família?</p>
+            <div class="grid grid-checkbox-2-columns">
+              <%= form.check_box :deficiency_in_family, id: :service_sheet_deficiency_in_family, class:'yes-checkbox' %>
+              <p>Sim</p>
+              <%= form.check_box :deficiency_in_family_no, id: :service_sheet_deficiency_in_family_no, class:'no-checkbox' %>
+              <p>Não</p>
+            </div>
+          </div>
+          <div class="openable">
+            <div class="field-info">
+              <p>Quem possui deficiência na família?</p>
+              <%= form.text_area :deficiency_in_family_who, id: :service_sheet_deficiency_in_family_who %>
+            </div>
+            <div class="field-info">
+              <p>Qual deficiência tem?</p>
+              <%= form.text_area :deficiency_in_family_text, id: :service_sheet_deficiency_in_family_text %>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="field-info">
+            <p>Possui plano de saúde?</p>
+            <div class="grid grid-checkbox-2-columns">
+              <%= form.check_box :health_plan, id: :health_plan, class:'yes-checkbox' %>
+              <p>Sim</p>
+              <%= form.check_box :health_plan_no, id: :health_plan_no, class:'no-checkbox' %>
+              <p>Não</p>
+            </div>
+          </div>
+          <div class="openable">
+            <div class="field-info">
+              <p>Qual é o plano?</p>
+              <%= form.text_area :health_more_info, id: :service_sheet_health_more_info %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% 
+ #     #                                         ######                                                          
+ ##   ## ###### #####  # #####    ##    ####     #     # #####   ####  ##### ###### ##### # #    #   ##    ####  
+ # # # # #      #    # # #    #  #  #  #         #     # #    # #    #   #   #        #   # #    #  #  #  #      
+ #  #  # #####  #    # # #    # #    #  ####     ######  #    # #    #   #   #####    #   # #    # #    #  ####  
+ #     # #      #    # # #    # ######      #    #       #####  #    #   #   #        #   # #    # ######      # 
+ #     # #      #    # # #    # #    # #    #    #       #   #  #    #   #   #        #   #  #  #  #    # #    # 
+ #     # ###### #####  # #####  #    #  ####     #       #    #  ####    #   ######   #   #   ##   #    #  ####  
+ %>
+  <div class="card">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>8</span> Medidas Protetivas</p>
+      <div class="grid-2-columns grid">
+        <div>
+          <div class="field-info">
+            <p>Está sob medida de proteção?</p>
+            <div class="grid grid-checkbox-2-columns">
+              <%= form.check_box :protective_measures, id: :service_sheet_protective_measures, class:'yes-checkbox' %>
+              <p>Sim</p>
+              <%= form.check_box :protective_measures_no, id: :service_sheet_protective_measures_no, class:'no-checkbox' %>
+              <p>Não</p>
+            </div>
+          </div>
+          <div class="openable">
+            <div class="field-info">
+              <p>Explique sobre a medida de proteção:</p>
+              <%= form.text_area :protective_measures_text, id: :service_sheet_protective_measures_text %>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="field-info">
+            <p>Cumpre ou já cumpriu medidas sócio-educativas?</p>
+            <div class="grid grid-checkbox-2-columns">
+              <%= form.check_box :socio_educational_measure, id: :service_sheet_socio_educational_measure, class:'yes-checkbox' %>
+              <p>Sim</p>
+              <%= form.check_box :socio_educational_measure_no, id: :service_sheet_socio_educational_measure_no, class:'no-checkbox' %>
+              <p>Não</p>
+            </div>
+          </div>
+          <div class="openable">
+            <div class="field-info">
+              <p>Quando cumpriu medidas sócio-educativas?</p>
+              <%= form.text_area :socio_educational_measure_when, id: :service_sheet_socio_educational_measure_when %>
+            </div>
+            <div class="field-info">
+              <p>Explique sobre as medidas sócio-educativas:</p>
+              <%= form.text_area :socio_educational_measure_text, id: :service_sheet_socio_educational_measure_text %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%
+   ####  #####   ####  ###### #####  #    #   ##    ####   ####  ######  ####  
+ #    # #    # #      #      #    # #    #  #  #  #    # #    # #      #      
+ #    # #####   ####  #####  #    # #    # #    # #      #    # #####   ####  
+ #    # #    #      # #      #####  #    # ###### #      #    # #           # 
+ #    # #    # #    # #      #   #   #  #  #    # #    # #    # #      #    # 
+  ####  #####   ####  ###### #    #   ##   #    #  ####   ####  ######  ####  
+                                                                              
+%>
+  <div class="card">
+    <div class="card-show-container">
+      <p class="title-card-show-container"><span>9</span> Observações</p>
+      <div class="grid-2-columns grid">
+        <div class="field-info">
+          <p>Técnico responsável:</p>
+          <%= form.text_field :responsible_technician, id: :service_sheet_responsible_technician %>
+        </div>
+        <div class="field-info">
+          <p>Referências:</p>
+          <%= form.text_area :referrals, id: :service_sheet_referrals %>
+        </div>
+      </div>
+      <div class="grid-1-column grid">
+        <div class="field-info">
+          <p>Notas:</p>
+          <%= form.text_area :notes, id: :service_sheet_notes %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%= link_to 'Voltar à Assistência', social_service_path(@student), class: 'generate-button' %>
+  <%= form.submit 'Salvar Ficha de Atendimento', class: 'generate-button', style: 'display: inline;' %>
+<% end %>
+<%= render 'modal_remote.html' %>

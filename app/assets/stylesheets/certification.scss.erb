@@ -1,0 +1,214 @@
+@import "utilities/variables";
+
+@font-face {
+  font-family: Nunito;
+  font-weight: light;
+  src: url("<%= ApplicationHelper.asset_data_base64('Nunito-Light.ttf') %>");
+}
+
+.body-pdf {
+  color: #000;
+  font-family: 'Nunito';
+}
+
+.moldura, .background-image {
+    position: absolute;
+    width: 1900px;
+    height: 1340px;
+}
+
+.background-image {
+    opacity: 1;
+}
+
+.pdf-container {
+    margin: 0 auto;
+    width: 1900px;
+    height: 1280px;
+    text-align: center;
+    position: relative;
+    font-size: 0.9em;
+}
+
+.pdf-title {
+    margin: 0 auto;
+    width: 100%;
+}
+
+.primary-logo {
+    float: left;
+}
+
+.primary-logo img {
+    width: 250px;
+    margin-left: 70px;
+    margin-top: 40px;
+}
+
+.secondary-logo {
+    float: right;
+    margin-right: 60px;
+    margin-top: 70px;
+}
+
+.pdf-container h1 {
+    font-size: 3.5em;
+    font-weight: bold;
+    padding: 3px 0;
+    color: $secondary-blue;
+}
+.pdf-container p {
+    font-size: 2em;
+}
+.pdf-container h2 {
+    font-size: 2.3em;
+}
+
+h2.inscription {
+    font-size: 2.3em !important;
+}
+
+.pdf-container h3 {
+    font-size: 2.5em;
+    color: $secondary-blue;
+    padding: 20px 0;
+}
+
+.info-table {
+    margin: 15px auto;
+    font-size: 1.8em;
+    width: 70%;
+}
+
+.info-table th {
+    font-size: 1.2em;
+}
+
+.info-table td {
+    margin-top: 50px;
+    width: 40%;
+}
+
+.info-table td:nth-child(2) {
+    width: 20%;
+}
+
+.info-table td:nth-child(3) {
+    width: auto;
+    position: relative;
+    white-space: nowrap;
+}
+
+.info-table img {
+    max-width: 320px;
+    max-height: 100px;
+}
+
+.info-table p {
+    position: absolute;
+    font-size: inherit;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -40%);
+    -webkit-transform: translate(-50%, -40%);
+    transform: translate(-50%,-40%);
+}
+
+/*
+.pdf-container .date {
+    font-size: 2.7em;
+    position: absolute;
+    top: 99%;
+    -ms-transform: translateX(200%);
+    -webkit-transform: translateX(200%);
+    transform: translateX(200%);
+}
+.date {
+    position: relative;
+    left: -200px;
+}
+
+.pdf-sponsorships {
+    position: absolute;
+    bottom: 30px;
+    right: 40px;
+}
+
+.pdf-sponsorships img {
+    max-height: 150px;
+    width: 200px;
+    margin: 0 20px;
+}
+
+.pdf-sponsorships .governo-federal{
+    width: 500px;
+}
+
+.pdf-sponsorships .logo-ball {
+    width: 80px;
+    height: 80px;
+}
+
+.pdf-sponsorships .logo-boticario {
+    width: 135px;
+    height: 110px;
+}
+
+.pdf-sponsorships .logo-eco {
+    width: 270px;
+    height: 100px;
+}
+
+.pdf-sponsorships .logo-americanas {
+    width: 270px;
+    height: 50px;
+}
+
+
+.signature-instructor {
+    height: 70px;
+}
+
+
+.wrapper {
+    position: relative;
+    bottom: 0%;
+    /*top: 50%;
+    -ms-transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+ }   
+    */
+
+
+.ghost {
+    height: 180px;
+}
+
+.pdf-container .date {
+    font-size: 2.7em;
+    position: fixed; 
+     
+    right: 400px;
+}
+.signature {
+    max-width: 270px;
+    max-height: 300px;
+    min-width: 200px;
+    min-height: 100px;
+}
+
+.signature-instructor {
+    height: 70px;
+}
+
+
+.pdf-container .assinaturas {
+    position: fixed; 
+     
+    left: 900px;
+}
+
+.name-student {
+    width: 1900px;
+}

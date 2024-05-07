@@ -1,0 +1,83 @@
+<p id="notice"><%= notice if notice != "You are not authorized to access this page"%></p>
+
+<h1>Disciplina</h1>
+
+<%if @subject.syllabus.present?%>
+    <a class='edit-button' href='<%= @subject.syllabus.url%>' target='_blank'>Ementa</a>
+<% end %>
+
+<div class="card" style="box-shadow: none;">
+  <div class="card-action">
+    <div class="action-buttons">
+      <% if can? :update, Academic::Subject %>
+        <%= link_to 'Editar', edit_subject_path(@subject), class: 'edit-button' %>
+        <%= link_to 'Voltar', subjects_path, class: 'generate-button' %>
+      <% elsif current_user.instructor? %>
+        <%= link_to 'Voltar', teacher_subjects_path(current_user.teacher.id), class: 'generate-button' %>
+      <% end %>
+    </div>
+  </div>
+  <div class="card-content">
+    <div class="titles">
+      <%= @subject.name %>
+    </div>
+
+    <div class="grid grid-1-column registration">
+      <div>
+        <p>Ementa:</p>
+        <%= @subject.planning %>
+      </div>
+    </div>
+
+    <div class="descriptions-financial">
+      <%= pretty_subject_leveled(@subject) %>
+    </div>
+  </div>
+</div>
+
+<div class="container-85">
+  <div class="flex-end">
+  
+    <% if ( can? :create, Academic::SubjectLevel ) && ( @subject.leveled? ) %>
+      <%= link_to 'Adicionar Novo Nivel', new_subject_subject_level_path(@subject.id), class: 'edit-button' %>
+    <% end %>
+  </div>
+</div>
+
+<% if @subject.leveled %>
+
+  <h2>Niveis</h2>
+
+  <% @subject_levels.each do |level| %>
+
+    <div class="card">
+      <div class="card-action">
+        <div class="action-buttons">
+          <%= link_to 'Editar', edit_subject_level_path(level), class: 'edit-button' %>
+          <%= link_to 'Excluir', level, method: :delete, class: 'delete-button' %>
+        </div>
+      </div>
+
+      <div class="card-content">
+        <div class="titles">
+          <%= level.name %>
+        </div>
+
+        <div class="grid-1-column grid additional-infos">
+          <div>
+            <p>Ordem do nível:</p>
+            <%= level.order %>
+          </div>
+        </div>
+
+        <div class="descriptions-financial">
+          <%= pretty_active(level.active) %>
+        </div>
+      </div>
+    </div>
+  
+  <% end %>
+
+<% end %>
+
+  

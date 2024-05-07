@@ -1,0 +1,38 @@
+<p id="notice"><%= notice if notice != "You are not authorized to access this page"%></p>
+
+<h1>Dias sem Aula</h1>
+
+<% if can? :create, Academic::Holiday %>
+  <%= link_to 'Novo Dia sem Aula', new_school_year_holiday_path(params[:school_year_id]), class: 'edit-button' %>
+<% end %>
+<%= link_to 'Voltar', school_years_path, class: 'edit-button' %>
+
+    <% @academic_holidays.each do |academic_holiday| %>
+      <div class="card">
+        <% if can? [:update, :destroy], academic_holiday %>
+          <div class="card-action">
+            <div class="action-buttons">
+              <% if can? :update, academic_holiday %>
+                <%= link_to 'Editar', edit_holiday_path(academic_holiday), class:"edit-button" %>
+              <% end %>
+              <% if can? :destroy, academic_holiday %>
+                <%= link_to 'Excluir', academic_holiday, method: :delete, data: { confirm: 'Are you sure?' }, class:"delete-button" %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+
+        <div class="card-content">
+          <div class="titles">
+            <%= academic_holiday.name %>
+          </div>
+
+          <div class="grid-3-column grid discipline">
+            <div class="field-info">
+              <p>Dia:</p>
+              <%= l academic_holiday.day %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>

@@ -1,0 +1,11 @@
+<h1>Monitoramento por Periodo Letivo</h1>
+<a id="back-page" class="edit-button ">Voltar</a>    
+<div class= "card-show">
+    <label for="select_school_year">Periodo Letivo</label>
+    <%= select_tag :select_school_year, options_from_collection_for_select(@school_years,'id', 'name', params[:school_year_id]) %>
+    <%= link_to 'Relatório de Resultado do Conselho', school_year_info_path({}, format: :pdf), class:"generate-button school-year-monitoring-link" %>
+    <%= link_to 'Relatório Quantitativo de Alunos Atendidos', monitoring_per_school_year_path({}, format: :xlsx), class: "generate-button school-year-monitoring-link"%>
+    <%= link_to 'Exportar Relatórios de Resultados para .xlsx', monitoring_council_path({}, format: :xlsx), class: "generate-button school-year-monitoring-link"%>
+    <%= link_to 'Relatório por Conceito e Avaliação', monitoring_instructor_path({}, format: :xlsx), class: "generate-button school-year-monitoring-link"%>
+    <%= link_to 'Conceito e Avaliação',{},class: 'generate-button school-year-monitoring-link'%>
+</div>

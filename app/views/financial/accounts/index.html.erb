@@ -1,0 +1,67 @@
+<% if (notice) %>
+  <script>
+      $(document).ready(function(){
+        swal("<%= notice if notice != "You are not authorized to access this page"%>","","");
+      });
+  </script>
+<% end %>
+
+<h1>Contas Bancárias</h1>
+
+<div class="search-box">
+  <%= form_tag(accounts_path, method: :get, class: "search-form") do %>
+    <%= text_field_tag :term, params[:term], :placeholder => "Digite o Banco:", class: "search-input" %>
+    <%= submit_tag '', bank: nil, class: 'search-button' %>
+  <% end %>
+
+  <% if(@accounts.any?) %>
+    <%= link_to 'Novo', new_account_path, class:'button-new' %>
+  <% end %>
+</div>
+
+<% if(@accounts.any?) %>
+  
+        <% @accounts.each do |account| %>
+
+            <div class="card">
+
+              <div class="card-action">
+                <div class="action-buttons">
+                  <%= link_to 'Editar', edit_account_path(account), class: "edit-button" %>
+                  <%= link_to 'Excluir', account, method: :delete, class: "delete-button" %>
+                </div>
+              </div>
+
+              <div class="card-content">
+                <div class="titles">
+                  <%= account.bank %>
+                </div>
+
+                <div class="grid-2-columns grid additional-infos">
+                  <div>
+                    <p>Agência:</p>
+                    <%= account.agency %>
+                  </div>
+
+                  <div>
+                    <p>Conta:</p>
+                    <%= account.number %>
+                  </div>
+                </div>
+
+                <div class="grid-1-column grid descriptions-financial">
+                  <p>Saldo:</p>
+                  <%= number_to_currency account.current_value, unit: "R$", separator: ",", delimiter: "." %>
+                </div>
+              </div>
+
+            </div>
+
+        <% end %>
+
+  <%= paginacao(@accounts) %>
+
+<% else %>
+  <p>Não há contas a serem exibidas.</p>
+  <%= link_to 'Nova conta', new_account_path, class:'button-new' %>
+<% end %>

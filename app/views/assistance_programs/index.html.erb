@@ -1,0 +1,31 @@
+<h1>Programas Assistenciais</h1>
+<p><%= notice if notice != "You are not authorized to access this page"%></p>
+
+<% if(@programs.any?) %>
+  <div class="table">
+    <%= link_to 'novo programa', new_assistance_program_path, class:'button-new' %>
+    <table>
+      <thead>
+        <tr>
+          <th>Cidade</th>
+          <th>Ação</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @programs.each do |program| %>
+          <tr>
+            <td><div class="linkable"><%= program.name %></div></td>
+            <td><div class="linkable">
+              <%= link_to 'Editar', edit_assistance_program_path(program), class:"green-action-button action-button" %>
+              <%= link_to 'Excluir', {:action => :destroy, :id => program.id}, :method => :delete, class:"red-action-button action-button" %>
+            </div></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <p>Não há programas assistenciais a serem exibidos.</p>
+  <%= link_to 'novo programa', new_assistance_program_path, class:'button-new' %>
+<% end %>

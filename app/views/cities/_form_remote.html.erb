@@ -1,0 +1,23 @@
+<h1>Adicionar Cidade</h1>
+
+
+<%= form_with({:id => 'add-city-form'}) do |f| %>
+
+  <div class="field">
+    <%= f.label :state_id, 'Estado' %>
+    <%= f.select :state_id, state_options, {}, {:id => "add-city-state"} %>
+  </div>
+
+  <div class="field">
+    <%= f.label :name, 'Nome' %>
+    <%= f.text_field :name, id: "add-city-name" %>
+  </div>
+
+  <div class="actions">
+    <%= link_to cities_path, class:'button-back' do %>
+      <div class='icon-back'></div>
+    <% end %>
+
+  <%= f.submit "Salvar Cidade", class: "button-edit", id: "add-city-button" %>
+<% end %>
+
